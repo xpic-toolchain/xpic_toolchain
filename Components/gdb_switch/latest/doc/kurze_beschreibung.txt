@@ -1,0 +1,12 @@
+Der netx10-gdb-switch ist ein Programm, das als Bindeglied zwischen dem netx10 und dem xpic-gdb,
+bzw. zusätzlich dem arm-gdb auf der einen Seite und OpenOCD auf der anderen Seite fungiert. Es
+ermöglicht auf tiefergreifende Veränderungen von OpenOCD bzw. GDB zu verzichten.
+Der Switch analysiert die Befehle die von dem/den GDB(s) kommen, passt sie gegebenenfalls an und sendet
+sie an OpenOCD weiter. Anpassungen der GDB Befehle sind nötig, da OpenOCD nur die Befehle für die ARM CPU
+im netx10 kennt. Z.B. werden Software Breakpoint Befehle des xpic-gdbs durch Speicherzugriffe im System
+des netx10 ersetzt.
+Weiter sorgt der Switch dafür, dass bei gleichzeitiger Benutzung vom xpic-gdb und arm-gdb die
+eingehenden Befehle synchronisiert werden. Dies bedeutet, dass Antworten von OpenOCD auf GDB Befehle an den
+entsprechenden GDB (xpic bzw. arm) gesendet werden und dass der netx10 entsprechend der eingehenden Befehle
+gesteuert wird. Z.B. wird die ARM CPU angehalten, damit ein Speicherzugriff Befehl des xpic-gdbs bearbeitet
+werden kann, ohne dass dies direkte Auswirkungen auf den arm-gdb hat.

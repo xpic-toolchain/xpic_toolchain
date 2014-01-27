@@ -1,0 +1,62 @@
+[Breakpoint 0]
+Enabled=true
+File=xpic-dis.c
+Line=369
+Temporary=false
+
+[Breakpoint 1]
+Enabled=true
+File=./objdump.c
+Line=786
+Temporary=false
+
+[Breakpoint 2]
+Enabled=true
+File=avr-dis.c
+Line=122
+Temporary=false
+
+[Breakpoint 3]
+Enabled=true
+File=avr-dis.c
+Line=236
+Temporary=false
+
+[Breakpoint 4]
+Enabled=true
+File=avr-dis.c
+Line=111
+Temporary=false
+
+[General]
+DebuggerCmdStr=
+DriverName=GDB
+FileVersion=1
+OptionsSelected=
+ProgramArgs=-D main.elf
+TTYLevel=7
+WorkingDirectory=
+
+[Memory]
+ColumnWidths=80,0
+NumExprs=0
+
+[Watches]
+Expr0=opcode->bin_opcode
+Expr1=bin
+Expr10=info->section
+Expr11=(int *)insn
+Expr12=(int *)(*(*sym).section).lma
+Expr13=sym
+Expr14=info
+Expr15=(int*)(*sec).lma
+Expr16=XPIC_SEC_FLAG
+Expr17=sorted_syms[min]->section
+Expr2=opcode->name
+Expr3=*maskptr
+Expr4=insn
+Expr5=iSign & 0xc0
+Expr6=vma
+Expr7=(int *)vma
+Expr8=(int *)(*(*sym).section).vma
+Expr9=(*sym).value

@@ -1,0 +1,66 @@
+import sys
+sys.path.append('./scons')
+import netx
+
+artifact       = 'xpic_gdb_server'
+ld_script      = 'ld_script/netx_intram_nohitop.ld'
+lib_build_dir  = 'output/lib'
+install_dir    = './dist/lib'
+elf_build_dir  = 'output/elf'
+
+
+lib_sources_arm = Split("""
+                       ./sources/xpicgdb.c
+                       """)
+
+lib_includes_arm = Split("""
+                        ./includes
+                        ./includes/common
+                        """)
+
+
+elf_sources_arm = Split("""
+                       ./sources/main.c
+                       ./sources/irq_handler.c
+                       ./sources/common/initgnu.s
+                       ./sources/common/common_func_netx10.c
+                       """)
+
+elf_includes_arm = Split("""
+                        ./includes
+                        ./includes/common
+                        """)
+                        
+# ----------------------------------------------------------------
+# ----------------------  Build library  -------------------------
+# ----------------------------------------------------------------
+
+lib_objects_arm = netx.netx10_compile_arm(lib_sources_arm,
+                                          lib_includes_arm, 
+                                          [''], 
+                                          lib_build_dir)
+
+lib = netx.netx10_makelib(lib_objects_arm,
+                          lib_build_dir,
+                          artifact,
+                          install_dir)
+
+
+# ----------------------------------------------------------------
+# ---------------------  Build executable  -----------------------
+# ----------------------------------------------------------------
+
+
+elf_objects_arm = netx.netx10_compile_arm(elf_sources_arm,
+                                          elf_includes_arm, 
+                                          ['_NXHX10_UART1_ENABLE_'], 
+                                          elf_build_dir)
+
+netx.netx10_makeelf(elf_objects_arm, 
+                    elf_build_dir, 
+                    artifact, 
+                    [install_dir], 
+                    [artifact], 
+                    ld_script)
+
+# ----------------------------------------------------------------

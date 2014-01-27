@@ -1,0 +1,74 @@
+\hypertarget{netx10__gdb__switch_8c}{
+\section{src/netx10\_\-gdb\_\-switch.c File Reference}
+\label{netx10__gdb__switch_8c}\index{src/netx10\_\-gdb\_\-switch.c@{src/netx10\_\-gdb\_\-switch.c}}
+}
+{\ttfamily \#include $<$winsock2.h$>$}\par
+{\ttfamily \#include $<$ws2tcpip.h$>$}\par
+{\ttfamily \#include $<$wspiapi.h$>$}\par
+{\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include \char`\"{}netx10\_\-gdb\_\-switch.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}armgdb\_\-thread.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{netx10__gdb__switch_8c_ad84d6b23a49846837c5d385cbfd76e7d}{CreateOpenocdSocket} (char $\ast$openocd\_\-port)
+\begin{DoxyCompactList}\small\item\em XXX text. \item\end{DoxyCompactList}\item 
+int \_\-\_\-cdecl \hyperlink{netx10__gdb__switch_8c_a7626fdc5873a2d10e9ac910fa40864b2}{main} (int argc, char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em Main program. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{netx10__gdb__switch_8c_ad84d6b23a49846837c5d385cbfd76e7d}{
+\index{netx10\_\-gdb\_\-switch.c@{netx10\_\-gdb\_\-switch.c}!CreateOpenocdSocket@{CreateOpenocdSocket}}
+\index{CreateOpenocdSocket@{CreateOpenocdSocket}!netx10_gdb_switch.c@{netx10\_\-gdb\_\-switch.c}}
+\subsubsection[{CreateOpenocdSocket}]{\setlength{\rightskip}{0pt plus 5cm}int CreateOpenocdSocket (char $\ast$ {\em openocd\_\-port})}}
+\label{netx10__gdb__switch_8c_ad84d6b23a49846837c5d385cbfd76e7d}
+
+
+XXX text. 
+
+XXX text
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em port}]port\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+errorcode 
+\end{DoxyReturn}
+
+
+\begin{Desc}
+\item[\hyperlink{todo__todo000001}{Todo}]handle connection \end{Desc}
+
+
+\begin{Desc}
+\item[\hyperlink{todo__todo000002}{Todo}]remove goto? \end{Desc}
+
+
+\hypertarget{netx10__gdb__switch_8c_a7626fdc5873a2d10e9ac910fa40864b2}{
+\index{netx10\_\-gdb\_\-switch.c@{netx10\_\-gdb\_\-switch.c}!main@{main}}
+\index{main@{main}!netx10_gdb_switch.c@{netx10\_\-gdb\_\-switch.c}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int \_\-\_\-cdecl main (int {\em argc}, \/  char $\ast$$\ast$ {\em argv})}}
+\label{netx10__gdb__switch_8c_a7626fdc5873a2d10e9ac910fa40864b2}
+
+
+Main program. 
+
+Handles given program run arguments. Initializes Winsock.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em argc}]argument counter \item[{\em argv}]argument vector\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+exitcode
+\end{DoxyReturn}
+\begin{Desc}
+\item[\hyperlink{todo__todo000003}{Todo}]errorcodes 2 readable text? \end{Desc}
+
+
+\begin{Desc}
+\item[\hyperlink{todo__todo000004}{Todo}]check for more errors in port arguments? \end{Desc}
+
+
