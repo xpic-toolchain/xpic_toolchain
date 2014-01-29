@@ -40,8 +40,9 @@ rm -fr include/llvm/Config/config.h || true
 rm -fr crossbuild || true
 mkdir crossbuild
 cd crossbuild
-../configure --prefix=$TARGETPATHCROSS  --enable-optimized --enable-targets=xpic,arm --host=i386-mingw32 --with-c-include-dirs=$TARGETPATHCROSS/include
 rm -fr include/llvm/Config/config.h || true
+../configure --prefix=$TARGETPATHCROSS  --enable-optimized --enable-targets=xpic,arm --host=i386-mingw32 --with-c-include-dirs=$TARGETPATHCROSS/include
+#rm -fr include/llvm/Config/config.h || true
 # Dirty fixup for DOS Path
 #sed -i 's|/c:/xpic|/c\\:/xpic|g' projects/sample/Makefile.common
 make clean
@@ -81,12 +82,15 @@ export PATH=$TARGETPATH/bin:$PATH
 cd newlib
 cp -a ./newlib/libc/include/* $TARGETPATH/include
 rm -fr ` find $TARGETPATH/include  -name .svn ` 
+cp -a ./newlib/libc/include/* $TARGETPATHCROSS/include
+rm -fr ` find $TARGETPATHCROSS/include  -name .svn ` 
 cd ..
 
 # libgcc
 cd llvm-libgcc
 scons
 scons prefix=$TARGETPATH install
+scons prefix=$TARGETPATHCROSS install
 cd ..
 
 # Newlib
@@ -95,6 +99,9 @@ cd newlib
 chmod +x configure mkinstalldirs mkdep move-if-change 
 scons
 scons prefix=$TARGETPATH install
+scons prefix=$TARGETPATHCROSS install
 cd ..
 
 
+#iconv is needed and compiled by ../BuildTools/Linux/build.sh
+cp $HOME/mingw32/bin/libiconv-2.dll $TARGETPATHCROSS/bin
