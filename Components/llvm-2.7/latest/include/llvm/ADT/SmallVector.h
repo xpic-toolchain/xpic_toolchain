@@ -19,6 +19,7 @@
 #include <cassert>
 #include <cstring>
 #include <memory>
+#include <stddef.h>
 
 #ifdef _MSC_VER
 namespace std {

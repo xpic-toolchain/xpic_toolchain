@@ -28,6 +28,7 @@
 #include "llvm/Support/Casting.h"
 #include "llvm/ADT/PointerIntPair.h"
 #include <iterator>
+#include <stddef.h>
 
 namespace llvm {
 

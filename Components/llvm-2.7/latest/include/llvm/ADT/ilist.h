@@ -40,6 +40,7 @@
 
 #include <cassert>
 #include <iterator>
+#include <stddef.h>
 
 namespace llvm {
 
