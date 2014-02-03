@@ -586,7 +586,7 @@ endif
 # that if LOADABLE_MODULE is specified then the resulting shared library can
 # be opened with dlopen.
 ifdef LOADABLE_MODULE
-  LD.Flags += -module
+#  LD.Flags += -module
 endif
 
 ifdef SHARED_LIBRARY
