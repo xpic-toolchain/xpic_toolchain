@@ -26,7 +26,7 @@ rm -fr include/llvm/Config/config.h || true
 #cd localbuild
 
 #../configure --prefix=$TARGETPATH  --enable-optimized --enable-targets=xpic,arm  --with-c-include-dirs=$TARGETPATH/include
-./configure --prefix=$TARGETPATH  --enable-optimized --enable-targets=xpic,arm  --with-c-include-dirs=$TARGETPATH/include
+./configure --prefix=$TARGETPATH  --enable-optimized --enable-targets=xpic  --with-c-include-dirs=$TARGETPATH/include
 make clean
 make -j4 LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc
 make LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc install
@@ -41,7 +41,7 @@ rm -fr crossbuild || true
 mkdir crossbuild
 cd crossbuild
 rm -fr include/llvm/Config/config.h || true
-../configure --prefix=$TARGETPATHCROSS  --enable-optimized --enable-targets=xpic,arm --host=i386-mingw32 --with-c-include-dirs=$TARGETPATHCROSS/include
+../configure --prefix=$TARGETPATHCROSS  --enable-optimized --enable-targets=xpic --host=i386-mingw32 --with-c-include-dirs=$TARGETPATHCROSS/include
 #rm -fr include/llvm/Config/config.h || true
 # Dirty fixup for DOS Path
 #sed -i 's|/c:/xpic|/c\\:/xpic|g' projects/sample/Makefile.common
