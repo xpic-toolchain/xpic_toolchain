@@ -28,7 +28,7 @@ rm -fr include/llvm/Config/config.h || true
 #../configure --prefix=$TARGETPATH  --enable-optimized --enable-targets=xpic,arm  --with-c-include-dirs=$TARGETPATH/include
 ./configure --prefix=$TARGETPATH  --enable-optimized --enable-targets=xpic  --with-c-include-dirs=$TARGETPATH/include
 make clean
-make -j4 LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc
+make LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc
 make LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc install
 
 #cd ..
@@ -46,7 +46,7 @@ rm -fr include/llvm/Config/config.h || true
 # Dirty fixup for DOS Path
 #sed -i 's|/c:/xpic|/c\\:/xpic|g' projects/sample/Makefile.common
 make clean
-make -j4 LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc
+make LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc
 make LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc install
 cd ..
 
@@ -56,8 +56,8 @@ cd ../..
 cd binutils-2.20_xpic/latest
 chmod +x configure mkinstalldirs missing
 CFLAGS=-Wno-error ./configure --prefix=$TARGETPATH --target=xpic
-make clean 
-make -j 4 all 
+make clean
+make all
 make install
 
 # Cross Binutils
@@ -70,7 +70,7 @@ mkdir crossbuild
 cd crossbuild
 CFLAGS=-Wno-error ../configure --prefix=$TARGETPATHCROSS --target=xpic --host=i686-w64-mingw32
 make clean 
-make -j 4 all
+make all
 make install
 cd ..
 
