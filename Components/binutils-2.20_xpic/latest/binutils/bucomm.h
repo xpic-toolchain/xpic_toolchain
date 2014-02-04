@@ -67,7 +67,7 @@ void mode_string (unsigned long, char *);
 extern void print_version (const char *);
 
 /* rename.c */
-extern void set_times (const char *, const struct stat *);
+/* void set_times (const char *, const struct stat *); */
 
 extern int smart_rename (const char *, const char *, int);
 
