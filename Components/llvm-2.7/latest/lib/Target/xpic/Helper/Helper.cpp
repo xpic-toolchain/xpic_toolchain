@@ -34,7 +34,7 @@ void  SDValueInfo(const char *Name,SDValue Op,SelectionDAG *CurDAG)
 {
  static int cntr=0;
   printf("+ + %3d ->> ",cntr);
-  printf(Name);
+  printf("%s", Name);
   if(Op.getOpcode()<ISD::BUILTIN_OP_END)
   printf(": %s (Opcode=%d), %d Operands:    ",Op.getNode()->getOperationName().data(),Op.getOpcode(),Op.getNumOperands());
   else 
