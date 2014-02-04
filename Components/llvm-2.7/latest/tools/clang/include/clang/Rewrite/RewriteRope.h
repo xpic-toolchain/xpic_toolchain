@@ -17,6 +17,7 @@
 #include <cstring>
 #include <cassert>
 #include <iterator>
+#include <stddef.h>
 
 namespace clang {
   //===--------------------------------------------------------------------===//
