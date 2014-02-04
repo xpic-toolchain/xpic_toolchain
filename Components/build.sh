@@ -1,7 +1,7 @@
 #!/bin/bash
 
-TARGETPATH=/usr/local/xpic
-TARGETPATHCROSS=/xpic #resolves to C:/MinGW/msys/1.0/xpic
+TARGETPATH=/tmp/usr/local/xpic
+TARGETPATHCROSS=/tmp/xpic #resolves to C:/MinGW/msys/1.0/xpic
 export PATH_GNU_XPIC=$TARGETPATH
 
 set -e
