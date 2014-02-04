@@ -35,13 +35,13 @@ make LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc install
 
 # Cross LLVM
 
-export PATH=$HOME/mingw32/bin/:$PATH
+#export PATH=$HOME/mingw32/bin/:$PATH
 rm -fr include/llvm/Config/config.h || true
 rm -fr crossbuild || true
 mkdir crossbuild
 cd crossbuild
 rm -fr include/llvm/Config/config.h || true
-../configure --prefix=$TARGETPATHCROSS  --enable-optimized --enable-targets=xpic --host=i386-mingw32 --with-c-include-dirs=$TARGETPATHCROSS/include
+../configure --prefix=$TARGETPATHCROSS  --enable-optimized --enable-targets=xpic --host=i686-w64-mingw32 --with-c-include-dirs=$TARGETPATHCROSS/include
 #rm -fr include/llvm/Config/config.h || true
 # Dirty fixup for DOS Path
 #sed -i 's|/c:/xpic|/c\\:/xpic|g' projects/sample/Makefile.common
@@ -68,7 +68,7 @@ rm -fr ` find . -name \*.o` ` find . -name config.status ` || true
 rm -fr crossbuild || true
 mkdir crossbuild
 cd crossbuild
-CFLAGS=-Wno-error ../configure --prefix=$TARGETPATHCROSS --target=xpic --host=i386-mingw32
+CFLAGS=-Wno-error ../configure --prefix=$TARGETPATHCROSS --target=xpic --host=i686-w64-mingw32
 make clean 
 make -j 4 all
 make install
