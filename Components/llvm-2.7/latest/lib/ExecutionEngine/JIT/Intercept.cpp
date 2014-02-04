@@ -51,6 +51,10 @@ static void runAtExitHandlers() {
 #if defined(HAVE_SYS_STAT_H)
 #include <sys/stat.h>
 #endif
+
+#include <sys/types.h>
+#include <unistd.h>
+
 #include <fcntl.h>
 /* stat functions are redirecting to __xstat with a version number.  On x86-64 
  * linking with libc_nonshared.a and -Wl,--export-dynamic doesn't make 'stat' 
