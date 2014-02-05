@@ -19,7 +19,6 @@
 @menu
 * ARM Options::              Options
 * ARM Syntax::               Syntax
-* ARM Floating Point::       Floating Point
 * ARM Directives::           ARM Machine Directives
 * ARM Opcodes::              Opcodes
 * ARM Mapping Symbols::      Mapping Symbols
@@ -394,16 +393,6 @@ Either @samp{#} or @samp{$} can be used to indicate immediate operands.
 @cindex ARM register names
 @cindex register names, ARM
 *TODO* Explain about ARM register naming, and the predefined names.
-
-@node ARM Floating Point
-@section Floating Point
-@menu
-* ARM-Relocations::	     Relocations
-@end menu
-
-@cindex floating point, ARM (@sc{ieee})
-@cindex ARM floating point (@sc{ieee})
-The ARM family uses @sc{ieee} floating-point numbers.
 
 @node ARM-Relocations
 @subsection ARM relocation generation
