@@ -104,4 +104,4 @@ cd ..
 
 
 #iconv is needed and compiled by ../BuildTools/Linux/build.sh
-cp $HOME/mingw32/bin/libiconv-2.dll $TARGETPATHCROSS/bin
+#cp $HOME/mingw32/bin/libiconv-2.dll $TARGETPATHCROSS/bin
