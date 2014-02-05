@@ -29,6 +29,13 @@
 namespace llvm {
 namespace sys {
 
+
+/* MinGW < 3.0 has an incompatible secure API. */
+#if defined(__MINGW64_VERSION_MAJOR) && (__MINGW64_VERSION_MAJOR < 3)
+#       undef HAVE_STRERROR_S
+#endif
+
+
 #if HAVE_ERRNO_H
 std::string StrError() {
   return StrError(errno);
