@@ -45,6 +45,7 @@ rm -fr include/llvm/Config/config.h || true
 #rm -fr include/llvm/Config/config.h || true
 # Dirty fixup for DOS Path
 #sed -i 's|/c:/xpic|/c\\:/xpic|g' projects/sample/Makefile.common
+export "LDFLAGS=--static -static-libgcc -static-libstdc++"
 make clean
 make LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc
 make LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc install
