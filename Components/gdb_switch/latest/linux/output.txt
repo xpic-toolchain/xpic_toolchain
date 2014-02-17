@@ -1,7 +1,0 @@
-gcc  -DGDB_SWITCH_LINUX -DGDB_SWITCH_DEBUG -c ../src/netx10gs_main.c -o obj/netx10gs_main.o
-gcc  -DGDB_SWITCH_LINUX -DGDB_SWITCH_DEBUG -c ../src/netx10gs_sockets.c -o obj/netx10gs_sockets.o
-gcc  -DGDB_SWITCH_LINUX -DGDB_SWITCH_DEBUG -c ../src/netx10gs_helper.c -o obj/netx10gs_helper.o
-gcc  -DGDB_SWITCH_LINUX -DGDB_SWITCH_DEBUG -c ../src/netx10gs_handlegdbproto.c -o obj/netx10gs_handlegdbproto.o
-gcc  -DGDB_SWITCH_LINUX -DGDB_SWITCH_DEBUG -c ../src/netx10gs_handlexpic.c -o obj/netx10gs_handlexpic.o
-ld   -obin/netx10_gdb_switch  obj/netx10gs_main.o obj/netx10gs_threads.o obj/netx10gs_sockets.o obj/netx10gs_helper.o obj/netx10gs_handlegdbproto.o obj/netx10gs_handlexpic.o obj/netx10gs_handlearm.o 
-ld   -obin/netx10_gdb_switch  obj/netx10gs_main.o obj/netx10gs_threads.o obj/netx10gs_sockets.o obj/netx10gs_helper.o obj/netx10gs_handlegdbproto.o obj/netx10gs_handlexpic.o obj/netx10gs_handlearm.o 

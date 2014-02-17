@@ -1,4 +1,0 @@
-define run
-  monitor r
-  c
-end
