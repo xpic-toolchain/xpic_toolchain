@@ -25,7 +25,7 @@ SECTIONS
     .text :
     {
       *(.text .rodata* .data*)
-      
+      *(.constants)
       . = ALIGN(4) ;
     } > SDRAM
     

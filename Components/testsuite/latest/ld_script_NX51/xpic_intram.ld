@@ -27,7 +27,8 @@ SECTIONS
     
     .text :
     {
-      *(.text .rodata* .data*)      
+      *(.text .rodata* .data*)
+      *(.constants)
       . = ALIGN(4) ;
     } > INTRAM34
     
