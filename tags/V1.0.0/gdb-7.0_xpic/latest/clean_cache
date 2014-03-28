@@ -1,0 +1,1 @@
+rm -f -r ./config.cache bfd/config.cache  etc/config.cache gdb/config.cache libdecnumber/config.cache intl/config.cache  libiberty/config.cache opcodes/config.cache readline/config.cache sim/config.cache

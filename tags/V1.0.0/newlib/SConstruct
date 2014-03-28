@@ -1,0 +1,373 @@
+"""
+Targets:
+
+[default] - Compile and build libc.a, libm.a
+install   - Copy libs and public include files to install directory
+check     - Build test programs 
+
+
+Variables:
+
+target=
+  release: Optimized for size, no debugging information [default]
+  debugrel: Basic optimizations, with debugging information
+  debug: No optimizations, with debugging information
+
+test= 
+  release: Test programs optimized for size, no debugging information [default]
+  debugrel: Test programs basic optimizations, with debugging information
+  debug: Test programs no optimizations, with debugging information
+  
+savetemps=
+  0: All generated .bc .ll .s files are temp files [default]
+  [else]: Save .bc .ll .s files in output directory
+  
+prefix=
+  [relative-path]: Install directory (default "install")
+  
+testdir=
+  [relative-path]: Test directory to execute (default "test")
+  
+xpic-tools=
+  [absolute-path]: Location of the xPIC Toolchain (default is environment variable XPIC_TOOLS)
+
+libdir-netx10=
+  [absolute-path]: Location of the libraries used for netx10 builds, comma separated
+  
+show-commands=
+  short: Print abbreviated build commands while executing [default]
+  full: Print the full executed build command (useful for creating build logs)
+  
+gdb_connection=
+  usb: connect to the nxhxXX board via USB (OOCD + GDB-SWITCH + XPIC-GDB) [default] 
+  com: connect to the nxhxXX board via UART (GDB-SERVER <-> XPIC-GDB)
+
+netx=
+  netx10: compile tests for netx10 and run tests on it
+  netx51: compile tests for netx51 and run tests on it    
+  netx51_usb2jtag: compile tests for netx51 and run tests on it. Board is directly connected, without ftdi (extra initialization required)  
+"""
+
+
+import sys
+sys.path.append('scons')
+#sys.path.append('runtest')
+import xpic
+#import xpic_test
+#import runtest
+import re
+from time import gmtime, strftime
+
+# Match existing files against a pattern string
+# pattern is a path relative to the location of the current SConstruct file
+#         Unix shell style meta characters for matching are supported 
+# Return a list of strings, each containing a relative path with a slash '/' as separator
+def Files(pattern):
+  # begin with scons version of glob with os specific separators
+  os_specific_paths = Glob(pattern, strings=True)
+  paths = []
+  # replace all backslashes with slashes
+  for path in os_specific_paths:
+    paths.append(re.sub("\\\\", "/", path))
+  return paths
+
+# ----------------------------------------------------------------
+# L I B C   S O U R C E S
+# ----------------------------------------------------------------
+
+sources_libc_argz     = Files('newlib/libc/argz/*.c')
+sources_libc_ctype    = Files('newlib/libc/ctype/*.c')
+sources_libc_errno    = Files('newlib/libc/errno/*.c')
+sources_libc_iconv    = Files('newlib/libc/iconv/lib/*.c')
+sources_libc_iconv.extend(Files('newlib/libc/iconv/ccs/*.c'))
+sources_libc_iconv.extend(Files('newlib/libc/iconv/ces/*.c'))
+sources_libc_locale   = Files('newlib/libc/locale/*.c')
+sources_libc_machine  = Files('newlib/libc/machine/xpic/*.[cs]')
+sources_libc_misc     = Files('newlib/libc/misc/*.c')
+sources_libc_posix    = Files('newlib/libc/posix/*.c')
+sources_libc_reent    = Files('newlib/libc/reent/*.c')
+
+sources_libc_search   = Files('newlib/libc/search/*.c')
+sources_libc_signal   = Files('newlib/libc/signal/*.c')
+
+sources_libc_stdio    = Files('newlib/libc/stdio/*.c')
+
+sources_libc_stdlib   = Files('newlib/libc/stdlib/*.c')
+sources_libc_stdlib.remove   ('newlib/libc/stdlib/ldtoa.c') # TODO:  <-- fix compiler and delete this line
+sources_libc_stdlib.remove   ('newlib/libc/stdlib/mallocr.c') # this file is built specially
+sources_libc_stdlib.remove   ('newlib/libc/stdlib/mlock.c') # we have our own version of these functions
+
+sources_libc_string   = Files('newlib/libc/string/*.c')
+sources_libc_string.remove   ('newlib/libc/string/memcpy.c') # we have our own version of these functions
+sources_libc_string.remove   ('newlib/libc/string/memset.c') # we have our own version of these functions
+
+sources_libc_sys      = Files('newlib/libc/sys/xpic/*.c')
+sources_libc_syscalls = Files('newlib/libc/syscalls/*.c')
+sources_libc_time     = Files('newlib/libc/time/*.c')
+sources_libc_unix     = Files('newlib/libc/unix/*.c')
+
+sources_libc = []
+sources_libc.extend(sources_libc_argz)
+sources_libc.extend(sources_libc_ctype)
+sources_libc.extend(sources_libc_errno)
+sources_libc.extend(sources_libc_iconv)
+sources_libc.extend(sources_libc_locale)
+sources_libc.extend(sources_libc_machine)
+sources_libc.extend(sources_libc_misc)
+#sources_libc.extend(sources_libc_posix)
+sources_libc.extend(sources_libc_reent)
+sources_libc.extend(sources_libc_search)
+sources_libc.extend(sources_libc_signal)
+sources_libc.extend(sources_libc_stdio)
+sources_libc.extend(sources_libc_stdlib)
+sources_libc.extend(sources_libc_string)
+sources_libc.extend(sources_libc_sys)
+sources_libc.extend(sources_libc_syscalls)
+sources_libc.extend(sources_libc_time)
+#sources_libc.extend(sources_libc_unix)
+
+
+# ----------------------------------------------------------------
+# L I B M   S O U R C E S
+# ----------------------------------------------------------------
+
+sources_libm_common = Files('newlib/libm/common/*.c')
+sources_libm_math   = Files('newlib/libm/math/*.c')
+sources_libm_math.remove('newlib/libm/math/w_exp2.c') # This function would call itself! We have fixed version in machine/xpic
+#sources_libm_math.remove('newlib/libm/math/wf_cabs.c') # TODO:  <-- fix compiler and delete this line
+#sources_libm_math.remove('newlib/libm/math/w_cabs.c') # TODO:  <-- fix compiler and delete this line
+sources_libm_xpic   = Files('newlib/libm/machine/xpic/*.s')
+
+sources_libm = []
+sources_libm.extend(sources_libm_common)
+sources_libm.extend(sources_libm_math)
+sources_libm.extend(sources_libm_xpic)
+
+
+
+# ----------------------------------------------------------------
+# I N C L U D E S
+# ----------------------------------------------------------------
+
+includes_libc = Split("""
+                     newlib/libc/
+                     newlib/libc/include
+                     newlib/libc/include/machine
+                     newlib/libc/include/sys
+                     newlib/libc/time
+                     """)
+
+includes_libm = Split("""
+                     newlib/libc/include
+                     newlib/libc/include/sys
+                     newlib/libm/common
+                     newlib/libm/math
+                     newlib/libm/mathfp
+                     """)
+
+includes_test = Split("""
+                     test/includes
+                     test/includes/common
+                     newlib/libc/
+                     newlib/libc/include
+                     newlib/libc/include/machine
+                     newlib/libc/include/sys
+                     newlib/libc/time
+                     """)
+
+
+# ----------------------------------------------------------------
+# Settings
+# ----------------------------------------------------------------
+# gdb connection interface 
+in_gdb_connection = ARGUMENTS.get('gdb_connection', 'usb').lower()
+# netx chip 
+in_netx_chip = ARGUMENTS.get('netx', 'netx10').lower()
+
+artifact_test = "newlib-test"
+
+installdir = ARGUMENTS.get('prefix', "./install")  
+lib_installdir = installdir + "/lib"
+inc_installdir = installdir
+outdir = "output"
+cflags_common = ['__XPIC__']
+if in_netx_chip == 'netx51' or in_netx_chip == 'netx51_usb2jtag':
+    ldfile = "ld_script_NX51/xpic_intram.ld"
+    xpic.env_netx10['ASFLAGS'] += '-mmcu=xpic2'
+    cflags_common += ['__NETX51']
+else:
+    ldfile = "ld_script_NX10/xpic_intram.ld"
+    cflags_common += ['__NETX10']
+    
+cflags_libc   = cflags_common + ['REENTRANT_SYSCALLS_PROVIDED']
+cflags_libm   = cflags_common
+
+#xpic.env_netx10['CCFLAGS'] += '-Wno-attributes '
+#xpic.env_netx10['CCFLAGS'] += '-v '
+#xpic.env_netx10['CCFLAGS'] += '-Wllc,-debug-pass=Executions '
+
+save_temps = ARGUMENTS.get('savetemps', '0').lower()
+if save_temps != '0':
+  print "saving temporary files"
+  xpic.env_netx10['CCFLAGS'] += "-save-temps=" + save_temps + " "
+  outdir += "/temp"
+
+# do not use newlib from PATH_GNU_XPIC
+xpic.env_netx10['CCFLAGS'] = xpic.env_netx10['CCFLAGS'].replace('-I'+xpic._xpicpath+'/include ', '')
+xpic.env_netx10['LIBPATH'].remove(xpic._xpicpath + '/lib')
+
+
+# ----------------------------------------------------------------
+# Build libc
+# ----------------------------------------------------------------
+
+libc_files = xpic.netx10_xpic_compile(sources_libc,
+                                      includes_libc, 
+                                      cflags_libc, 
+                                      outdir)
+
+libc_vfprintf_files = xpic.netx10_xpic_compile_variants('newlib/libc/stdio/vfprintf.c',
+                                                        [('svfprintf',['STRING_ONLY']),
+                                                         ('vfiprintf',['INTEGER_ONLY']),
+                                                         ('svfiprintf',['STRING_ONLY','INTEGER_ONLY'])],
+                                                        includes_libc, 
+                                                        cflags_common,
+                                                        outdir)
+                                                        
+libc_vfwprintf_files = xpic.netx10_xpic_compile_variants('newlib/libc/stdio/vfwprintf.c',
+                                                        [('svfwprintf',['STRING_ONLY']),
+                                                         ('vfiwprintf',['INTEGER_ONLY']),
+                                                         ('svfiwprintf',['STRING_ONLY','INTEGER_ONLY'])],
+                                                        includes_libc, 
+                                                        cflags_common,
+                                                        outdir)
+                                                        
+libc_vfscanf_files = xpic.netx10_xpic_compile_variants('newlib/libc/stdio/vfscanf.c',
+                                                        [('svfscanf', ['STRING_ONLY']),
+                                                         ('vfiscanf', ['INTEGER_ONLY']),
+                                                         ('svfiscanf',['STRING_ONLY','INTEGER_ONLY'])],
+                                                        includes_libc, 
+                                                        cflags_common,
+                                                        outdir)
+                                                        
+libc_vfwscanf_files = xpic.netx10_xpic_compile_variants('newlib/libc/stdio/vfwscanf.c',
+                                                        [('svfwscanf',['STRING_ONLY']),
+                                                         ('vfiwscanf',['INTEGER_ONLY']),
+                                                         ('svfiwscanf',['STRING_ONLY','INTEGER_ONLY'])],
+                                                        includes_libc, 
+                                                        cflags_common,
+                                                        outdir)
+                                                        
+
+libc_mallocr_files = xpic.netx10_xpic_compile_variants('newlib/libc/stdlib/mallocr.c',
+                                                        [('mallocr', ['DEFINE_MALLOC']),
+                                                         ('free',   ['DEFINE_FREE']),
+                                                         ('reallocr',['DEFINE_REALLOC']),
+                                                         ('callocr', ['DEFINE_CALLOC'])],
+                                                        includes_libc, 
+                                                        cflags_common+['HAVE_MMAP=0','INTERNAL_NEWLIB'],
+                                                        outdir)
+                                                        
+libc_objects = (libc_files 
+  + libc_vfprintf_files + libc_vfwprintf_files
+  + libc_vfscanf_files + libc_vfwscanf_files
+  + libc_mallocr_files )
+
+xpic_libc = xpic.netx10_xpic_makelib(libc_objects,
+                                     outdir,
+                                     "c", 
+                                     lib_installdir)
+
+Default(xpic_libc)
+
+# ----------------------------------------------------------------
+# Build libm
+# ----------------------------------------------------------------
+
+libm_files = xpic.netx10_xpic_compile(sources_libm,
+                                      includes_libm, 
+                                      cflags_libm, 
+                                      outdir)
+                                      
+xpic_libm = xpic.netx10_xpic_makelib(libm_files,
+                                     outdir,
+                                     "m", 
+                                     lib_installdir)
+
+Default(xpic_libm)
+
+xpic.netx10_xpic_install("newlib/libc/include",inc_installdir)
+
+# ----------------------------------------------------------------
+# ------------------------  Tests  -------------------------------
+# ----------------------------------------------------------------
+#
+#testbuild = ARGUMENTS.get('test', 'debug').lower()
+#if testbuild == 'debug':
+#  xpic.env_netx10['CCFLAGS'] += '-g -gdwarf-2 -O0 '
+#
+#xpic_test_outdir = 'output'
+#xpic_test_cdefines = cflags_common + ['DEBUG']
+#
+#if in_netx_chip == 'netx51' or in_netx_chip == 'netx51_usb2jtag':
+#    xpic_test_includes = Split("""
+#                               test/includes
+#                               test/includes/common_NX51
+#                               newlib/libc/include
+#                               """)
+#    xpic_test_sources_common = Files('test/sources/common_NX51/*.[cs]')
+#else:
+#    xpic_test_includes = Split("""
+#                               test/includes
+#                               test/includes/common_NX10
+#                               newlib/libc/include
+#                               """)
+#    xpic_test_sources_common = Files('test/sources/common_NX10/*.[cs]')
+#
+#
+#xpic_test_prog_files_common = xpic.netx10_xpic_compile(xpic_test_sources_common,
+#                                                       xpic_test_includes, 
+#                                                       xpic_test_cdefines, 
+#                                                       xpic_test_outdir)
+#
+#def gcc_test(test_c_file):
+#  xpic_test_artifact = re.sub(".*/([^/]+)\\.c$", "\\1", test_c_file, 1)
+#  
+#  testconfig = runtest.parseConfig(test_c_file)
+#  
+#  xpic_test_sources = [test_c_file]
+#
+#  xpic_test_prog_files = xpic.netx10_xpic_compile(xpic_test_sources,
+#                                                  xpic_test_includes, 
+#                                                  xpic_test_cdefines, 
+#                                                  xpic_test_outdir)
+#  
+#  xpic_test_xpic_elf = xpic.netx10_xpic_makeelf(xpic_test_prog_files+xpic_test_prog_files_common,
+#                                                xpic_test_outdir,
+#                                                xpic_test_artifact, 
+#                                                [lib_installdir], 
+#                                                [], 
+#                                                ldfile)
+#  
+#  return (xpic_test_xpic_elf, testconfig)
+#
+#
+#xpic_testf = []
+#xpic_testcfgs = {}
+#
+#
+#test_dir = ARGUMENTS.get('testdir', 'test/sources')
+#xpic_testf_list = Files(test_dir+'/*.c')
+##xpic_testf_list = Files(test_dir+'/2010-08-12_*.c') # saturate test just to 4 files (test of environment)
+#
+#for src in xpic_testf_list:
+#  testcase = gcc_test(src)
+#  testfilename = str(testcase[0][0])
+#  xpic_testf.append(testcase[0])
+#  if len(testcase[1]) != 0:
+#    xpic_testcfgs[testfilename] = testcase[1]
+#
+#Alias('cctest',xpic_testf)
+#testreport = xpic_test.xpic_runtest(strftime("%Y-%m-%d_%H-%M-%S_test", gmtime()), xpic_testf, configs=xpic_testcfgs, gdb_connection=in_gdb_connection, netx=in_netx_chip)
+#AlwaysBuild(testreport)
+#Alias('check',testreport)

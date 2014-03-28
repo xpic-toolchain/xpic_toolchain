@@ -1,0 +1,8 @@
+      Some information for xpic-backend in version 2.7
+
+1. In AsmPrinter.h: function "EmitAlignment" is now virtual in base class AsmPrinter
+
+   virtual void EmitAlignment() 
+
+2. 
+

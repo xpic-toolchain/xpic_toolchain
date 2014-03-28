@@ -1,0 +1,669 @@
+Test Log
+Date and Time: 2010-09-09 12:54:11
+User ID: Burkhard
+Hostname: Netx10
+Directory: C:\workspace\galileo\xpic_newlib
+Script: runtest\runtest.pyc
+
+<Test 1>
+File: output\release\2010-08-12_copy.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 2>
+File: output\release\2010-08-12_heap.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 3>
+File: output\release\2010-08-12_memmove.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 4>
+File: output\release\2010-08-12_memset.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 5>
+File: output\release\2010-08-13_ctype_ptr.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 6>
+File: output\release\2010-08-13_iprintf.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 7>
+File: output\release\2010-08-18_link_log.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 8>
+File: output\release\2010-08-18_link_pow.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 9>
+File: output\release\2010-08-19_abort.elf
+Type: ExitCode (0)
+ERROR: Expected program exit code 0, found: 1
+Test result: ERROR
+
+<Test 10>
+File: output\release\2010-08-19_abs.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 11>
+File: output\release\2010-08-19_atof.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 12>
+File: output\release\2010-08-19_atoff.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 13>
+File: output\release\2010-08-19_atoi.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 14>
+File: output\release\2010-08-19_atol.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 15>
+File: output\release\2010-08-19_bsearch.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 16>
+File: output\release\2010-08-19_calloc.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 17>
+File: output\release\2010-08-19_div.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 18>
+File: output\release\2010-08-20_arg.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 19>
+File: output\release\2010-08-20_siprintf.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 20>
+File: output\release\2010-08-23_isalnum.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 21>
+File: output\release\2010-08-23_isalpha.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 22>
+File: output\release\2010-08-23_isascii.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 23>
+File: output\release\2010-08-23_iscntrl.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 24>
+File: output\release\2010-08-23_isdigit.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 25>
+File: output\release\2010-08-23_isgraph.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 26>
+File: output\release\2010-08-23_islower.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 27>
+File: output\release\2010-08-23_isprint.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 28>
+File: output\release\2010-08-23_labs.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 29>
+File: output\release\2010-08-23_ldiv.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 30>
+File: output\release\2010-08-23_mbtowc.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 31>
+File: output\release\2010-08-23_qsort.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 32>
+File: output\release\2010-08-23_rand.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 33>
+File: output\release\2010-08-23_rand_r.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 34>
+File: output\release\2010-08-23_strtod.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 35>
+File: output\release\2010-08-23_strtodf.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 36>
+File: output\release\2010-08-23_strtol.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 37>
+File: output\release\2010-08-23_strtoul.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 38>
+File: output\release\2010-08-23_wctomb.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 39>
+File: output\release\2010-08-24_bcmp.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 40>
+File: output\release\2010-08-24_bzero.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 41>
+File: output\release\2010-08-24_index.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 42>
+File: output\release\2010-08-24_ispunct.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 43>
+File: output\release\2010-08-24_isspace.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 44>
+File: output\release\2010-08-24_isupper.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 45>
+File: output\release\2010-08-24_isxdigit.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 46>
+File: output\release\2010-08-24_memchr.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 47>
+File: output\release\2010-08-24_memcmp.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 48>
+File: output\release\2010-08-24_rindex.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 49>
+File: output\release\2010-08-24_strcat.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 50>
+File: output\release\2010-08-24_strchr.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 51>
+File: output\release\2010-08-24_strcmp.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 52>
+File: output\release\2010-08-24_strcoll.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 53>
+File: output\release\2010-08-24_strcpy.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 54>
+File: output\release\2010-08-24_strcspn.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 55>
+File: output\release\2010-08-24_strlen.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 56>
+File: output\release\2010-08-24_strlwr.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 57>
+File: output\release\2010-08-24_strncat.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 58>
+File: output\release\2010-08-24_strupr.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 59>
+File: output\release\2010-08-24_toascii.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 60>
+File: output\release\2010-08-24_tolower.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 61>
+File: output\release\2010-08-24_toupper.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 62>
+File: output\release\2010-08-25_asinhf.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 63>
+File: output\release\2010-08-25_atanf.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 64>
+File: output\release\2010-08-25_cosf.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 65>
+File: output\release\2010-08-25_sinf.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 66>
+File: output\release\2010-08-26_ceilf.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 67>
+File: output\release\2010-08-26_erff.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 68>
+File: output\release\2010-08-26_fabsf.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 69>
+File: output\release\2010-08-26_floorf.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 70>
+File: output\release\2010-08-26_frexpf.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 71>
+File: output\release\2010-08-27_printf.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 72>
+File: output\release\2010-08-30_acos_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 73>
+File: output\release\2010-08-30_acosh_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 74>
+File: output\release\2010-08-30_asin_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 75>
+File: output\release\2010-08-30_asinh_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 76>
+File: output\release\2010-08-30_atan2_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 77>
+File: output\release\2010-08-30_atan_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 78>
+File: output\release\2010-08-30_atanh_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 79>
+File: output\release\2010-08-30_ceil_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 80>
+File: output\release\2010-08-30_cos_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 81>
+File: output\release\2010-08-30_cosh_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 82>
+File: output\release\2010-08-30_erf_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 83>
+File: output\release\2010-08-30_exp_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 84>
+File: output\release\2010-08-30_fabs_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 85>
+File: output\release\2010-08-30_floor_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 86>
+File: output\release\2010-08-30_fmod_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 87>
+File: output\release\2010-08-30_gamma_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 88>
+File: output\release\2010-08-31_acosf_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 89>
+File: output\release\2010-08-31_acoshf_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 90>
+File: output\release\2010-08-31_asinf_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 91>
+File: output\release\2010-08-31_asinhf_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 92>
+File: output\release\2010-08-31_atan2f_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 93>
+File: output\release\2010-08-31_atanf_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 94>
+File: output\release\2010-08-31_atanhf_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 95>
+File: output\release\2010-08-31_ceilf_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 96>
+File: output\release\2010-08-31_cosf_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 97>
+File: output\release\2010-08-31_coshf_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 98>
+File: output\release\2010-08-31_erff_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 99>
+File: output\release\2010-08-31_expf_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 100>
+File: output\release\2010-08-31_fabsf_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 101>
+File: output\release\2010-08-31_floorf_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 102>
+File: output\release\2010-08-31_fmodf_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 103>
+File: output\release\2010-08-31_hypot_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 104>
+File: output\release\2010-08-31_hypotf_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 105>
+File: output\release\2010-08-31_j0_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 106>
+File: output\release\2010-08-31_j0f_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 107>
+File: output\release\2010-08-31_j1_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 108>
+File: output\release\2010-08-31_j1f_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 109>
+File: output\release\2010-08-31_jn_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 110>
+File: output\release\2010-08-31_log10_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 111>
+File: output\release\2010-08-31_log10f_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 112>
+File: output\release\2010-08-31_log1p_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 113>
+File: output\release\2010-08-31_log1pf_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 114>
+File: output\release\2010-08-31_log2_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 115>
+File: output\release\2010-08-31_log_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 116>
+File: output\release\2010-08-31_logf_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 117>
+File: output\release\2010-08-31_sin_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 118>
+File: output\release\2010-08-31_sinf_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 119>
+File: output\release\2010-08-31_sinh_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 120>
+File: output\release\2010-08-31_sinhf_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 121>
+File: output\release\2010-08-31_sqrt_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 122>
+File: output\release\2010-08-31_sqrtf_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 123>
+File: output\release\2010-08-31_tan_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 124>
+File: output\release\2010-08-31_tanf_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 125>
+File: output\release\2010-08-31_tanh_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 126>
+File: output\release\2010-08-31_y0_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 127>
+File: output\release\2010-08-31_y0f_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 128>
+File: output\release\2010-08-31_y1_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 129>
+File: output\release\2010-08-31_y1f_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 130>
+File: output\release\2010-08-31_yn_test.elf
+Type: ExitCode (0)
+ERROR: Expected program exit code 0, found: ffffffff
+Test result: ERROR
+
+<Test 131>
+File: output\release\2010-09-03_function_pointer.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Summary>
+Executed tests: 131
+Passed tests:   129
+Failed tests:   2
+Overall result: FAILED

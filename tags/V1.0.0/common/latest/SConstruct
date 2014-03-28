@@ -1,0 +1,94 @@
+"""
+Targets:
+
+[default] - Compile and build libgcc.a
+install   - Copy libs and public include files to install directory
+check     - Build and execute test programs
+all
+
+Variables:
+
+target=
+  release: Optimized for size, no debugging information [default]
+  debugrel: Basic optimizations, with debugging information
+  debug: No optimizations, with debugging information
+ 
+"""
+
+import sys
+import os
+import re
+sys.path.append('scons')
+sys.path.append('runtest')
+import xpic
+import xpic_test
+from time import gmtime, strftime
+
+
+# Match existing files against a pattern string
+# pattern is a path relative to the location of the current SConstruct file
+#         Unix shell style meta characters for matching are supported 
+# Return a list of strings, each containing a relative path with a slash '/' as separator
+def Files(pattern):
+  # begin with scons version of glob with os specific separators
+  os_specific_paths = Glob(pattern, strings=True)
+  paths = []
+  # replace all backslashes with slashes
+  for path in os_specific_paths:
+    paths.append(re.sub("\\\\", "/", path))
+  return paths
+
+# ----------------------------------------------------------------
+# ----------------------  Project Settings -----------------------
+# ----------------------------------------------------------------
+
+# Header files
+common_includes = Files("xpic_includes")
+
+# Linker description file
+ldfile   = "ld_script/xpic_sdram.ld"
+
+
+xpic_test_outdir = 'output'
+
+xpic_test_cdefines = []
+
+save_temps = ARGUMENTS.get('savetemps', '0').lower()
+if save_temps != '0':
+  print "saving temporary files"
+  xpic.env_netx10['CCFLAGS'] += "-save-temps=" + save_temps + " "
+  xpic_test_outdir += "/temp"
+
+ 
+#testbuild = ARGUMENTS.get('test', 'debug').lower()
+#if testbuild == 'debug':
+#  xpic.env_netx10['CCFLAGS'] += '-g -gdwarf-2 -O0 '
+
+
+# ----------------------------------------------------------------
+# ------------------------  Common  ------------------------------
+# ----------------------------------------------------------------
+
+if xpic.buildarg == 'debug':
+  xpic_test_cdefines.extend(['DEBUG'])
+  
+# *.c
+xpic_test_sources_common = Files('xpic_sources/*.c')
+
+# *.s
+xpic_test_sources_common += Files('xpic_sources/*.s')
+
+# remove initialization script:
+xpic_test_sources_common.remove('xpic_sources/init_xpic.s')
+
+
+xpic_test_prog_files_common = xpic.netx10_xpic_compile(xpic_test_sources_common,
+                                                common_includes, 
+                                                xpic_test_cdefines, 
+                                                xpic_test_outdir)
+
+xpic_test_lib_common = xpic.netx10_xpic_makelib(xpic_test_prog_files_common,
+                                    xpic_test_outdir,
+                                    "nx10_xpic_hal",
+                                    xpic_test_outdir)
+

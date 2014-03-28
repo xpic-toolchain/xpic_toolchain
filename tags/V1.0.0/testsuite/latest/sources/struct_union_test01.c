@@ -1,0 +1,25 @@
+void abort (void)
+{
+  while (1)
+  {
+    ;
+  }
+}
+
+struct { union {int x; int y;}; int q; } b;
+union { struct {int x;}; int q; } e;
+
+main()
+{
+  b.y = 10;
+  b.x = 15;
+  if (b.y != 15)
+    abort();
+
+  e.x = 10;
+  e.q = 15;
+  if (e.x != 15)
+    abort();
+
+  return 0;
+}

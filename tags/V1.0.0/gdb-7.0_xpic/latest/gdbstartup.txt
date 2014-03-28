@@ -1,0 +1,7 @@
+set verbose on
+set remotebaud 115200
+target remote COM1
+set backtrace limit 4
+load
+break main
+continue
