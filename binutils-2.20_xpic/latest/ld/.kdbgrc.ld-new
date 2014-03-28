@@ -1,0 +1,111 @@
+[Breakpoint 0]
+Enabled=true
+File=ldlang.c
+Line=813
+Temporary=false
+
+[Breakpoint 1]
+Enabled=true
+File=elf32-xpic.c
+Line=920
+Temporary=false
+
+[Breakpoint 10]
+Enabled=true
+File=elf32-avr.c
+Line=1491
+Temporary=false
+
+[Breakpoint 2]
+Enabled=true
+File=elflink.c
+Line=9244
+Temporary=false
+
+[Breakpoint 3]
+Enabled=true
+File=elf32-xpic.c
+Line=1966
+Temporary=false
+
+[Breakpoint 4]
+Enabled=true
+File=elf32-xpic.c
+Line=1965
+Temporary=false
+
+[Breakpoint 5]
+Enabled=true
+File=elf32-avr.c
+Line=905
+Temporary=false
+
+[Breakpoint 6]
+Enabled=true
+File=elf32-avr.c
+Line=1875
+Temporary=false
+
+[Breakpoint 7]
+Enabled=true
+File=elf32-avr.c
+Line=1986
+Temporary=false
+
+[Breakpoint 8]
+Enabled=true
+File=elf32-avr.c
+Line=1790
+Temporary=false
+
+[Breakpoint 9]
+Enabled=true
+File=elf32-avr.c
+Line=1867
+Temporary=false
+
+[General]
+DebuggerCmdStr=
+DriverName=GDB
+FileVersion=1
+OptionsSelected=
+ProgramArgs=--relax -script xpic.ld -N -o main.elf  main.o
+TTYLevel=7
+WorkingDirectory=
+
+[Memory]
+ColumnWidths=80,35
+Expression1=0x81203c4
+Expression10=0x811fad7
+Expression11=0x811fad0
+Expression2=0x8120458
+Expression3=0x8120328
+Expression4=0x8120338
+Expression5=0x811fd7c
+Expression6=0x81202f8
+Expression7=0x811fa9c
+Expression8=0x811faf9
+Expression9=0x811fae8
+Format1=17
+Format10=147
+Format11=147
+Format2=17
+Format3=17
+Format4=147
+Format5=147
+Format6=147
+Format7=147
+Format8=147
+Format9=147
+NumExprs=11
+
+[Watches]
+Expr0=(int *)shrinked_insn_address
+Expr1=(int *)symval
+Expr2=(int *)(symval + irel->r_addend)
+Expr3=irel
+Expr4=howto->type
+Expr5=(*rel).r_info
+Expr6=(*rel).r_info >>8
+Expr7=(*irel).r_info >>8
+Expr8=data->reloc_count

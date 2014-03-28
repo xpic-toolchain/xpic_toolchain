@@ -1,0 +1,10 @@
+### xpic implementation:
+  xpic is a subversion of avr 
+  xpic assembler with jmp relocation (R_XPIC_24_PCREL)
+  xpic disassembler (objdump works properly)
+  simple linker script is constructed in "work/test4_xpic_jmp_2src"
+
+### in binutils project:
+  clean       - script to remove all backup files (somefile~)
+  clean_cache - script to remove all 'config.cache' files from project to reconfigure
+!!./configiure --target=xpic-elf32 - don't works properly. It will be fixed in future

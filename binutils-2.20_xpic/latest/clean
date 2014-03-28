@@ -1,0 +1,2 @@
+
+rm -f -r *~ gas/*~ gas/config/*~ ld/*~ bfd/*~ include/*~ include/elf/*~ include/opcode/*~ opcodes/*~

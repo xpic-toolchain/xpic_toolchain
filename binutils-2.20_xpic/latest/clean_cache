@@ -1,0 +1,2 @@
+rm -f -r bfd/config.cache binutils/config.cache etc/config.cache gas/config.cache gprof/config.cache intl/config.cache ld/config.cache libiberty/config.cache opcodes/config.cache
+rm -f -r *~ include/opcode/*~ include/elf/*~ gas/config/*~ bfd/*~ binutils/*~ etc/*~ gas/*~ gprof/*~ intl/*~ ld/*~ libiberty/*~ opcodes/*~

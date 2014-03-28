@@ -1,0 +1,524 @@
+Test Log
+Date and Time: 2010-09-09 13:19:27
+User ID: Burkhard
+Hostname: Netx10
+Directory: C:\workspace\galileo\xpic_tools_testsuite
+Script: runtest\runtest.pyc
+
+<Test 1>
+File: output\debug\20040219-1.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 2>
+File: output\debug\2010-08-12_const_align.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 3>
+File: output\debug\2010-08-13_ieee754_exp.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 4>
+File: output\debug\2010-08-13_rt_floatfix.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 5>
+File: output\debug\2010-08-17_newlib_sim.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 6>
+File: output\debug\2010-08-18_unknown_jmp_label.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 7>
+File: output\debug\2010-09-03_struct_in_parameterlist.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 8>
+File: output\debug\2010-09-06_invalid_data_64bit.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 9>
+File: output\debug\align-1.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 10>
+File: output\debug\argument_test01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 11>
+File: output\debug\argument_test02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 12>
+File: output\debug\array_struct_unsigned_test_01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 13>
+File: output\debug\ashldi-1.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 14>
+File: output\debug\bf-layout-1.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 15>
+File: output\debug\big_array_test01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 16>
+File: output\debug\char-compare.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 17>
+File: output\debug\checksum_main.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 18>
+File: output\debug\compare-eq-const.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 19>
+File: output\debug\const_long_long_test_01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 20>
+File: output\debug\conversion.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 21>
+File: output\debug\cvt-1.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 22>
+File: output\debug\declare_test01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 23>
+File: output\debug\div-compare-1.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 24>
+File: output\debug\div-double-1.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 25>
+File: output\debug\div_test01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 26>
+File: output\debug\divcmp-1.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 27>
+File: output\debug\divcmp-2.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 28>
+File: output\debug\divcmp-3.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 29>
+File: output\debug\divcmp-4.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 30>
+File: output\debug\divcmp-5.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 31>
+File: output\debug\divconst-1.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 32>
+File: output\debug\divconst-2.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 33>
+File: output\debug\divconst-3.elf
+Type: ExitCode (0)
+ERROR: Expected program exit code 0, found: ffffffff
+Test result: ERROR
+
+<Test 34>
+File: output\debug\divmod-1.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 35>
+File: output\debug\divsf3_extract_mini.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 36>
+File: output\debug\doloop-2.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 37>
+File: output\debug\double_inline_test01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 38>
+File: output\debug\double_test01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 39>
+File: output\debug\double_test02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 40>
+File: output\debug\double_test03.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 41>
+File: output\debug\double_test04.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 42>
+File: output\debug\double_test05.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 43>
+File: output\debug\double_test06.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 44>
+File: output\debug\double_test_01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 45>
+File: output\debug\double_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 46>
+File: output\debug\double_test_03.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 47>
+File: output\debug\enum1.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 48>
+File: output\debug\flag_test01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 49>
+File: output\debug\float_test01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 50>
+File: output\debug\float_test02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 51>
+File: output\debug\float_test03.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 52>
+File: output\debug\float_test04.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 53>
+File: output\debug\function_test01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 54>
+File: output\debug\gnu89-init-1.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 55>
+File: output\debug\inf-1.elf
+Type: ExitCode (0)
+ERROR: Expected program exit code 0, found: ffffffff
+Test result: ERROR
+
+<Test 56>
+File: output\debug\init_array_test01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 57>
+File: output\debug\init_struct_test01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 58>
+File: output\debug\linker_test01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 59>
+File: output\debug\logic_test01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 60>
+File: output\debug\logic_test_01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 61>
+File: output\debug\long-long-compare-1.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 62>
+File: output\debug\long-long-cst1.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 63>
+File: output\debug\long_test01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 64>
+File: output\debug\long_test02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 65>
+File: output\debug\mask_test01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 66>
+File: output\debug\minmax-1.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 67>
+File: output\debug\mixed_tests01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 68>
+File: output\debug\mixed_tests02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 69>
+File: output\debug\mixed_tests03.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 70>
+File: output\debug\mixed_tests04.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 71>
+File: output\debug\mixed_tests05.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 72>
+File: output\debug\mixed_tests06.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 73>
+File: output\debug\mixed_tests07.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 74>
+File: output\debug\mixed_tests08.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 75>
+File: output\debug\mixed_tests09.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 76>
+File: output\debug\mixed_tests10.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 77>
+File: output\debug\mixed_tests11.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 78>
+File: output\debug\mixed_tests12.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 79>
+File: output\debug\mixed_tests13.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 80>
+File: output\debug\mixed_tests14.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 81>
+File: output\debug\mixed_tests15.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 82>
+File: output\debug\mixed_tests16.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 83>
+File: output\debug\mixed_tests17.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 84>
+File: output\debug\mixed_tests18.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 85>
+File: output\debug\mixed_tests19.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 86>
+File: output\debug\mixed_tests20.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 87>
+File: output\debug\mixed_tests21.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 88>
+File: output\debug\profile-generate-1.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 89>
+File: output\debug\return_test01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 90>
+File: output\debug\strct-layout.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 91>
+File: output\debug\struct_union_test01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 92>
+File: output\debug\struct_union_test02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 93>
+File: output\debug\struct_union_test03.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 94>
+File: output\debug\struct_union_test04.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 95>
+File: output\debug\struct_union_test05.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 96>
+File: output\debug\struct_union_test06.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 97>
+File: output\debug\struct_union_test07.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 98>
+File: output\debug\struct_union_test08.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 99>
+File: output\debug\struct_union_test09.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 100>
+File: output\debug\struct_union_test10.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 101>
+File: output\debug\struct_union_test11.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 102>
+File: output\debug\vector_test01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Summary>
+Executed tests: 102
+Passed tests:   100
+Failed tests:   2
+Overall result: FAILED

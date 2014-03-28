@@ -1,0 +1,3 @@
+#Mon Jun 06 13:57:20 CEST 2011
+eclipse.preferences.version=1
+environment/project/cdt.managedbuild.toolchain.gnu.mingw.base.1988318317=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<environment append\="true" appendContributed\="true">\r\n<variable delimiter\=";" name\="PWD" operation\="replace" value\="C\:/workspace/galileo/llvm-2.7"/>\r\n<variable delimiter\=";" name\="CWD" operation\="replace" value\="C\:/workspace/galileo/llvm-2.7"/>\r\n<variable delimiter\=";" name\="PATH" operation\="replace" value\="C\:\\MinGW\\bin;C\:\\msys\\1.0\\bin"/>\r\n</environment>\r\n

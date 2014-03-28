@@ -1,0 +1,212 @@
+Test Log
+Date and Time: 2010-09-22 06:40:45
+User ID: Burkhard
+Hostname: Netx10
+Directory: C:\workspace\galileo\llvm-libgcc
+Script: build/runtest\runtest.pyc
+
+<Test 1>
+File: build\output\release\adddf3_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 2>
+File: build\output\release\addsf3_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 3>
+File: build\output\release\addsf3vfp_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 4>
+File: build\output\release\addvsi3_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 5>
+File: build\output\release\ashldi3_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 6>
+File: build\output\release\ashrdi3_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 7>
+File: build\output\release\ashrdi3_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 8>
+File: build\output\release\clzsi2_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 9>
+File: build\output\release\ctzsi2_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 10>
+File: build\output\release\divdf3_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 11>
+File: build\output\release\divdi3_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 12>
+File: build\output\release\divsf3_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 13>
+File: build\output\release\divsi3_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 14>
+File: build\output\release\eqdf2_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 15>
+File: build\output\release\extendsfdf2_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 16>
+File: build\output\release\fixsfsi_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 17>
+File: build\output\release\fixunssfsi_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 18>
+File: build\output\release\floatsidf_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 19>
+File: build\output\release\floatunsidf_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 20>
+File: build\output\release\gedf2_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 21>
+File: build\output\release\ledf2_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 22>
+File: build\output\release\mass_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 23>
+File: build\output\release\modsi3_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 24>
+File: build\output\release\muldf3_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 25>
+File: build\output\release\muldi3_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 26>
+File: build\output\release\mulsf3_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 27>
+File: build\output\release\multdi-1.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 28>
+File: build\output\release\negsf2_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 29>
+File: build\output\release\popcountsi2_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 30>
+File: build\output\release\powisf2_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 31>
+File: build\output\release\subdf3_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 32>
+File: build\output\release\subsf3_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 33>
+File: build\output\release\truncdfsf2_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 34>
+File: build\output\release\udivdi3_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 35>
+File: build\output\release\udivmoddi4_test_01.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 36>
+File: build\output\release\udivmoddi4_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 37>
+File: build\output\release\udivsi3_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 38>
+File: build\output\release\umodsi3_test.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 39>
+File: build\output\release\unorddf2_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Test 40>
+File: build\output\release\unordsf2_test_02.elf
+Type: ExitCode (0)
+Test result: SUCCESS
+
+<Summary>
+Executed tests: 40
+Passed tests:   40
+Failed tests:   0
+Overall result: PASSED

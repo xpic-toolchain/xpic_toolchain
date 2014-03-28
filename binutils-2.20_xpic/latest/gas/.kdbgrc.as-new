@@ -1,0 +1,72 @@
+[Breakpoint 0]
+Enabled=true
+File=as.c
+Line=1166
+Temporary=false
+
+[Breakpoint 1]
+Enabled=true
+File=symbols.c
+Line=87
+Temporary=false
+
+[Breakpoint 2]
+Enabled=true
+File=as.c
+Line=1169
+Temporary=false
+
+[Breakpoint 3]
+Enabled=true
+File=config/tc-avr.c
+Line=579
+Temporary=false
+
+[Breakpoint 4]
+Enabled=true
+File=config/tc-avr.c
+Line=1944
+Temporary=false
+
+[Breakpoint 5]
+Enabled=true
+File=config/tc-avr.c
+Line=533
+Temporary=false
+
+[Breakpoint 6]
+Enabled=true
+File=elf32-avr.c
+Line=830
+Temporary=false
+
+[General]
+DebuggerCmdStr=
+DriverName=GDB
+FileVersion=1
+OptionsSelected=
+ProgramArgs=--defsym MySYM=12 -mmcu=xpic /home/artem/llvm25/work25/xpic_t1/main.s
+TTYLevel=7
+WorkingDirectory=
+
+[Memory]
+ColumnWidths=80,0
+NumExprs=0
+
+[Watches]
+Expr0=*constrain
+Expr1=*str
+Expr10=CCName.acStr
+Expr11=iTable
+Expr12=CondCode[i]
+Expr13=CCName.iStr[0]
+Expr14=ulOp[0]
+Expr15=zero_address_frag
+Expr2=acYConstStr
+Expr3=iYconst
+Expr4=__SrcStr__
+Expr5=iDreg
+Expr6=iR1reg
+Expr7=iMAS
+Expr8=strOpcode[j]
+Expr9=str
