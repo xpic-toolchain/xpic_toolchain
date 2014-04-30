@@ -1,7 +1,7 @@
 #!/bin/bash
 
-TARGETPATH=/tmp/usr/local/xpic
-TARGETPATHCROSS=/tmp/xpic #resolves to C:/MinGW/msys/1.0/xpic
+TARGETPATH=/usr/local/xpic
+TARGETPATHCROSS=/xpic #resolves to C:/MinGW/msys/1.0/xpic
 export PATH_GNU_XPIC=$TARGETPATH
 
 set -e
@@ -28,8 +28,8 @@ rm -fr include/llvm/Config/config.h || true
 #../configure --prefix=$TARGETPATH  --enable-optimized --enable-targets=xpic,arm  --with-c-include-dirs=$TARGETPATH/include
 ./configure --prefix=$TARGETPATH  --enable-optimized --enable-targets=xpic  --with-c-include-dirs=$TARGETPATH/include
 make clean
-make LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc
-make LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc install
+make -j8 LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc
+make -j8 LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc install
 
 #cd ..
 
@@ -47,8 +47,8 @@ rm -fr include/llvm/Config/config.h || true
 #sed -i 's|/c:/xpic|/c\\:/xpic|g' projects/sample/Makefile.common
 export "LDFLAGS=--static -static-libgcc -static-libstdc++"
 make clean
-make LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc
-make LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc install
+make -j8 LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc
+make -j8 LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc install
 cd ..
 
 cd ../..
