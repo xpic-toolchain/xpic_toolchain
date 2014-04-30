@@ -106,3 +106,6 @@ cd ..
 
 #iconv is needed and compiled by ../BuildTools/Linux/build.sh
 #cp $HOME/mingw32/bin/libiconv-2.dll $TARGETPATHCROSS/bin
+
+VERSION=`svnversion . `
+zip -9r xpic-$VERSION.zip $TARGETPATHCROSS
