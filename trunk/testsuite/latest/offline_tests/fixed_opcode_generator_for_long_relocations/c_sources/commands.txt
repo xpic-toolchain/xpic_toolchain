@@ -1,0 +1,7 @@
+0) set PATH_GNU_XPIC=path_to_xpic_compiler
+1) compile
+xpic-llvmc -O0 -Wa,-mmcu=xpic2 -c -save-temps -temp-dir=temp main.c caller.c
+2) edit temp/caller.s
+add r2, [pc + $Const.h00042680], r2 -> and r2, [pc + $Const.h00042680], r2
+3) copy files
+temp/*.s to ../test_sources
