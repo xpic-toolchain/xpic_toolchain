@@ -8,5 +8,13 @@ echo test was successful.
 ) else (
 echo test failed!
 )
-del a.out objdump.txt null
+if exist a.out (
+del a.out
+)
+if exist objdump.txt (
+del objdump.txt
+)
+if exist null (
+del null
+)
 cd ..
