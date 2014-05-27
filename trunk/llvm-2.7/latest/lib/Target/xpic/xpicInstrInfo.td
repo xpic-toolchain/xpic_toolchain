@@ -241,6 +241,12 @@ def : Pat<(call texternalsym:$dst),(xCALL      texternalsym:$dst)>;
 def : Pat<(call IntRegs:$dst),     (xCALL_LOAD IntRegs:$dst)>;
 
 
+def xMOV    : InstructionXPIC<       (outs IntRegs:$dst), 
+                                     (ins IntRegs:$src),
+                                     "mov $dst, $src, z0",
+                                     []>;
+
+
 //===----------------------------------------------------------------------===//
 // Condition Codes
 //===----------------------------------------------------------------------===//
