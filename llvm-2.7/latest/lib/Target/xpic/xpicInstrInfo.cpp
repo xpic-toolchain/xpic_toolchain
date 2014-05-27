@@ -35,6 +35,14 @@ static bool isZeroImm(const MachineOperand &op) {
   return op.isImm() && op.getImm() == 0;
 }
 
+static bool isZeroReg(const MachineOperand &op) {
+  return op.isReg() && op.getReg() == XPIC::z0;
+}
+
+static bool isImplicitReg(const MachineOperand &op) {
+  return op.isReg() && op.isImplicit();
+}
+
 
 /// Return true if the instruction is a register to register move and
 /// leave the source and dest operands in the passed parameters.
@@ -43,29 +51,42 @@ bool xpicInstrInfo::isMoveInstr(const MachineInstr &MI,
                                  unsigned &SrcReg, unsigned &DstReg,
                                  unsigned &SrcSR, unsigned &DstSR) const {
 #ifdef DEBUG_SHOW_FNS_NAMES  
-//printf("xpicInstrInfo::isMoveInstr()\n");    
+printf("xpicInstrInfo::isMoveInstr()\n");    
 #endif
   SrcSR = DstSR = 0; // No sub-registers.
   // We look for 3 kinds of patterns here:
   // or with zero or 0
   // add with zero or 0
   // fmovs or FpMOVD (pseudo double move).
-  if (MI.getOpcode() == XPIC::xORrr /*|| MI.getOpcode() == XPIC::ADDrr*/) 
+  if (MI.getOpcode() == XPIC::xORrr || MI.getOpcode() == XPIC::xORir ) 
   {
-    if (MI.getOperand(1).getReg() == XPIC::z0) {
-      DstReg = MI.getOperand(0).getReg();
-      SrcReg = MI.getOperand(2).getReg();
-      return true;
-    } else if (MI.getOperand(2).getReg() == XPIC::z0) {
-      DstReg = MI.getOperand(0).getReg();
-      SrcReg = MI.getOperand(1).getReg();
-      return true;
-    }
-  } else if ((MI.getOpcode() == XPIC::xORir /*|| MI.getOpcode() == XPIC::ADDri*/) &&
-             isZeroImm(MI.getOperand(2)) && MI.getOperand(1).isReg()) {
-    DstReg = MI.getOperand(0).getReg();
-    SrcReg = MI.getOperand(1).getReg();
-    return true;
+  	unsigned countDef = 0;
+	unsigned lastDef = 0;
+	unsigned countUse = 0;
+	unsigned lastUse = 0;
+	unsigned countArgs = 0;
+	for ( unsigned i = 0; i < MI.getNumOperands(); i++ ) 
+	{
+		MachineOperand op = MI.getOperand(i);
+		if ( isImplicitReg(op) || isZeroImm(op) || isZeroReg(op) ) {
+			continue;
+		} 
+		else if ( op.isReg() && op.isUse() ) {
+			countUse++;
+			lastUse = i;
+		} else if ( op.isReg() && op.isDef() ) {
+			countDef++;
+			lastDef = i;
+		} 
+		countArgs++;
+	}
+	if ( (countArgs == ( countUse + countDef )) && countArgs == 2 && countUse == 1 ) {
+		DstReg = MI.getOperand(lastDef).getReg();
+		SrcReg = MI.getOperand(lastUse).getReg();
+		return true;
+	} else {
+		return false;
+	}
   }
   return false;
 }
@@ -139,7 +160,7 @@ printf("xpicInstrInfo::copyRegToReg()\n");
 
   if (DestRC == XPIC::IntRegsRegisterClass || DestRC == XPIC::WRegRegisterClass)
   {
-    BuildMI(MBB, I, DL, get(XPIC::xORrr), DestReg).addReg(XPIC::z0,RegState::Kill|RegState::Implicit).addReg(SrcReg);
+    BuildMI(MBB, I, DL, get(XPIC::xORrr), DestReg).addReg(XPIC::z0,RegState::Kill).addReg(SrcReg);
   }
   else
   { // Can't copy this register

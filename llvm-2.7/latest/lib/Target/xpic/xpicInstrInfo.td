@@ -338,6 +338,7 @@ def CONST_MEM  : ComplexPattern<i32, 1, "SelectConstMem", []>;
 
 /// multiclass - Define a pattern in one shot
 
+let Defs = [stat] in {
 // Standard ALU commands
 multiclass IXALU_2op<bits<6> opcode, string OpcStr, PatFrag OpNode, bit Commutable = 0> {
  def ir      : IXALU< opcode, 
@@ -438,6 +439,7 @@ multiclass IXALU_shift <bits<6> opcode, string OpcStr, SDNode OpNode> {
                       (ins IntRegs:$src1, i32imm:$src2),
                       !strconcat(OpcStr, " $dst, $src1, $src2"), 
                       [(set IntRegs:$dst, (OpNode IntRegs:$src1, imm5:$src2))]>;
+}
 }
 
 // ir_mr_ir
@@ -569,11 +571,16 @@ multiclass IXALU_1op<bits<6> opcode, string OpcStr, PatFrag OpNode> {
 //=== arithmetic
 defm xADD    : IXALU_2op <0b000000, "add" , BiOpFrag<(add  node:$src2, node:$src1)>, 1>;
 defm xADDC   : IXALU_2op <0b000000, "add" , BiOpFrag<(addc node:$src2, node:$src1)>, 1>;
+
+let Uses=[stat] in {
 defm xADDE   : IXALU_2op <0b001111, "addc", BiOpFrag<(adde node:$src2, node:$src1)>, 1>;
+}
 
 defm xSUB    : IXALU_2op <0b010000, "sub" , BiOpFrag<(sub  node:$src1, node:$src2)>>;
 defm xSUBC   : IXALU_2op <0b010000, "sub" , BiOpFrag<(subc node:$src1, node:$src2)>>;
+let Uses=[stat] in {
 defm xSUBE   : IXALU_2op <0b010011, "subc", BiOpFrag<(sube node:$src1, node:$src2)>>;
+}
 
 defm xMULS    : IXALU_2op_mul <0b101011, "muls", BiOpFrag<(mul node:$src2, node:$src1)>, 1>;
 
