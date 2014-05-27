@@ -17,8 +17,16 @@ main ()
    return -1;
 
   /* But, this looks more like what one would expect. */
+#if 0
+  /* this is bullshyt: you cannot make both if conditions pass.! */
+  /* long explaination: this is a gcc-test for testing the precision of long doubles,
+   * looks a bit different in the original code:
+   *  if (1.4dd + 1.4dd + 1.4dd != 4.2dd)
+   *  dd is not supported and does not seem to be equivalent to L, so stop for the moment
+   */
   if (1.4 + 1.4 + 1.4 != 4.2)
    return -1;
+#endif
 
   return 0;
 }
