@@ -1,0 +1,6 @@
+V1.0.1 (04.06.2014)
+---------------------
+LLVM:
+  udivmoddi4_extract fix
+Testsuite:
+  testcase compare-eq-const fixed
