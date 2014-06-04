@@ -4,3 +4,9 @@ Requirements
 - Debian 7.2 i686
 
 apt-get --quiet --assume-yes install bison flex mingw-w64 g++-mingw-w64 zlib1g zlib1g-dev texinfo patch gcc-multilib g++-multilib make groff-base cmake scons
+
+
+Testsuite
+=========
+
+python.exe scons.py check gdb_connection=usb netx=netx51
