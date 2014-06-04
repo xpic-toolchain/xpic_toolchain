@@ -1,0 +1,46 @@
+
+a.out:     file format elf32-xpic
+
+
+Disassembly of section .text2:
+
+05050000 <.ld.addr.to.load.0>:
+ 5050000:	00 00 00 80 	 load  r0, [ r0 + #0 ]b
+
+05050004 <.ld.addr.to.load.1>:
+ 5050004:	28 00 00 80 	 load  r0, [ r0 + #40 ]b
+
+05050008 <caller>:
+ 5050008:	f8 7f ef 00 	 add  r7, #-8, r7
+ 505000c:	fd ff a9 85 	 load  r2, [ pc + #-12 ]d			// 0x5050000 <.ld.addr.to.load.0>
+ 5050010:	fd ff a9 8d 	 load  r6, [ pc + #-12 ]d			// 0x5050004 <.ld.addr.to.load.1>
+ 5050014:	10 00 00 c0 	 nop  
+ 5050018:	06 e0 45 10 	 and  r2, [ r6 ]d, r2
+ 505001c:	00 00 e8 be 	 store  [ r7 + #0 ]d, z0
+ 5050020:	00 00 48 84 	 load  r2, [ r2 + #0 ]d
+ 5050024:	67 12 45 1c 	 or  r2, #4711, r2
+ 5050028:	00 00 e8 a4 	 store  [ r7 + #0 ]d, r2
+ 505002c:	01 00 e8 a4 	 store  [ r7 + #4 ]d, r2
+ 5050030:	08 00 ef 00 	 add  r7, #8, r7
+ 5050034:	10 00 00 c0 	 nop  
+ 5050038:	07 ea b1 6d 	 inc  pc, [ r7++ ]d, #8
+ 505003c:	10 00 00 c0 	 nop  
+
+Disassembly of section .text:
+
+80000000 <longarray2>:
+80000000:	78 56 34 12                                         xV4.
+
+80000004 <main>:
+80000004:	fc 7f ef 00 	 add  r7, #-4, r7
+80000008:	10 00 00 c0 	 nop  
+8000000c:	00 00 e8 be 	 store  [ r7 + #0 ]d, z0
+80000010:	00 00 e8 be 	 store  [ r7 + #0 ]d, z0
+80000014:	0f 80 5f 1c 	 or  r2, z0, z0
+80000018:	04 00 ef 00 	 add  r7, #4, r7
+8000001c:	10 00 00 c0 	 nop  
+80000020:	07 ea b1 6d 	 inc  pc, [ r7++ ]d, #8
+80000024:	10 00 00 c0 	 nop  
+
+80000028 <Const.h00042680>:
+80000028:	80 26 04 00                                         .&..

@@ -1,0 +1,282 @@
+"""
+Targets:
+
+[default] - Compile and build libgcc.a
+install   - Copy libs and public include files to install directory
+check     - Build and execute test programs
+
+
+Variables:
+
+target=
+  release: Optimized for size, no debugging information [default]
+  debugrel: Basic optimizations, with debugging information
+  debug: No optimizations, with debugging information
+  
+test= 
+  release: Test programs optimized for size, no debugging information [default]
+  debugrel: Test programs basic optimizations, with debugging information
+  debug: Test programs no optimizations, with debugging information
+
+savetemps=
+  0: All generated .bc .ll .s files are temp files [default]
+  [else]: Save .bc .ll .s files in output directory
+  
+prefix=
+  [relative-path]: install directory (default "install")
+  
+testdir=
+  [relative-path]: test directory to execute (default "testsuite")
+  
+gdb_connection=
+  usb: connect to the nxhxXX board via USB (OOCD + GDB-SWITCH + XPIC-GDB) [default] 
+  com: connect to the nxhxXX board via UART (GDB-SERVER <-> XPIC-GDB)
+
+netx=
+  netx10: compile tests for netx10 and run tests on it
+  netx51: compile tests for netx51 and run tests on it    
+  netx51_usb2jtag: compile tests for netx51 and run tests on it. Board is directly connected, without ftdi (extra initialization required) 
+"""
+
+import sys
+import os
+import re
+sys.path.append('build/scons')
+#sys.path.append('build/runtest')
+import xpic
+#import xpic_test
+from time import gmtime, strftime
+
+
+# Match existing files against a pattern string
+# pattern is a path relative to the location of the current SConstruct file
+#         Unix shell style meta characters for matching are supported 
+# Return a list of strings, each containing a relative path with a slash '/' as separator
+def Files(pattern):
+  # begin with scons version of glob with os specific separators
+  os_specific_paths = Glob(pattern, strings=True)
+  paths = []
+  # replace all backslashes with slashes
+  for path in os_specific_paths:
+    paths.append(re.sub("\\\\", "/", path))
+  return paths
+
+# ----------------------------------------------------------------
+# ----------------------  Project Settings -----------------------
+# ----------------------------------------------------------------
+
+# Name of the executable without extension (project name)
+artifact = "gcc"
+
+# List of source files
+sources_xpic       = Split("""
+                           compiler-rt/lib/addvsi3.c
+                           compiler-rt/lib/ashldi3.c
+                           compiler-rt/lib/ashrdi3.c
+                           compiler-rt/lib/clzdi2.c
+                           compiler-rt/lib/cmpdi2.c
+                           compiler-rt/lib/ctzdi2.c
+                           compiler-rt/lib/ctzsi2.c
+                           compiler-rt/lib/divdi3.c
+                           compiler-rt/lib/divsi3.c
+                           compiler-rt/lib/ffsdi2.c
+                           compiler-rt/lib/fixdfdi.c
+                           compiler-rt/lib/fixsfdi.c
+                           compiler-rt/lib/fixunsdfdi.c
+                           compiler-rt/lib/fixunsdfsi.c
+                           compiler-rt/lib/fixunssfdi.c
+                           compiler-rt/lib/fixunssfsi.c
+                           compiler-rt/lib/floatdidf.c
+                           compiler-rt/lib/floatdisf.c
+                           compiler-rt/lib/floatundidf.c
+                           compiler-rt/lib/floatundisf.c
+                           compiler-rt/lib/lshrdi3.c
+                           compiler-rt/lib/moddi3.c
+                           compiler-rt/lib/modsi3.c
+                           compiler-rt/lib/negdi2.c
+                           compiler-rt/lib/paritydi2.c
+                           compiler-rt/lib/paritysi2.c
+                           compiler-rt/lib/popcountdi2.c
+                           compiler-rt/lib/popcountsi2.c
+                           compiler-rt/lib/powisf2.c
+                           compiler-rt/lib/udivdi3.c
+                           compiler-rt/lib/umoddi3.c
+                           compiler-rt/lib/umodsi3.c
+                           
+                           compiler-rt/lib/xpic/clzsi2.s
+                           compiler-rt/lib/xpic/muldi3.c
+                           compiler-rt/lib/xpic/muldsi3.s
+                           compiler-rt/lib/xpic/add_ssaaaa.s
+                           compiler-rt/lib/xpic/sub_ddmmss.s
+                           compiler-rt/lib/xpic/umul_ppmm.s
+                           compiler-rt/lib/xpic/udivmoddi4.c
+                           compiler-rt/lib/xpic/udivsi3.s
+                           
+                           gcc/soft-fp/adddf3.c
+                           gcc/soft-fp/addsf3.c
+                           gcc/soft-fp/divdf3.c
+                           gcc/soft-fp/divsf3.c
+                           gcc/soft-fp/eqdf2.c
+                           gcc/soft-fp/eqsf2.c
+                           gcc/soft-fp/extendsfdf2.c
+                           gcc/soft-fp/fixdfsi.c
+                           gcc/soft-fp/floatsidf.c
+                           gcc/soft-fp/floatsisf.c
+                           gcc/soft-fp/floatunsidf.c
+                           gcc/soft-fp/floatunsisf.c
+                           gcc/soft-fp/gedf2.c
+                           gcc/soft-fp/gesf2.c
+                           gcc/soft-fp/ledf2.c
+                           gcc/soft-fp/lesf2.c
+                           gcc/soft-fp/muldf3.c
+                           gcc/soft-fp/mulsf3.c
+                           gcc/soft-fp/negsf2.c
+                           gcc/soft-fp/subdf3.c
+                           gcc/soft-fp/subsf3.c
+                           gcc/soft-fp/truncdfsf2.c
+                           gcc/soft-fp/unorddf2.c
+                           gcc/soft-fp/unordsf2.c
+                           
+                           gcc/xpic/gtdf2.c
+                           gcc/xpic/ltdf2.c
+                           gcc/xpic/nedf2.c
+                           
+                           gcc/xpic/fixsfsi.c
+                           """)
+
+# List of include directories, where to find the header files
+includes_xpic = Split("""
+                      compiler-rt/lib
+                      compiler-rt/lib/xpic
+                      gcc/soft-fp
+                      gcc/xpic
+                      build/include
+                      """)
+
+# Global #definitions
+# gdb connection interface 
+in_gdb_connection = ARGUMENTS.get('gdb_connection', 'usb').lower()
+# netx chip 
+in_netx_chip = ARGUMENTS.get('netx', 'netx10').lower()
+
+cdefines = ['__XPIC__']
+
+# Linker description file
+if in_netx_chip == 'netx51' or in_netx_chip == 'netx51_usb2jtag':
+    ldfile = "build/ld_script_NX51/xpic_intram.ld"
+    xpic.env_netx10['ASFLAGS'] += '-mmcu=xpic2'
+    cdefines += ['__NETX51']
+else:
+    ldfile = "build/ld_script_NX10/xpic_intram.ld"
+    cdefines += ['__NETX10']
+
+
+# Root directory for output files
+outdir   = "build/output"
+
+project_version_str = "0.1.1"
+
+# Library install directory
+installdir = ARGUMENTS.get('prefix', "./install")  
+installdir += "/lib/gcc/xpic-hilscher-elf/" + project_version_str
+
+# Show tool calls from compiler driver
+xpic.env_netx10['CCFLAGS'] += '-v '
+
+save_temps = ARGUMENTS.get('savetemps', '0').lower()
+if save_temps != '0':
+  print "saving temporary files"
+  xpic.env_netx10['CCFLAGS'] += "-save-temps=" + save_temps + " "
+  outdir += "/temp"
+
+# do not use libgcc from PATH_GNU_XPIC
+xpic.env_netx10['CCFLAGS'] = xpic.env_netx10['CCFLAGS'].replace('-I'+xpic._xpicpath+'/lib/gcc/xpic-hilscher-elf/0.1.1/include ', '')
+xpic.env_netx10['LIBPATH'].remove(xpic._xpicpath + '/lib/gcc/xpic-hilscher-elf/0.1.1')
+
+
+# ----------------------------------------------------------------
+# ---------------------  Build the library  ----------------------
+# ----------------------------------------------------------------
+
+# Append DEBUG #define when building test sources
+if ARGUMENTS.get('target', '0').lower() == 'debug':
+  cdefines.append('DEBUG')
+
+# Compile sources
+xpic_files = xpic.netx10_xpic_compile(sources_xpic,
+                                      includes_xpic, 
+                                      cdefines, 
+                                      outdir)
+
+# Archive
+xpic_lib = xpic.netx10_xpic_makelib(xpic_files,
+                         outdir,
+                         artifact,
+                         installdir)
+
+# Stop here if no target is specified
+Default(xpic_lib)
+
+xpic.netx10_xpic_install("build/include",installdir)
+
+
+# ----------------------------------------------------------------
+# ------------------------  Tests  -------------------------------
+# ----------------------------------------------------------------
+  
+#testbuild = ARGUMENTS.get('test', 'debug').lower()
+#if testbuild == 'debug':
+#  xpic.env_netx10['CCFLAGS'] += '-g -gdwarf-2 -O0 '
+#
+#xpic_test_outdir = 'build/output'
+#xpic_test_cdefines = cdefines + ['__XPIC__','DEBUG']
+#
+#if in_netx_chip == 'netx51' or in_netx_chip == 'netx51_usb2jtag':
+#    xpic_test_sources_common = Files('testsuite/common/common_NX51/init_xpic.S')
+#else:
+#    xpic_test_sources_common = Files('testsuite/common/common_NX10/init_xpic.S')
+#
+#xpic_test_prog_files_common = xpic.netx10_xpic_compile(xpic_test_sources_common,
+#                                                includes_xpic, 
+#                                                xpic_test_cdefines, 
+#                                                xpic_test_outdir)
+#
+#
+#def gcc_test(test_c_file):  
+#  xpic_test_artifact = re.sub(".*/([^/]+)\\.c$", "\\1", test_c_file, 1)
+#  xpic_test_sources = [test_c_file]
+#  
+#  xpic_test_prog_files = xpic.netx10_xpic_compile(xpic_test_sources,
+#                                                  includes_xpic, 
+#                                                  xpic_test_cdefines, 
+#                                                  xpic_test_outdir)
+#  
+#  xpic_test_xpic_elf = xpic.netx10_xpic_makeelf(xpic_test_prog_files+xpic_test_prog_files_common,
+#                                                xpic_test_outdir,
+#                                                xpic_test_artifact, 
+#                                                [installdir], 
+#                                                [artifact], 
+#                                                ldfile)
+#  
+#  return xpic_test_xpic_elf
+
+# ----------------------------------------------------------
+# ------------------- TEST-FILES ---------------------------
+# ----------------------------------------------------------
+#
+#xpic_testf = []
+#
+#
+#test_dir = ARGUMENTS.get('testdir', 'testsuite')
+#
+#xpic_testf_list = Files(test_dir+'/*.c')
+#
+#for src in xpic_testf_list:
+#  xpic_testf.append(gcc_test(src))
+#
+#Alias('compiletests', xpic_testf)
+#testreport = xpic_test.xpic_runtest(strftime("%Y-%m-%d_%H-%M-%S_test", gmtime()), xpic_testf, gdb_connection = in_gdb_connection, netx = in_netx_chip)
+#Alias('check',testreport)
+
+                                      
+                            
