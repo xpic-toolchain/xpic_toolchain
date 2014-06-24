@@ -65,7 +65,7 @@ public:
     x86_64,  // X86-64: amd64, x86_64
     xcore,   // XCore: xcore
     mblaze,  // MBlaze: mblaze
-
+    xpic,    // xpic: xpic
     InvalidArch
   };
   enum VendorType {
