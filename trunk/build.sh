@@ -36,16 +36,14 @@ cd ..
 rm -fr crossbuild || true
 mkdir crossbuild
 cd crossbuild
-rm -fr include/llvm/Config/config.h || true
 ../configure --prefix=$TARGETPATHCROSS  --enable-optimized --enable-targets=xpic --host=i686-w64-mingw32 --with-c-include-dirs=$TARGETPATHCROSS/include
-#rm -fr include/llvm/Config/config.h || true
+sed -i 's/#define HAVE_STRERROR_S 1/\/* #undef HAVE_STRERROR_S *\//g' include/llvm/Config/config.h
 # Dirty fixup for DOS Path
 #sed -i 's|/c:/xpic|/c\\:/xpic|g' projects/sample/Makefile.common
 export "LDFLAGS=--static -static-libgcc -static-libstdc++"
 make clean
 make -j8 LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc
 make -j8 LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc install
-cd ..
 
 cd ../..
 
