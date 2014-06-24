@@ -17,26 +17,22 @@ rm -fr $TARGETPATHCROSS/*
 #mv */* .
 #popd
 
-cd llvm-2.7/latest/
-chmod +x configure autoconf/mkinstalldirs ./utils/mkpatch ./utils/GetSourceVersion ./utils/findmisopt ./utils/findoptdiff
+cd llvm-2.8
+rm -fr localbuild || true
+mkdir localbuild
+cd localbuild
 
-rm -fr include/llvm/Config/config.h || true
-#rm -fr localbuild || true
-#mkdir localbuild
-#cd localbuild
-
-#../configure --prefix=$TARGETPATH  --enable-optimized --enable-targets=xpic,arm  --with-c-include-dirs=$TARGETPATH/include
-./configure --prefix=$TARGETPATH  --enable-optimized --enable-targets=xpic  --with-c-include-dirs=$TARGETPATH/include
+../configure --prefix=$TARGETPATH  --enable-optimized --enable-targets=xpic,arm  --with-c-include-dirs=$TARGETPATH/include
+#./configure --prefix=$TARGETPATH  --enable-debug-symbols --enable-debug-runtime --enable-targets=xpic  --with-c-include-dirs=$TARGETPATH/include
 make clean
 make -j8 LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc
 make -j8 LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc install
 
-#cd ..
+cd ..
 
 # Cross LLVM
 
 #export PATH=$HOME/mingw32/bin/:$PATH
-rm -fr include/llvm/Config/config.h || true
 rm -fr crossbuild || true
 mkdir crossbuild
 cd crossbuild
