@@ -9,7 +9,7 @@
 
 LEVEL = ../..
 
-DIRS = src
+DIRS = src Xpic
 
 ifeq ($(BUILD_EXAMPLES),1)
   OPTIONAL_DIRS += examples

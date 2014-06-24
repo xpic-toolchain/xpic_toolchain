@@ -22,11 +22,11 @@ rm -fr localbuild || true
 mkdir localbuild
 cd localbuild
 
-../configure --prefix=$TARGETPATH  --enable-optimized --enable-targets=xpic,arm  --with-c-include-dirs=$TARGETPATH/include
+../configure --prefix=$TARGETPATH  --enable-optimized --enable-targets=xpic  --with-c-include-dirs=$TARGETPATH/include
 #./configure --prefix=$TARGETPATH  --enable-debug-symbols --enable-debug-runtime --enable-targets=xpic  --with-c-include-dirs=$TARGETPATH/include
 make clean
-make -j8 LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc
-make -j8 LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc install
+make -j8 
+make -j8 install
 
 cd ..
 
@@ -42,8 +42,8 @@ sed -i 's/#define HAVE_STRERROR_S 1/\/* #undef HAVE_STRERROR_S *\//g' include/ll
 #sed -i 's|/c:/xpic|/c\\:/xpic|g' projects/sample/Makefile.common
 export "LDFLAGS=--static -static-libgcc -static-libstdc++"
 make clean
-make -j8 LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc
-make -j8 LLVMC_BUILTIN_PLUGINS=Xpic LLVMC_BASED_DRIVER_NAME=xpic-llvmc install
+make -j8 
+make -j8 install
 
 cd ../..
 
