@@ -259,63 +259,63 @@ def llvm_gcc_cpp_linker : llvm_gcc_based_linker<"xpic-ld">;
 
 // Language map
 
-def LanguageMap : LanguageMap<
-    [LangToSuffixes<"c++", ["cc", "cp", "cxx", "cpp", "CPP", "c++", "C"]>,
-     LangToSuffixes<"c++-header", ["hpp"]>,
-     LangToSuffixes<"c", ["c"]>,
-     LangToSuffixes<"c-header", ["h"]>,
-     LangToSuffixes<"objective-c++", ["mm"]>,
-     LangToSuffixes<"objective-c++-header", ["hmm"]>,
-     LangToSuffixes<"objective-c", ["m"]>,
-     LangToSuffixes<"objective-c-header", ["hm"]>,
-     LangToSuffixes<"assembler", ["s", "S", "asm", "ASM"]>,
-     LangToSuffixes<"llvm-assembler", ["ll"]>,
-     LangToSuffixes<"llvm-bitcode", ["bc"]>,
-     LangToSuffixes<"object-code", ["o", "*empty*"]>,
-     LangToSuffixes<"executable", ["elf"]>
+def LanguageMap : LanguageMap<[
+     (lang_to_suffixes "c++", ["cc", "cp", "cxx", "cpp", "CPP", "c++", "C"]),
+     (lang_to_suffixes "c++-header", ["hpp"]),
+     (lang_to_suffixes "c", ["c"]),
+     (lang_to_suffixes "c-header", ["h"]),
+     (lang_to_suffixes "objective-c++", ["mm"]),
+     (lang_to_suffixes "objective-c++-header", ["hmm"]),
+     (lang_to_suffixes "objective-c", ["m"]),
+     (lang_to_suffixes "objective-c-header", ["hm"]),
+     (lang_to_suffixes "assembler", ["s", "S", "asm", "ASM"]),
+     (lang_to_suffixes "llvm-assembler", ["ll"]),
+     (lang_to_suffixes "llvm-bitcode", ["bc"]),
+     (lang_to_suffixes "object-code", ["o", "*empty*"]),
+     (lang_to_suffixes "executable", ["elf"])
      ]>;
 
 // Compilation graph
 
 def CompilationGraph : CompilationGraph<[                             
-    Edge<"root", "llc">,
+    (edge "root", "llc"),
     
-    Edge<"root", "clang_c">,
-    Edge<"root", "clang_cpp">,
-    Edge<"root", "clang_objective_c">,
-    Edge<"root", "clang_objective_cpp">,
+    (edge "root", "clang_c"),
+    (edge "root", "clang_cpp"),
+    (edge "root", "clang_objective_c"),
+    (edge "root", "clang_objective_cpp"),
 
-    Edge<"clang_c", "llc">,
-    Edge<"clang_cpp", "llc">,
-    Edge<"clang_objective_c", "llc">,
-    Edge<"clang_objective_cpp", "llc">,
+    (edge "clang_c", "llc"),
+    (edge "clang_cpp", "llc"),
+    (edge "clang_objective_c", "llc"),
+    (edge "clang_objective_cpp", "llc"),
 
-    Edge<"llvm_as", "llc">,
+    (edge "llvm_as", "llc"),
 
-    OptionalEdge<"root", "llvm_as",
-                         (case (switch_on "emit-llvm"), (inc_weight))>,
-    OptionalEdge<"llvm_as", "opt", (case (switch_on "opt"), (inc_weight))>,
-    Edge<"opt", "llc">,
+    (optional_edge "root", "llvm_as",
+                         (case (switch_on "emit-llvm"), (inc_weight))),
+    (optional_edge "llvm_as", "opt", (case (switch_on "opt"), (inc_weight))),
+    (edge "opt", "llc"),
 
-    Edge<"llc", "llvm_gcc_assembler">,
-    Edge<"root", "llvm_gcc_assembler">,
-    Edge<"llvm_gcc_assembler", "llvm_gcc_linker">,
-    OptionalEdge<"llvm_gcc_assembler", "llvm_gcc_cpp_linker",
+    (edge "llc", "llvm_gcc_assembler"),
+    (edge "root", "llvm_gcc_assembler"),
+    (edge "llvm_gcc_assembler", "llvm_gcc_linker"),
+    (optional_edge "llvm_gcc_assembler", "llvm_gcc_cpp_linker",
                  (case
                      (or (input_languages_contain "c++"),
                          (input_languages_contain "objective-c++")),
                      (inc_weight),
                      (or (parameter_equals "linker", "g++"),
-                         (parameter_equals "linker", "c++")), (inc_weight))>,
+                         (parameter_equals "linker", "c++")), (inc_weight))),
 
 
-    Edge<"root", "llvm_gcc_linker">,
-    OptionalEdge<"root", "llvm_gcc_cpp_linker",
+    (edge "root", "llvm_gcc_linker"),
+    (optional_edge "root", "llvm_gcc_cpp_linker",
                  (case
                      (or (input_languages_contain "c++"),
                          (input_languages_contain "objective-c++")),
                      (inc_weight),
                      (or (parameter_equals "linker", "g++"),
-                         (parameter_equals "linker", "c++")), (inc_weight))>
+                         (parameter_equals "linker", "c++")), (inc_weight)))
                          
     ]>;
