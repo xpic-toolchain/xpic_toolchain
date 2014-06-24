@@ -70,6 +70,7 @@ set(LLVM_ALL_TARGETS
   SystemZ
   X86
   XCore
+  xpic
   )
 
 if( MSVC )
