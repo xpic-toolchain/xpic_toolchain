@@ -77,6 +77,7 @@ bool Filler::isDataDependence(MachineInstr &MI)
   {
   case XPIC::EH_LABEL:
   case XPIC::GC_LABEL:
+  case XPIC::DBG_VALUE:
                 return false;
 
   case XPIC::xRETF:
