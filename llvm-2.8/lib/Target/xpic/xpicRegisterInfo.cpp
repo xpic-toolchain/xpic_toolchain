@@ -270,7 +270,10 @@ void xpicRegisterInfo::processFunctionBeforeFrameFinalized(MachineFunction &MF) 
 printf("xpicRegisterInfo::processFunctionBeforeFrameFinalized\n");
 #endif
   // take care of call frame (non-register arguments for called function)
-  AdjustStackForArguments(MF);
+#if 0 
+  //HM: 25.6.2014 Disabled for Segvault in clang
+  //AdjustStackForArguments(MF);
+#endif
   // allign all stack objects to 4Bytes
   AlignStackObjects(MF);
   // no register in use before analyse:
