@@ -1879,6 +1879,73 @@ public:
 } // end anonymous namespace.
 
 namespace {
+class xpicTargetInfo : public TargetInfo {
+  static const TargetInfo::GCCRegAlias GCCRegAliases[];
+  static const char * const GCCRegNames[];
+public:
+  xpicTargetInfo(const std::string& triple) : TargetInfo(triple) {
+    DescriptionString = "e-p:32:32-i32:32";
+  }
+  virtual void getTargetDefines(const LangOptions &Opts,
+                                MacroBuilder &Builder) const {
+    DefineStd(Builder, "xpic", Opts);
+    Builder.defineMacro("__xpic");
+    Builder.defineMacro("__REGISTER_PREFIX__", "");
+  }
+  virtual void getTargetBuiltins(const Builtin::Info *&Records,
+                                 unsigned &NumRecords) const {
+    // FIXME: Implement!
+  }
+  virtual const char *getVAListDeclaration() const {
+    return "typedef void* __builtin_va_list;";
+  }
+  virtual void getGCCRegNames(const char * const *&Names,
+                              unsigned &NumNames) const;
+  virtual void getGCCRegAliases(const GCCRegAlias *&Aliases,
+                                unsigned &NumAliases) const;
+  virtual bool validateAsmConstraint(const char *&Name,
+                                     TargetInfo::ConstraintInfo &info) const {
+    // FIXME: Implement!
+    return false;
+  }
+  virtual const char *getClobbers() const {
+    // FIXME: Implement!
+    return "";
+  }
+};
+
+const char * const xpicTargetInfo::GCCRegNames[] = {
+  "r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7",
+  "r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15"
+};
+
+void xpicTargetInfo::getGCCRegNames(const char * const *&Names,
+                                       unsigned &NumNames) const {
+  Names = GCCRegNames;
+  NumNames = llvm::array_lengthof(GCCRegNames);
+}
+
+const TargetInfo::GCCRegAlias xpicTargetInfo::GCCRegAliases[] = {
+  { { "u0" }, "r8" },
+  { { "u1" }, "r9" },
+  { { "u2" }, "r10" },
+  { { "u3" }, "r11" },
+  { { "u4" }, "r12" },
+  { { "pc" }, "r13" },
+  { { "stat" }, "r14" },
+  { { "z0" }, "r15" },
+};
+
+void xpicTargetInfo::getGCCRegAliases(const GCCRegAlias *&Aliases,
+                                         unsigned &NumAliases) const {
+  Aliases = GCCRegAliases;
+  NumAliases = llvm::array_lengthof(GCCRegAliases);
+}
+} // end anonymous namespace.
+
+
+
+namespace {
 class SparcV8TargetInfo : public TargetInfo {
   static const TargetInfo::GCCRegAlias GCCRegAliases[];
   static const char * const GCCRegNames[];
@@ -2561,6 +2628,9 @@ static TargetInfo *AllocateTarget(const std::string &T) {
 
   case llvm::Triple::systemz:
     return new SystemZTargetInfo(T);
+
+  case llvm::Triple::xpic:
+    return new xpicTargetInfo(T);
 
   case llvm::Triple::tce:
     return new TCETargetInfo(T);
