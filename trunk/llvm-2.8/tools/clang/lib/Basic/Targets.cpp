@@ -1888,7 +1888,6 @@ public:
   }
   virtual void getTargetDefines(const LangOptions &Opts,
                                 MacroBuilder &Builder) const {
-    DefineStd(Builder, "xpic", Opts);
     Builder.defineMacro("__xpic");
     Builder.defineMacro("__REGISTER_PREFIX__", "");
   }
