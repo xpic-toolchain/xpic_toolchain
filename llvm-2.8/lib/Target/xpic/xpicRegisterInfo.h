@@ -69,10 +69,11 @@ public:
   /// This structure holds info in current function about frame index with arguments for called function
   /// Valid after xpicTargetLowering::LowerCall()
   mutable  struct {
+    bool isSet;
     unsigned uFunctionID;     // Identifier of current function
     int IsCurrentFn(MachineFunction &MF)
     {
-     return (uFunctionID == MF.getFunctionNumber() );
+     return isSet && (uFunctionID == MF.getFunctionNumber() );
     }
     int iCallFI;                // Frame index that holds function arguments
   } xpicLowerCallInfo;

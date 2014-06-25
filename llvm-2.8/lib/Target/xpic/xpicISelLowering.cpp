@@ -150,6 +150,7 @@ printf("xpicTargetLowering::LowerCall\n");
       if(!xRI->xpicLowerCallInfo.IsCurrentFn(MF))
       {// we are first time in current function (MF), so save its unique ID (or name)
         xRI->xpicLowerCallInfo.uFunctionID = MF.getFunctionNumber();
+        xRI->xpicLowerCallInfo.isSet = true;
         // allocate frame for arguments and keep its index
         ArgFrameIdx = MF.getFrameInfo()->CreateStackObject(ObjSize, 4 ,1);
         xRI->xpicLowerCallInfo.iCallFI = ArgFrameIdx;
@@ -258,6 +259,7 @@ printf("xpicTargetLowering::LowerFormalArguments\n");
   // initialized here, used in "LowerCall()" {and "xpicRegisterInfo::AdjustStackForArguments"},
   // because "LowerFormalArguments()" will be called allways before "LowerCall()"
   xRI->xpicLowerCallInfo.uFunctionID = 0;
+  xRI->xpicLowerCallInfo.isSet = false;
 
   // Assign locations to all of the incoming arguments.
   SmallVector<CCValAssign, 16> ArgLocs;
