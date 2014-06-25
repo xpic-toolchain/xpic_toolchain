@@ -199,7 +199,7 @@ def llc : Tool<
 [(in_language ["llvm-bitcode", "llvm-assembler"]),
  (out_language "assembler"),
  (output_suffix "s"),
- (command "llc -f -march=xpic"),
+ (command "llc -march=xpic"),
  (actions (case
           (switch_on "S"), (stop_compilation),
           (switch_on "O0"), (forward "O0"),
