@@ -1348,6 +1348,12 @@ void CodeGenModule::EmitGlobalFunctionDefinition(GlobalDecl GD) {
   llvm::Function *Fn = cast<llvm::Function>(Entry);
   setFunctionLinkage(D, Fn);
 
+  if (const AnnotateAttr *AA = D->getAttr<AnnotateAttr>()) {
+    SourceManager &SM = Context.getSourceManager();
+    AddAnnotation(EmitAnnotateAttr(Fn, AA,
+                              SM.getInstantiationLineNumber(D->getLocation())));
+  }
+
   CodeGenFunction(*this).GenerateCode(D, Fn);
 
   SetFunctionDefinitionAttributes(D, Fn);
