@@ -202,7 +202,7 @@ def llc : Tool<
  (command "llc -march=xpic"),
  (actions (case
           (switch_on "S"), (stop_compilation),
-          (switch_on "O0"), (forward "O0"),
+          (switch_on "O0"), [(forward "O0"), (append_cmd "-regalloc=linearscan")],          
           (switch_on "O1"), (forward "O1"),
           (switch_on "O2"), (forward "O2"),
           (switch_on "O3"), (forward "O3"),
