@@ -341,24 +341,6 @@ printf("xpicTargetLowering::LowerFormalArguments\n");
 // TargetLowering Implementation
 //===----------------------------------------------------------------------===//
 
-///  I N I T I A L I S  A T I O N    O F    V A R A R G    I N    F U N C T I O N
-static SDValue LowerVASTART(SDValue Op, SelectionDAG &DAG, const xpicTargetLowering &TLI)
-{
-#ifdef DEBUG_SHOW_FNS_NAMES  
-SDValueInfo("LowerVASTART",Op,&DAG); 
-#endif 
-  MachineFunction &MF = DAG.getMachineFunction();
-  xpicMachineFunctionInfo *FuncInfo = MF.getInfo<xpicMachineFunctionInfo>();
-  // vastart just stores the address of the VarArgsFrameIndex slot into the memory location argument.
-  DebugLoc dl = Op.getDebugLoc();
-  // Get frame index with arguments:
-  SDValue FIPtr = DAG.getFrameIndex(FuncInfo->getVarArgsFrameOffset(), MVT::i32);
-  // save it into the memory location argument:
-  const Value *SrcValue = cast<SrcValueSDNode>(Op.getOperand(2))->getValue();
-  return DAG.getStore(Op.getOperand(0),dl, FIPtr, Op.getOperand(1), SrcValue, 0,false, false, 0);
-}
-
-
 /// IntCondCCodeToICC - Convert a DAG integer condition code to a xpic ICC
 /// condition.
 static XPICCC::CondCodes IntCondCCodeToICC(ISD::CondCode CC) {
@@ -506,9 +488,9 @@ xpicTargetLowering::xpicTargetLowering(TargetMachine &TM)
 
   // VASTART needs to be custom lowered to use the VarArgsFrameIndex.
   setOperationAction(ISD::VASTART           , MVT::Other, Custom);
+  setOperationAction(ISD::VAARG             , MVT::Other, Custom);
   
   // Use the default implementation.
-  setOperationAction(ISD::VAARG             , MVT::Other, Expand);
   setOperationAction(ISD::VACOPY            , MVT::Other, Expand);
   setOperationAction(ISD::VAEND             , MVT::Other, Expand);
   setOperationAction(ISD::STACKSAVE         , MVT::Other, Expand); 
@@ -724,6 +706,57 @@ printf("LowerSELECT_CC()\n");
   return DAG.getNode(Opc,dl, TrueVal.getValueType(), TrueVal, FalseVal,DAG.getConstant(XPICCC, MVT::i32), CompareFlag);
 }
 
+///  I N I T I A L I S  A T I O N    O F    V A R A R G    I N    F U N C T I O N
+static SDValue LowerVASTART(SDValue Op, SelectionDAG &DAG, const xpicTargetLowering &TLI)
+{
+#ifdef DEBUG_SHOW_FNS_NAMES  
+SDValueInfo("LowerVASTART",Op,&DAG); 
+#endif 
+  MachineFunction &MF = DAG.getMachineFunction();
+  xpicMachineFunctionInfo *FuncInfo = MF.getInfo<xpicMachineFunctionInfo>();
+  
+  // vastart just stores the address of the VarArgsFrameIndex slot into the memory location argument.
+  DebugLoc dl = Op.getDebugLoc();
+  // Get frame index with arguments:
+  SDValue FIPtr = DAG.getFrameIndex(FuncInfo->getVarArgsFrameOffset(), MVT::i32);
+  // save it into the memory location argument:
+  const Value *SrcValue = cast<SrcValueSDNode>(Op.getOperand(2))->getValue();
+  return DAG.getStore(Op.getOperand(0),dl, FIPtr, Op.getOperand(1), SrcValue, 0,false, false, 0);
+}
+
+static SDValue LowerVAARG(SDValue Op, SelectionDAG &DAG) {
+  SDNode *Node = Op.getNode();
+  EVT VT = Node->getValueType(0);
+  SDValue InChain = Node->getOperand(0);
+  SDValue VAListPtr = Node->getOperand(1);
+  const Value *SV = cast<SrcValueSDNode>(Node->getOperand(2))->getValue();
+  DebugLoc dl = Node->getDebugLoc();
+  SDValue VAList = DAG.getLoad(MVT::i32, dl, InChain, VAListPtr, SV, 0,
+                               false, false, 0);
+  // Increment the pointer, VAList, to the next vaarg
+  SDValue NextPtr = DAG.getNode(ISD::ADD, dl, MVT::i32, VAList,
+                                  DAG.getConstant(VT.getSizeInBits()/8,
+                                                  MVT::i32));
+  // Store the incremented VAList to the legalized pointer
+  InChain = DAG.getStore(VAList.getValue(1), dl, NextPtr,
+                         VAListPtr, SV, 0, false, false, 0);
+  // Load the actual argument out of the pointer VAList, unless this is an
+  // f64 load.
+  if (VT != MVT::f64)
+    return DAG.getLoad(VT, dl, InChain, VAList, NULL, 0, false, false, 0);
+
+  // Otherwise, load it as i64, then do a bitconvert.
+  SDValue V = DAG.getLoad(MVT::i64, dl, InChain, VAList, NULL, 0,
+                          false, false, 0);
+
+  // Bit-Convert the value to f64.
+  SDValue Ops[2] = {
+    DAG.getNode(ISD::BIT_CONVERT, dl, MVT::f64, V),
+    V.getValue(1)
+  };
+  return DAG.getMergeValues(Ops, 2, dl);
+}
+
 static SDValue LowerDYNAMIC_STACKALLOC(SDValue Op, SelectionDAG &DAG) {
 #ifdef DEBUG_SHOW_FNS_NAMES  
 printf("LowerDYNAMIC_STACKALLOC() \n");
@@ -766,7 +799,7 @@ SDValue xpicTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const 
   case ISD::BR_CC:              return   LowerBR_CC(Op, DAG);
   case ISD::SELECT_CC:          return LowerSELECT_CC(Op, DAG);
   case ISD::VASTART:            return LowerVASTART(Op, DAG, *this);
-//  case ISD::VAARG:              return LowerVAARG(Op, DAG);
+  case ISD::VAARG:              return LowerVAARG(Op, DAG);
   case ISD::DYNAMIC_STACKALLOC: return LowerDYNAMIC_STACKALLOC(Op, DAG);
  }
 }
