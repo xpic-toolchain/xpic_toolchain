@@ -349,7 +349,7 @@ printf("xpicRegisterInfo::processFunctionBeforeFrameFinalized\n");
   };
 
 // calculate number of registers to save in stack:
-  for(int i=0; i<XPIC::NUM_TARGET_REGS; i++)
+  for(int i=XPIC::NoRegister + 1; i<XPIC::NUM_TARGET_REGS; i++)
   {
     numStackSavedRegisters += pUsedRegisters[i];
   }
