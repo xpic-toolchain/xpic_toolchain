@@ -875,7 +875,7 @@ printf("xpicTargetLowering::EmitInstrWithCustomInserter()::xCALL/xCALL_LOAD \n")
   MachineBasicBlock::iterator I = BB->end();
   if( TrueVal < XPIC::NUM_TARGET_REGS ) {
     int vreg = F->getRegInfo().createVirtualRegister(&XPIC::IntRegsRegClass);
-    BuildMI(*thisMBB, --I, dl, TII.get(XPIC::xORrr), vreg).addReg(XPIC::z0).addReg(TrueVal);
+    BuildMI(*thisMBB, --I, dl, TII.get(XPIC::xMOV), vreg).addReg(XPIC::z0).addReg(TrueVal);
     TrueVal = vreg;
   }
   // insert conditional branch for FalseVal
