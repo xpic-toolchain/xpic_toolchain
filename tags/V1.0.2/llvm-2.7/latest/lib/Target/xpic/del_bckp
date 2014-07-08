@@ -1,0 +1,4 @@
+rm -r -f *~ *.inc Debug
+rm -r -f ./AsmPrinter/*~ ./AsmPrinter/Debug
+rm -r -f ./TargetInfo/*~ ./TargetInfo/Debug
+rm -r -f ./Helper/*~ ./Helper/Debug

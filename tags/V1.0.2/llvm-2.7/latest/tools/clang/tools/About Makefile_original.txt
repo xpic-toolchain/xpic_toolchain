@@ -1,0 +1,6 @@
+Autor: Artem Rudskyy
+Note:
+"Makefile_original" is a native makefile from llvm-2.7\tools\clang\tools.
+But it don't compile "clang.exe" with MinGW32.
+Form "Makefile_original" some lines are deleted and created "Makefile".
+
