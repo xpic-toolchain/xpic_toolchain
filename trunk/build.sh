@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Allow overriding the number parallel make jobs with the
+# environment variable MAKE_PARALLEL_JOBS. The default is 8.
+[ -z "$MAKE_PARALLEL_JOBS" ] && MAKE_PARALLEL_JOBS="8"
+
 TARGETPATH=/usr/local/xpic
 TARGETPATHCROSS=/xpic #resolves to C:/MinGW/msys/1.0/xpic
 export PATH_GNU_XPIC=$TARGETPATH
@@ -25,8 +29,8 @@ cd localbuild
 ../configure --prefix=$TARGETPATH  --enable-optimized --enable-targets=xpic  --with-c-include-dirs=$TARGETPATH/include
 #./configure --prefix=$TARGETPATH  --enable-debug-symbols --enable-debug-runtime --enable-targets=xpic  --with-c-include-dirs=$TARGETPATH/include
 make clean
-make -j8 
-make -j8 install
+make -j$MAKE_PARALLEL_JOBS
+make -j$MAKE_PARALLEL_JOBS install
 
 cd ..
 
@@ -42,8 +46,8 @@ sed -i 's/#define HAVE_STRERROR_S 1/\/* #undef HAVE_STRERROR_S *\//g' include/ll
 #sed -i 's|/c:/xpic|/c\\:/xpic|g' projects/sample/Makefile.common
 export "LDFLAGS=--static -static-libgcc -static-libstdc++"
 make clean
-make -j8 
-make -j8 install
+make -j$MAKE_PARALLEL_JOBS
+make -j$MAKE_PARALLEL_JOBS install
 
 cd ../..
 
