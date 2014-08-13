@@ -6,14 +6,17 @@
 
 TARGETPATH=/usr/local/xpic
 TARGETPATHCROSS=/xpic #resolves to C:/MinGW/msys/1.0/xpic
-export PATH_GNU_XPIC=$TARGETPATH
 
 set -e
 
-# LLVM
+#VERSION=`svnversion . `
+VERSION=`date +%Y%m%d%H%M`
+export INSTALLPATH_LOCAL=`pwd`/install/local
+export INSTALLPATH_CROSS=`pwd`/install/xpic-llvm
+export PATH_GNU_XPIC=$INSTALLPATH_LOCAL
 
-rm -fr $TARGETPATH/*
-rm -fr $TARGETPATHCROSS/*
+#rm -fr $TARGETPATH/*
+#rm -fr $TARGETPATHCROSS/*
 
 #wget http://llvm.org/releases/2.7/llvm-gcc-4.2-2.7-i686-linux.tgz
 #tar xfz llvm-gcc-4.2-2.7-i686-linux.tgz -C $TARGETPATH
@@ -21,89 +24,130 @@ rm -fr $TARGETPATHCROSS/*
 #mv */* .
 #popd
 
+# LLVM
+echo
+echo ================================================================================
+echo "  building llvm-2.8 ..."
+echo --------------------------------------------------------------------------------
+
 cd llvm-2.8
-rm -fr localbuild || true
-mkdir localbuild
+#rm -fr localbuild || true
+mkdir -p localbuild
 cd localbuild
 
-../configure --prefix=$TARGETPATH  --enable-optimized --enable-targets=xpic  --with-c-include-dirs=$TARGETPATH/include
+../configure --prefix=$INSTALLPATH_LOCAL  --enable-optimized --enable-targets=xpic  --with-c-include-dirs=$INSTALLPATH_LOCAL/include
 #./configure --prefix=$TARGETPATH  --enable-debug-symbols --enable-debug-runtime --enable-targets=xpic  --with-c-include-dirs=$TARGETPATH/include
-make clean
+#make clean
 make -j$MAKE_PARALLEL_JOBS
-make -j$MAKE_PARALLEL_JOBS install
+make install
 
 cd ..
 
 # Cross LLVM
+echo
+echo ================================================================================
+echo "  crossbuilding llvm-2.8 ..."
+echo --------------------------------------------------------------------------------
 
 #export PATH=$HOME/mingw32/bin/:$PATH
-rm -fr crossbuild || true
-mkdir crossbuild
+#rm -fr crossbuild || true
+mkdir -p crossbuild
 cd crossbuild
-../configure --prefix=$TARGETPATHCROSS  --enable-optimized --enable-targets=xpic --host=i686-w64-mingw32 --with-c-include-dirs=$TARGETPATHCROSS/include
+../configure --prefix=$INSTALLPATH_CROSS --enable-optimized --enable-targets=xpic --host=i686-w64-mingw32 --with-c-include-dirs=$INSTALLPATH_CROSS/include
+#../configure --prefix=$TARGETPATHCROSS  --enable-optimized --enable-targets=xpic --host=i686-w64-mingw32 --with-c-include-dirs=$TARGETPATHCROSS/include
 sed -i 's/#define HAVE_STRERROR_S 1/\/* #undef HAVE_STRERROR_S *\//g' include/llvm/Config/config.h
 # Dirty fixup for DOS Path
 #sed -i 's|/c:/xpic|/c\\:/xpic|g' projects/sample/Makefile.common
 export "LDFLAGS=--static -static-libgcc -static-libstdc++"
-make clean
+#make clean
 make -j$MAKE_PARALLEL_JOBS
-make -j$MAKE_PARALLEL_JOBS install
+#make install DESTDIR=$INSTALLPATH_CROSS
+make install
 
 cd ../..
 
 # Binutils
+echo
+echo ================================================================================
+echo "  building binutils ..."
+echo --------------------------------------------------------------------------------
+
 cd binutils-2.20_xpic/latest
 chmod +x configure mkinstalldirs missing
-CFLAGS=-Wno-error ./configure --prefix=$TARGETPATH --target=xpic
-make clean
+
+# Local build
+#rm -fr localbuild || true
+mkdir -p localbuild
+cd localbuild
+CFLAGS=-Wno-error ../configure --prefix=$INSTALLPATH_LOCAL --target=xpic
+#make clean
 make all
 make install
+cd ..
+
 
 # Cross Binutils
+echo
+echo ================================================================================
+echo "  crossbuilding binutils ..."
+echo --------------------------------------------------------------------------------
 
-make distclean || true
-rm -fr ` find . -name config.cache ` || true
-rm -fr ` find . -name \*.o` ` find . -name config.status ` || true
-rm -fr crossbuild || true
-mkdir crossbuild
+
+#make distclean || true
+#rm -fr ` find . -name config.cache ` || true
+#rm -fr ` find . -name \*.o` ` find . -name config.status ` || true
+#rm -fr crossbuild || true
+mkdir -p crossbuild
 cd crossbuild
-CFLAGS=-Wno-error ../configure --prefix=$TARGETPATHCROSS --target=xpic --host=i686-w64-mingw32
-make clean 
+CFLAGS=-Wno-error ../configure --prefix=$INSTALLPATH_CROSS --target=xpic --host=i686-w64-mingw32
+#CFLAGS=-Wno-error ../configure --prefix=$TARGETPATHCROSS --target=xpic --host=i686-w64-mingw32
+#make clean 
 make all
 make install
+#make install DESTDIR=$INSTALLPATH_CROSS
 cd ..
 
 cd ../..
 
-export PATH=$TARGETPATH/bin:$PATH
+export PATH=$INSTALLPATH_LOCAL/bin:$PATH
+echo PATH: $PATH
 
 # Obviously, scons doesn't copy includes
 cd newlib
-cp -a ./newlib/libc/include/* $TARGETPATH/include
-rm -fr ` find $TARGETPATH/include  -name .svn ` 
-cp -a ./newlib/libc/include/* $TARGETPATHCROSS/include
-rm -fr ` find $TARGETPATHCROSS/include  -name .svn ` 
+cp -a ./newlib/libc/include/* $INSTALLPATH_LOCAL/include
+rm -fr ` find $INSTALLPATH_LOCAL/include  -name .svn ` 
+cp -a ./newlib/libc/include/* $INSTALLPATH_CROSS/include
+rm -fr ` find $INSTALLPATH_CROSS/include  -name .svn ` 
 cd ..
 
 # libgcc
+echo
+echo ================================================================================
+echo "  libgcc ..."
+echo --------------------------------------------------------------------------------
 cd llvm-libgcc
-scons
-scons prefix=$TARGETPATH install
-scons prefix=$TARGETPATHCROSS install
+scons 
+scons prefix=$INSTALLPATH_LOCAL install
+scons prefix=$INSTALLPATH_CROSS install
 cd ..
 
 # Newlib
-
+echo
+echo ================================================================================
+echo "  newlib ..."
+echo --------------------------------------------------------------------------------
 cd newlib
 chmod +x configure mkinstalldirs mkdep move-if-change 
 scons
-scons prefix=$TARGETPATH install
-scons prefix=$TARGETPATHCROSS install
+scons prefix=$INSTALLPATH_LOCAL install
+scons prefix=$INSTALLPATH_CROSS install
 cd ..
 
 
 #iconv is needed and compiled by ../BuildTools/Linux/build.sh
 #cp $HOME/mingw32/bin/libiconv-2.dll $TARGETPATHCROSS/bin
 
-VERSION=`svnversion . `
-zip -9r xpic-$VERSION.zip $TARGETPATHCROSS
+#zip -9r xpic-$VERSION.zip $INSTALLPATH_CROSS
+rm -f xpic-$VERSION.zip
+7z a -tzip -mx=9 xpic-llvm_$VERSION.zip $INSTALLPATH_CROSS
+
