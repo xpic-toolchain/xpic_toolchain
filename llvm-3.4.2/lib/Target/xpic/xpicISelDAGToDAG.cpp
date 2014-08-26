@@ -111,8 +111,8 @@ public:
 bool xpicDAGToDAGISel::SelectADDRframe(SDValue Addr, SDValue  &Reg, SDValue &Base, SDValue &Offset)
 {
 
-//  SDNode *N = Op.getNode();
-  //DebugLoc dl = N->getDebugLoc();
+  SDNode *N = Addr.getNode();
+  SDLoc dl(N);
   // [r7 + fi]
   if (FrameIndexSDNode *FIN = dyn_cast<FrameIndexSDNode>(Addr)) 
   {
@@ -159,14 +159,13 @@ bool xpicDAGToDAGISel::SelectADDRframe(SDValue Addr, SDValue  &Reg, SDValue &Bas
             int ConstVal = CN->getSExtValue();
             if(ConstVal >= -(1 << 16) && ConstVal < (1 << 16))
             {
-                /*
               MemSDNode *MN = dyn_cast<MemSDNode>(N);
               unsigned msk = (MN->getMemoryVT().getSizeInBits() + 7) / 8 - 1;
               //printf("BI: mask: 0x%08x\n", msk);
               if( 0 == ( msk & ConstVal ) )
               {
                 Base = CurDAG->getTargetConstant(Addr.getConstantOperandVal(1), MVT::i32);
-              }*/ //-->problem
+              }
             }
             return false;
           }
@@ -174,12 +173,12 @@ bool xpicDAGToDAGISel::SelectADDRframe(SDValue Addr, SDValue  &Reg, SDValue &Bas
           {
             Base = Summand; // another operands
           }
-          /*
+          
           SDValue NewADD    = CurDAG->getNode(ISD::ADD,dl,MVT::i32,GlobalADD,CurDAG->getRegister(XPIC::z0,MVT::i32));
           SDNode *NewADDNode= Select(NewADD.getNode());
           Reg    = SDValue(NewADDNode,0);
           Offset = CurDAG->getTargetConstant(0, MVT::i32);
-          */ //--> problem
+  
           return true;
         }
       }
@@ -400,6 +399,8 @@ bool xpicDAGToDAGISel::SelectConstMem(SDValue Const, SDValue &Result)
 /// 31.03.2010
 bool xpicDAGToDAGISel::SelectADDRri(SDValue Addr, SDValue &Base, SDValue &Offset)
 {
+  SDNode *N = Addr.getNode();
+
   // store [ADD rx, const], rs  -> store [rx + const], rs
   if (Addr.getOpcode() == ISD::ADD) 
   {
@@ -409,15 +410,15 @@ bool xpicDAGToDAGISel::SelectADDRri(SDValue Addr, SDValue &Base, SDValue &Offset
       //if (Predicate_simm16(CN))
       if(ConstVal >= -(1 << 16) && ConstVal < (1 << 16))
       {
-        //MemSDNode *MN = dyn_cast<MemSDNode>(N);
-        //unsigned msk = (MN->getMemoryVT().getSizeInBits() + 7) / 8 - 1;
+        MemSDNode *MN = dyn_cast<MemSDNode>(N);
+        unsigned msk = (MN->getMemoryVT().getSizeInBits() + 7) / 8 - 1;
         //printf("BI: mask: 0x%08x\n", msk);
-        //if( 0 == ( msk & ConstVal ) )
-        //{
+        if( 0 == ( msk & ConstVal ) )
+        {
           Base = Addr.getOperand(0);
           Offset = CurDAG->getTargetConstant(CN->getZExtValue(), MVT::i32);
           return true;
-        //}
+        }
       }
     }
   }
@@ -485,10 +486,12 @@ SDNode *xpicDAGToDAGISel::Select(SDNode *N)
 printf("xpicDAGToDAGISel::Select()\n");
 #endif
   
-  DebugLoc dl = N->getDebugLoc();
+  SDLoc dl(N);
 
-  if(N->isMachineOpcode())
+  if(N->isMachineOpcode()){
+    N->setNodeId(-1);
     return NULL;   // Already selected.
+  }
 //DAG.viewGraph();
   switch (N->getOpcode()) 
   {
