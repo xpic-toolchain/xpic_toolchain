@@ -13,7 +13,7 @@
 #include "xpicTargetMachine.h"
 #include "xpic.h"
 #include "llvm/CodeGen/Passes.h"
-//#include "llvm/IR/Module.h"
+#include "llvm/IR/Module.h"
 #include "llvm/PassManager.h"
 #include "llvm/Support/TargetRegistry.h"
 #include "llvm/Target/TargetFrameLowering.h"
@@ -51,8 +51,7 @@ xpicTargetMachine:: xpicTargetMachine(const Target &T,
   initAsmInfo(); 
 }
 
-//old function from LLVM2.8?
-/*
+
 unsigned xpicTargetMachine::getModuleMatchQuality(const Module &M) {
   std::string TT = M.getTargetTriple();
   if (TT.size() >= 6 && std::string(TT.begin(), TT.begin()+6) == "xpic-")
@@ -77,7 +76,7 @@ unsigned xpicTargetMachine::getModuleMatchQuality(const Module &M) {
 #else
   return 0;
 #endif
-}*/
+}
 
 namespace {
 /// xpic Code Generator Pass Configuration Options.
