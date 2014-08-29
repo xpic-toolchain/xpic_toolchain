@@ -19,5 +19,5 @@
 type = Library
 name = xpicDesc
 parent = xpic
-required_libraries = MC xpicAsmPrinter xpicInfo Support Target
+required_libraries = MC xpicInfo Support Target
 add_to_library_groups = xpic
