@@ -28,5 +28,5 @@ has_asmprinter = 1
 type = Library
 name = xpicCodeGen
 parent = xpic
-required_libraries = AsmPrinter CodeGen Core MC xpicAsmPrinter xpicDesc xpicInfo xpicHelper SelectionDAG Support Target
+required_libraries = AsmPrinter CodeGen Core MC xpicDesc xpicInfo xpicHelper SelectionDAG Support Target
 add_to_library_groups = xpic
