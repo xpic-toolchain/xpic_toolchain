@@ -211,12 +211,12 @@ bool Filler::runOnMachineFunction(MachineFunction &MF)
 	// xCALL instructions has delay slots, but xCALL has dummy: insert "save return address" instruction
         if(MI->getOpcode()==XPIC::xCALL)
         {
-	  BuildMI(*MBB,MI,dl, TII->get(XPIC::xSTORE_TO_STACK)).addReg(XPIC::r7,RegState::Define).addReg(XPIC::pc,RegState::Kill|RegState::Define);
+	  BuildMI(*MBB,MI,dl, TII->get(XPIC::xSTORE_TO_STACK)).addReg(XPIC::r7,RegState::Define).addReg(XPIC::pc,RegState::Kill);
 	  continue;
         }
         if(MI->getOpcode()==XPIC::xCALL_LOAD)
         {
-	  BuildMI(*MBB,MI,dl, TII->get(XPIC::xSTORE_TO_STACK)).addReg(XPIC::r7,RegState::Define).addReg(XPIC::pc,RegState::Kill|RegState::Define);
+	  BuildMI(*MBB,MI,dl, TII->get(XPIC::xSTORE_TO_STACK)).addReg(XPIC::r7,RegState::Define).addReg(XPIC::pc,RegState::Kill);
         }
         // insert NOP
         ++J;
