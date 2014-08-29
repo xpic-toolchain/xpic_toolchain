@@ -57,6 +57,8 @@ SDValue xpicTargetLowering::LowerReturn(SDValue Chain,
 printf("xpecTargetLowering::LowerReturn\n");
 #endif
 
+  MachineFunction &MF = DAG.getMachineFunction();
+
   // CCValAssign - represent the assignment of the return value to locations.
   SmallVector<CCValAssign, 16> RVLocs;
   // CCState - Info about the registers and stack slot.
@@ -73,6 +75,10 @@ printf("xpecTargetLowering::LowerReturn\n");
   }*/
 
   SDValue Flag;
+  SmallVector<SDValue, 4> RetOps(1, Chain);
+  // Make room for the return address offset.
+  //RetOps.push_back(SDValue());
+
   // Copy the result values into the output registers.
   for (unsigned i = 0; i != RVLocs.size(); ++i)
   {
@@ -80,14 +86,22 @@ printf("xpecTargetLowering::LowerReturn\n");
     assert(VA.isRegLoc() && "Can only return in registers!");
     // ISD::RET => ret chain, (regnum1,val1), ...
     // So i*2+1 index only the regnums.
+    
     Chain = DAG.getCopyToReg(Chain, DL, VA.getLocReg(), OutVals[i], Flag);
+    
     // Guarantee that all emitted copies are stuck together with flags.
     Flag = Chain.getValue(1);
+    RetOps.push_back(DAG.getRegister(VA.getLocReg(), VA.getLocVT()));
   }
 
+  RetOps[0] = Chain;  // Update chain.
+
+  // Add the flag if we have it.
   if (Flag.getNode())
-    return DAG.getNode(XPICISD::RET_FLAG,DL, MVT::Other, Chain, Flag);
-  return DAG.getNode(XPICISD::RET_FLAG,DL, MVT::Other, Chain);
+    RetOps.push_back(Flag);
+
+  return DAG.getNode(XPICISD::RET_FLAG, DL, MVT::Other,
+                     &RetOps[0], RetOps.size());
 }
 
 ///   C A L L
@@ -215,19 +229,33 @@ printf("xpicTargetLowering::LowerCall\n");
   else if (ExternalSymbolSDNode *E = dyn_cast<ExternalSymbolSDNode>(Callee))
     Callee = DAG.getTargetExternalSymbol(E->getSymbol(), MVT::i32);
 
+  // Returns a chain & a flag for retval copy to use.
+  SDVTList NodeTys = DAG.getVTList(MVT::Other, MVT::Glue);
+  SmallVector<SDValue, 8> Ops;
+  Ops.push_back(Chain);
+  Ops.push_back(Callee);
+
   /// these 3 lines are used for output registers handling
   // Assign locations to each value returned by this call.
   SmallVector<CCValAssign, 16> RVLocs;
   CCState RVInfo(CallConv, IsVarArg, DAG.getMachineFunction(), DAG.getTarget(), RVLocs, *DAG.getContext());
   RVInfo.AnalyzeCallResult(Ins, RetCC_xpic32);
 
+  // Add argument registers to the end of the list so that they are
+  // known live into the call.
+  for (unsigned i = 0, e = RegsToPass.size(); i != e; ++i)
+    Ops.push_back(DAG.getRegister(RegsToPass[i].first,
+                                  RegsToPass[i].second.getValueType()));
+
+  if (InFlag.getNode())
+    Ops.push_back(InFlag);
 
   //std::vector<EVT> NodeTys;
   //NodeTys.push_back(MVT::Other);   // Returns a chain
   //NodeTys.push_back(MVT::Flag);    // Returns a flag for retval copy to use.
-  SDValue Ops[] = { Chain, Callee, InFlag };
+  //SDValue Ops[] = { Chain, Callee, InFlag };
 
-  Chain = DAG.getNode(XPICISD::CALL,dl, MVT::Glue, Ops, InFlag.getNode() ? 3 : 2);
+  Chain = DAG.getNode(XPICISD::CALL,dl, NodeTys, &Ops[0], Ops.size());
 
   InFlag = Chain.getValue(1);
 
@@ -885,6 +913,8 @@ printf("xpicTargetLowering::EmitInstrWithCustomInserter()::xCALL/xCALL_LOAD \n")
   MachineBasicBlock *thisMBB = BB;
   MachineBasicBlock *copy0MBB = F->CreateMachineBasicBlock(LLVM_BB);
   MachineBasicBlock *sinkMBB = F->CreateMachineBasicBlock(LLVM_BB);
+  F->insert(It, copy0MBB);
+  F->insert(It, sinkMBB);
 
   // insert copy node for physregs before the compare because the PHI node cannot handle physregs
   MachineBasicBlock::iterator I = BB->end();
@@ -896,8 +926,6 @@ printf("xpicTargetLowering::EmitInstrWithCustomInserter()::xCALL/xCALL_LOAD \n")
   // insert conditional branch for FalseVal
   BuildMI(thisMBB,dl, TII.get(BROpcode)).addMBB(sinkMBB).addImm(CC);
 
-  F->insert(It, copy0MBB);
-  F->insert(It, sinkMBB);
   // Update machine-CFG edges by transferring all successors of the current
   // block to the new block which will contain the Phi node for the select.
   sinkMBB->transferSuccessors(thisMBB);
