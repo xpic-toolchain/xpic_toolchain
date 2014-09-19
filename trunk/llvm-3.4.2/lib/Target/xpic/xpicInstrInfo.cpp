@@ -96,7 +96,7 @@ unsigned
 xpicInstrInfo::InsertBranch(MachineBasicBlock &MBB,MachineBasicBlock *TBB,
                              MachineBasicBlock *FBB,
                              const SmallVectorImpl<MachineOperand> &Cond,
-                             llvm::DebugLoc dl)const{
+                             DebugLoc dl)const{
 #ifdef DEBUG_SHOW_FNS_NAMES  
 printf("xpicInstrInfo::InsertBranch()\n");
 #endif
@@ -136,10 +136,19 @@ printf("xpicInstrInfo::storeRegToStackSlot()\n");
   DebugLoc DL;
   if (I != MBB.end()) DL = I->getDebugLoc();
 
-  if (RC == &XPIC::IntRegsRegClass ) //|| RC == XPIC::WRegRegisterClass)
-    BuildMI(MBB,I,DL, get(XPIC::xSTOREframe)).addReg(XPIC::r7).addFrameIndex(FI).addImm(0).addReg(SrcReg,  RegState::Kill,0);
+  MachineFunction *MF = MBB.getParent();
+  const MachineFrameInfo &MFI = *MF->getFrameInfo();
+  MachineMemOperand *MMO =
+    MF->getMachineMemOperand(MachinePointerInfo::getFixedStack(FI),
+                             MachineMemOperand::MOStore,
+                             MFI.getObjectSize(FI),
+                             MFI.getObjectAlignment(FI));
 
-  else assert(0 && "Can't store this register to stack slot       \"storeRegToStackSlot\"");
+  if (RC == &XPIC::IntRegsRegClass || RC == &XPIC::WRegRegClass) {
+    BuildMI(MBB,I,DL, get(XPIC::xSTOREframe)).addReg(XPIC::r7).addFrameIndex(FI).addImm(0).addReg(SrcReg,  RegState::Kill,0).addMemOperand(MMO);
+  } else {
+    assert(0 && "Can't store this register to stack slot       \"storeRegToStackSlot\"");
+  }
 }
 ///---------------------------------------------------------------
 
@@ -152,9 +161,19 @@ printf("xpicInstrInfo::loadRegFromStackSlot()\n");
   DebugLoc DL = DebugLoc();
   if (I != MBB.end()) DL = I->getDebugLoc();
 
-  if (RC == &XPIC::IntRegsRegClass ) //|| RC == XPIC::WRegRegisterClass)
-    BuildMI(MBB, I, DL, get(XPIC::xLOADframe), DestReg).addReg(XPIC::r7).addFrameIndex(FI).addImm(0);//28.03.2010
-  else assert(0 && "Can't load this register from stack slot");
+  MachineFunction *MF = MBB.getParent();
+  const MachineFrameInfo &MFI = *MF->getFrameInfo();
+  MachineMemOperand *MMO =
+    MF->getMachineMemOperand(MachinePointerInfo::getFixedStack(FI),
+                             MachineMemOperand::MOLoad,
+                             MFI.getObjectSize(FI),
+                             MFI.getObjectAlignment(FI));
+
+  if (RC == &XPIC::IntRegsRegClass || RC == &XPIC::WRegRegClass) {
+    BuildMI(MBB, I, DL, get(XPIC::xLOADframe), DestReg).addReg(XPIC::r7).addFrameIndex(FI).addImm(0).addMemOperand(MMO);//28.03.2010
+  } else {
+    assert(0 && "Can't load this register from stack slot");
+  }
 }
 
 

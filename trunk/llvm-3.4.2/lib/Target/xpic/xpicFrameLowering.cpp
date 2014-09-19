@@ -313,14 +313,16 @@ void xpicFrameLowering::emitPrologue(MachineFunction &MF) const
 #ifdef DEBUG_SHOW_FNS_NAMES  
 printf("xpicFrameLowering::emitPrologue\n");
 #endif
+  xpicMachineFunctionInfo *FuncInfo = MF.getInfo<xpicMachineFunctionInfo>();
   const xpicInstrInfo &TII =
     *static_cast<const xpicInstrInfo*>(MF.getTarget().getInstrInfo());
   // get top block (MachineBasicBlock [iterator]) in function (MachineFunction):
   MachineBasicBlock &MBB = MF.front();
+  MachineFrameInfo *MFI = MF.getFrameInfo() ;
   // get iterator of this block (MachineBasicBlock::iterator)
   MachineBasicBlock::iterator MBBI = MBB.begin();
   // debug location:
-  DebugLoc dl = DebugLoc();
+  DebugLoc dl = MBBI != MBB.end() ? MBBI->getDebugLoc() : DebugLoc();
   ///1. Save content of all regs (that are used in this function) to stack at the beginning of this function
   for(int i=0; i<XPIC_STACK_QUEUE_LENGTH; i++)
   {
@@ -333,14 +335,14 @@ printf("xpicFrameLowering::emitPrologue\n");
   /// 2. Align size of stack: if stack not 4 byte alligned, correct allignment to 4 bytes
   // positive align of  var, to byte number (bn -> 1/2/4 Byte)
   #define  XPIC_ALIGN(var,bn)   (  ( var + bn-1 ) & ~(bn-1)  )
-  int StackSize        = MF.getFrameInfo()->getStackSize();
+  int StackSize        = MFI->getStackSize();
   int AlignedStackSize = XPIC_ALIGN(StackSize,4);
-  MF.getFrameInfo()->setStackSize(AlignedStackSize);
+  MFI->setStackSize(AlignedStackSize);
 
   /// 3.Rereserve place in stack for frame objects:
-  if(MF.getFrameInfo()->getNumObjects() > 0 && MF.getFrameInfo()->getStackSize() != 0)
+  if(MFI->getNumObjects() > 0 && MFI->getStackSize() != 0)
   {
-    if(MF.getFrameInfo()->getStackSize() > XPIC_CONSTANTS::CONST_V_MAX)   // +-14bit
+    if(MFI->getStackSize() > XPIC_CONSTANTS::CONST_V_MAX)   // +-14bit
     { /*  Stack Size to big for instruction like 'add r7,#-const, r7',
        *  Generate warning and
        *  use
@@ -353,17 +355,17 @@ printf("xpicFrameLowering::emitPrologue\n");
       // warning:
       fprintf(stderr,"warning: big stack frame in function \"%s\". Code is not optimized.\n",MF.getFunction()->getName().data());
       /// can we use 'load r6, const'?
-      if(MF.getFrameInfo()->getStackSize() <= XPIC_CONSTANTS::CONST_Z_MAX) // +-18bit
+      if(MFI->getStackSize() <= XPIC_CONSTANTS::CONST_Z_MAX) // +-18bit
       {
         // load r6, #-const
-        BuildMI(MBB, MBBI,dl,TII.get(XPIC::xLOADi),XPIC::r6).addImm((int)MF.getFrameInfo()->getStackSize());
+        BuildMI(MBB, MBBI,dl,TII.get(XPIC::xLOADi),XPIC::r6).addImm((int)MFI->getStackSize());
       }
       else
       { // load r6, [pc + #offs_const] -> .data -> offs_const: const
         // create new constant, and use it
         const Module *M=MF.getFunction()->getParent();
         // get stack size
-        unsigned int val= MF.getFrameInfo()->getStackSize();
+        unsigned int val= MFI->getStackSize();
         // get GlobalVariable
         const GlobalVariable *NewGV = xpicHlprGetGlobalVariable(M, val);
         // load r6, [pc + #off_const]d
@@ -375,9 +377,22 @@ printf("xpicFrameLowering::emitPrologue\n");
     else
     {
       // use pattern: add r7,#-const, r7
-      BuildMI(MBB, MBBI,dl,TII.get(XPIC::xADDir),XPIC::r7).addImm(-(int)MF.getFrameInfo()->getStackSize()).addReg( XPIC::r7);
+      BuildMI(MBB, MBBI,dl,TII.get(XPIC::xADDir),XPIC::r7).addImm(-(int)MFI->getStackSize()).addReg( XPIC::r7);
     }
   }
+
+
+  MachineModuleInfo &MMI = MF.getMMI();
+  const MCRegisterInfo *MRI = MMI.getContext().getRegisterInfo();
+  MCSymbol *FrameLabel = MMI.getContext().CreateTempSymbol();
+  unsigned regFP = MRI->getDwarfRegNum(XPIC::r7, true);
+
+  // Emit ".cfi_def_cfa_register".
+  MMI.addFrameInst(MCCFIInstruction::createDefCfaRegister(FrameLabel,
+                                                          regFP));
+  // Emit ".cfi_window_save".
+  MMI.addFrameInst(MCCFIInstruction::createWindowSave(FrameLabel));
+
 }
 
 /**  In epilogue: free allocated frame in stack (1.), load from stack all used registers (2.) and process annotations (3.).
@@ -387,20 +402,20 @@ void xpicFrameLowering::emitEpilogue(MachineFunction &MF,MachineBasicBlock &MBB)
 #ifdef DEBUG_SHOW_FNS_NAMES  
 printf("xpicFrameLowering::emitEpilogue\n");
 #endif
+  const MachineFrameInfo *MFI = MF.getFrameInfo();
+  xpicMachineFunctionInfo *FuncInfo = MF.getInfo<xpicMachineFunctionInfo>();
   const xpicInstrInfo &TII =
     *static_cast<const xpicInstrInfo*>(MF.getTarget().getInstrInfo());
-  // get iterator of this block (MachineBasicBlock::iterator)
-  MachineBasicBlock::iterator MBBI = MBB.end();
-  // iterator MBBI points now after last instruction. The last instruction is xRETL.
-  // insert the epilogue content before xRETL (return)
-  --MBBI;
+
+  MachineBasicBlock::iterator MBBI = MBB.getLastNonDebugInstr();
+
   // debug location:
-  DebugLoc dl = (MBBI != MBB.end() ? MBBI->getDebugLoc() : DebugLoc());
+  DebugLoc dl =  MBBI->getDebugLoc() ;
 
   /// 1.Clear place in stack that was allocated for frame objects:
-  if(MF.getFrameInfo()->getNumObjects() >0 && MF.getFrameInfo()->getStackSize() != 0)
+  if(MFI->getNumObjects() >0 && MFI->getStackSize() != 0)
   {
-    if(MF.getFrameInfo()->getStackSize() > XPIC_CONSTANTS::CONST_V_MAX)   // +-14bit
+    if(MFI->getStackSize() > XPIC_CONSTANTS::CONST_V_MAX)   // +-14bit
     { /*  Stack Size to big for instruction like 'add r7,#const, r7',
        *  use
        *      load r6, #const
@@ -410,17 +425,17 @@ printf("xpicFrameLowering::emitEpilogue\n");
        *      add r7, r7, r6
        */
       /// can we use 'load r6, #const'?
-      if(MF.getFrameInfo()->getStackSize() <= XPIC_CONSTANTS::CONST_Z_MAX) // +-18bit
+      if(MFI->getStackSize() <= XPIC_CONSTANTS::CONST_Z_MAX) // +-18bit
       {
         // load r6, #const
-        BuildMI(MBB, MBBI,dl,TII.get(XPIC::xLOADi),XPIC::r6).addImm((int)MF.getFrameInfo()->getStackSize());
+        BuildMI(MBB, MBBI,dl,TII.get(XPIC::xLOADi),XPIC::r6).addImm((int)MFI->getStackSize());
       }
       else
       { // load r6, [pc + #offs_const] -> .data -> offs_const: const
         // create new constant, and use it
         const Module *M=MF.getFunction()->getParent();
         // get stack size
-        unsigned int val= MF.getFrameInfo()->getStackSize();
+        unsigned int val= MFI->getStackSize();
         // get GlobalVariable
         const GlobalVariable *NewGV = xpicHlprGetGlobalVariable(M, val);
         // load r6, [pc + #off_const]d
@@ -432,7 +447,7 @@ printf("xpicFrameLowering::emitEpilogue\n");
     else
     {
       // use pattern: add r7,#const, r7 
-      BuildMI(MBB, MBBI,dl,TII.get(XPIC::xADDir),XPIC::r7).addImm((int)MF.getFrameInfo()->getStackSize()).addReg( XPIC::r7);
+      BuildMI(MBB, MBBI,dl,TII.get(XPIC::xADDir),XPIC::r7).addImm((int)MFI->getStackSize()).addReg( XPIC::r7);
     }
   }
 

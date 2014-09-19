@@ -55,13 +55,19 @@ namespace llvm {
                                                 APInt &KnownOne,
                                                 const SelectionDAG &DAG,
                                                 unsigned Depth = 0) const;
-   virtual SDValue LowerFormalArguments(SDValue Chain,
-                                        CallingConv::ID CallConv,
-                                        bool isVarArg,
-                                        const SmallVectorImpl<ISD::InputArg> &Ins,
-                                        SDLoc dl,
-                                        SelectionDAG &DAG,
-                                        SmallVectorImpl<SDValue> &InVals) const;
+
+    virtual MachineBasicBlock *EmitInstrWithCustomInserter(MachineInstr *MI,MachineBasicBlock *MBB) const;
+
+    virtual const char *getTargetNodeName(unsigned Opcode) const;
+
+   virtual SDValue 
+      LowerFormalArguments( SDValue Chain,
+                            CallingConv::ID CallConv,
+                            bool isVarArg,
+                            const SmallVectorImpl<ISD::InputArg> &Ins,
+                            SDLoc dl,
+                            SelectionDAG &DAG,
+                            SmallVectorImpl<SDValue> &InVals) const;
 
     virtual SDValue LowerCall(TargetLowering::CallLoweringInfo &CLI,
                               SmallVectorImpl<SDValue> &InVals) const;
@@ -73,10 +79,6 @@ namespace llvm {
                                 const SmallVectorImpl<SDValue> &OutVals,
                                 SDLoc DL,
                                 SelectionDAG &DAG) const;
-
-    virtual MachineBasicBlock *EmitInstrWithCustomInserter(MachineInstr *MI,MachineBasicBlock *MBB) const;
-
-    virtual const char *getTargetNodeName(unsigned Opcode) const;
 
     /// getFunctionAlignment - Return the Log2 alignment of this function.
     virtual unsigned getFunctionAlignment(const Function *F) const;

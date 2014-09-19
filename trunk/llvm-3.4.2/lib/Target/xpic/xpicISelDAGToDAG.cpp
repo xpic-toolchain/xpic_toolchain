@@ -62,16 +62,23 @@ class xpicDAGToDAGISel : public SelectionDAGISel {
   /// Subtarget - Keep a pointer to the xpic Subtarget around so that we can
   /// make the right decision when generating code for different targets.
   const xpicSubtarget &Subtarget;
+  xpicTargetMachine &TM;
   bool CreateConstShift(int32_t value, uint32_t *opcode, uint32_t *op1, uint32_t *op2);
 public:
 
 
-  explicit xpicDAGToDAGISel(xpicTargetMachine &TM, CodeGenOpt::Level OptLevel) 
-      : SelectionDAGISel(TM,OptLevel),
-        Subtarget(TM.getSubtarget<xpicSubtarget>()) 
-        { }
+  explicit xpicDAGToDAGISel(xpicTargetMachine &tm, CodeGenOpt::Level OptLevel) 
+      : SelectionDAGISel(tm,OptLevel),
+        Subtarget(tm.getSubtarget<xpicSubtarget>()),
+        TM(tm) { 
+  }
 
   SDNode *Select(SDNode *N);
+
+  // Complex Pattern Selectors
+  bool SelectADDRrr(SDValue Addr, SDValue &R1, SDValue &R2);
+  bool SelectADDRri(SDValue Addr, SDValue &Base,SDValue &Offset);
+  bool SelectADDRw(SDValue Addr, SDValue &Out);
 
   // add rx, [pc + #Offset],rx  // #Offset - constant from memory. Complex Pattern (26.03.2010)
   bool SelectConstMem(SDValue N, SDValue &R);
@@ -86,13 +93,8 @@ public:
   // G. Addr (8.03.2010)
   SDNode *SelectAddress(SDValue);
 
-  // Complex Pattern Selectors
-  bool SelectADDRrr(SDValue Addr, SDValue &R1, SDValue &R2);
+
   bool SelectADDRComplex(SDValue Addr,SDValue &R1, SDValue &R2, SDValue &R3);
-
-  bool SelectADDRri(SDValue Addr, SDValue &Base,SDValue &Offset);
-
-  bool SelectADDRw(SDValue Addr, SDValue &Out);
 
   bool RemapSwitch(uint64_t val, SDValue  *N2);
 
@@ -159,12 +161,14 @@ bool xpicDAGToDAGISel::SelectADDRframe(SDValue Addr, SDValue  &Reg, SDValue &Bas
             int ConstVal = CN->getSExtValue();
             if(ConstVal >= -(1 << 16) && ConstVal < (1 << 16))
             {
-              MemSDNode *MN = dyn_cast<MemSDNode>(N);
-              unsigned msk = (MN->getMemoryVT().getSizeInBits() + 7) / 8 - 1;
-              //printf("BI: mask: 0x%08x\n", msk);
-              if( 0 == ( msk & ConstVal ) )
+              if(MemSDNode *MN = dyn_cast<MemSDNode>(N))
               {
-                Base = CurDAG->getTargetConstant(Addr.getConstantOperandVal(1), MVT::i32);
+                unsigned msk = (MN->getMemoryVT().getSizeInBits() + 7) / 8 - 1;
+                //printf("BI: mask: 0x%08x\n", msk);
+                if( 0 == ( msk & ConstVal ) )
+                {
+                  Base = CurDAG->getTargetConstant(Addr.getConstantOperandVal(1), MVT::i32);
+                }
               }
             }
             return false;
@@ -400,8 +404,9 @@ bool xpicDAGToDAGISel::SelectConstMem(SDValue Const, SDValue &Result)
 bool xpicDAGToDAGISel::SelectADDRri(SDValue Addr, SDValue &Base, SDValue &Offset)
 {
   SDNode *N = Addr.getNode();
+  SDLoc DL(N);
 
-  if (Addr.getOpcode() == ISD::FrameIndex) return false;
+  //if (Addr.getOpcode() == ISD::FrameIndex) return false;
   
   // store [ADD rx, const], rs  -> store [rx + const], rs
   if (Addr.getOpcode() == ISD::ADD) 
@@ -412,14 +417,16 @@ bool xpicDAGToDAGISel::SelectADDRri(SDValue Addr, SDValue &Base, SDValue &Offset
       //if (Predicate_simm16(CN))
       if(ConstVal >= -(1 << 16) && ConstVal < (1 << 16))
       {
-        MemSDNode *MN = dyn_cast<MemSDNode>(N);
-        unsigned msk = (MN->getMemoryVT().getSizeInBits() + 7) / 8 - 1;
-        //printf("BI: mask: 0x%08x\n", msk);
-        if( 0 == ( msk & ConstVal ) )
+        if(MemSDNode *MN = dyn_cast<MemSDNode>(N))
         {
-          Base = Addr.getOperand(0);
-          Offset = CurDAG->getTargetConstant(CN->getZExtValue(), MVT::i32);
-          return true;
+          unsigned msk = (MN->getMemoryVT().getSizeInBits() + 7) / 8 - 1;
+          //printf("BI: mask: 0x%08x\n", msk);
+          if( 0 == ( msk & ConstVal ) )
+          {
+            Base = Addr.getOperand(0);
+            Offset = CurDAG->getTargetConstant(CN->getZExtValue(), MVT::i32);
+            return true;
+          }
         }
       }
     }
@@ -512,13 +519,15 @@ printf("xpicDAGToDAGISel::Select()\n");
 
     case ISD::Constant:
       return SelectConstant(N);
+
 /*
     case ISD::LOAD:
     {
-      if(SDNode *SD=SelectAddress(Op))return SD;
+      if(SDNode *SD=SelectAddress(N))return SD;
       break;
     }
 */
+
   }
   return SelectCode(N);
 }

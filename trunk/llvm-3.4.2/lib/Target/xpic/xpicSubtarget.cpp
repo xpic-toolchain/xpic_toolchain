@@ -33,6 +33,6 @@ xpicSubtarget::xpicSubtarget(const std::string &TT, const std::string &CPU, cons
   std::string CPUName = CPU;
 
   // Parse features string.
-  ParseSubtargetFeatures(FS, CPUName);
+  ParseSubtargetFeatures(CPUName, FS);
 
 }
