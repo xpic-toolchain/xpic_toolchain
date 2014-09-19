@@ -46,7 +46,7 @@ public:
   virtual const TargetFrameLowering   *getFrameLowering() const { return &FrameLowering; }
   virtual const xpicSubtarget         *getSubtargetImpl() const{ return &Subtarget; }
   virtual const xpicRegisterInfo      *getRegisterInfo() const { return &InstrInfo.getRegisterInfo(); }
-  virtual const xpicTargetLowering    *getTargetLowering() const { return const_cast<xpicTargetLowering*>(&TLInfo); }
+  virtual const xpicTargetLowering    *getTargetLowering() const { return &TLInfo; }
   virtual const xpicSelectionDAGInfo  *getSelectionDAGInfo() const { return &TSInfo; }
   virtual const DataLayout            *getDataLayout() const { return &DL; }
   static unsigned                     getModuleMatchQuality(const Module &M);

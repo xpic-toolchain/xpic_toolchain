@@ -13,12 +13,9 @@
 //===----------------------------------------------------------------------===//
 #include "xpic.h"
 #include "xpicISelLowering.h"
-#include "xpicTargetMachine.h"
-#include "xpicRegisterInfo.h"
 #include "xpicMachineFunctionInfo.h"
-#include "llvm/IR/Function.h"
-#include "llvm/IR/Module.h"
-#include "llvm/IR/DerivedTypes.h"
+#include "xpicRegisterInfo.h"
+#include "xpicTargetMachine.h"
 #include "llvm/CodeGen/CallingConvLower.h"
 #include "llvm/CodeGen/MachineFrameInfo.h"
 #include "llvm/CodeGen/MachineFunction.h"
@@ -26,6 +23,9 @@
 #include "llvm/CodeGen/MachineRegisterInfo.h"
 #include "llvm/CodeGen/SelectionDAG.h"
 #include "llvm/CodeGen/TargetLoweringObjectFileImpl.h"
+#include "llvm/IR/DerivedTypes.h"
+#include "llvm/IR/Function.h"
+#include "llvm/IR/Module.h"
 #include "llvm/CodeGen/LiveInterval.h"
 #include "llvm/CodeGen/LiveIntervalAnalysis.h"
 #include "llvm/Support/CommandLine.h"
@@ -129,8 +129,6 @@ printf("xpicTargetLowering::LowerCall\n");
   SmallVector<CCValAssign, 16> ArgLocs;
   CCState CCInfo(CallConv, IsVarArg, DAG.getMachineFunction(), DAG.getTarget(), ArgLocs,*DAG.getContext());
   CCInfo.AnalyzeCallOperands(Outs, CC_xpic32);
-
-  (void)CC_xpic32;
 
   // The size of the outgoing arguments.
   unsigned ArgsSize = ArgLocs.size();
@@ -436,6 +434,7 @@ static XPICCC::CondCodes FPCondCCodeToFCC(ISD::CondCode CC) {
 
 xpicTargetLowering::xpicTargetLowering(TargetMachine &TM)
   : TargetLowering(TM, new TargetLoweringObjectFileELF()) {
+    //Subtarget = &TM.getSubtarget<xpicSubtarget>();
 
 
   // Set up the register classes.
@@ -512,7 +511,9 @@ xpicTargetLowering::xpicTargetLowering(TargetMachine &TM)
   setOperationAction(ISD::FREM , MVT::f32, Expand);
   setOperationAction(ISD::CTPOP, MVT::i32, Expand);
   setOperationAction(ISD::CTTZ , MVT::i32, Expand);
+  setOperationAction(ISD::CTTZ_ZERO_UNDEF, MVT::i32, Expand);
   //BI: clz is supported by xPIC! setOperationAction(ISD::CTLZ , MVT::i32, Expand);
+  setOperationAction(ISD::CTLZ_ZERO_UNDEF, MVT::i32, Expand);
   //BI: rol is supported by xPIC! setOperationAction(ISD::ROTL , MVT::i32, Expand);
   setOperationAction(ISD::ROTR , MVT::i32, Expand);
   setOperationAction(ISD::BSWAP, MVT::i32, Expand);
@@ -856,38 +857,65 @@ printf("xpicTargetLowering::EmitInstrWithCustomInserter() \n");
   unsigned BROpcode;
   unsigned CC;
   DebugLoc dl = MI->getDebugLoc();
-  MachineFunction *F = BB->getParent();
   // Figure out the conditional branch opcode to use for this select_cc.
   switch (MI->getOpcode()) {
-  default: assert(0 && "Unknown SELECT_CC!");
-  case XPIC::SELECT_CC_Int_ICC:
-    BROpcode = XPIC::xBCOND;
-    break;
+    default: llvm_unreachable("Unknown SELECT_CC!");
+    case XPIC::SELECT_CC_Int_ICC:
+      BROpcode = XPIC::xBCOND;
+      break;
 /*
   case XPIC::SELECT_CC_Int_FCC:
     BROpcode = XPIC::FBCOND;
     break;
 */
 
-  case XPIC::xCALL_LOAD:
-  case XPIC::xCALL: // Here added "save pc"- instruction!
+
+    case XPIC::xCALL_LOAD:
+    case XPIC::xCALL: // Here added "save pc"- instruction!
 #ifdef DEBUG_SHOW_FNS_NAMES  
 printf("xpicTargetLowering::EmitInstrWithCustomInserter()::xCALL/xCALL_LOAD \n");
 #endif
-    // add native Machine Instruction:
-    if(MI->getOperand(0).isGlobal())
-      BuildMI(BB,dl,MI->getDesc()).addGlobalAddress(MI->getOperand(0).getGlobal() ,0);
 
-    if(MI->getOperand(0).isSymbol())
-      BuildMI(BB,dl,MI->getDesc()).addExternalSymbol(MI->getOperand(0).getSymbolName() );
+      const BasicBlock *LLVM_BB = BB->getBasicBlock();
+      MachineFunction::iterator It = BB;
+      ++It;
+      MachineFunction *F = BB->getParent();
+      
+      MachineBasicBlock *newMBB = F->CreateMachineBasicBlock(LLVM_BB);
+      MachineBasicBlock *exitMBB = F->CreateMachineBasicBlock(LLVM_BB);
+      
+      F->insert(It, newMBB);
+      F->insert(It, exitMBB);
+      // Transfer the remainder of BB and its successor edges to exitMBB.
+      exitMBB->splice(exitMBB->begin(), BB,
+                      llvm::next(MachineBasicBlock::iterator(MI)),
+                      BB->end());
+      exitMBB->transferSuccessorsAndUpdatePHIs(BB);
 
-    if(MI->getOpcode() == XPIC::xCALL_LOAD)
-      BuildMI(BB,dl,MI->getDesc()).addReg(MI->getOperand(0).getReg());
-    // well done! then return...
+      BB->addSuccessor(newMBB);
 
-    MI->eraseFromParent();
-    return BB;
+      BB = newMBB ;
 
+      // add native Machine Instruction:
+      if(MI->getOperand(0).isGlobal()) {
+        BuildMI(BB,dl,MI->getDesc()).addGlobalAddress(MI->getOperand(0).getGlobal() ,0);
+      }
+
+      if(MI->getOperand(0).isSymbol()) {
+        BuildMI(BB,dl,MI->getDesc()).addExternalSymbol(MI->getOperand(0).getSymbolName() );
+      }
+
+      if(MI->getOpcode() == XPIC::xCALL_LOAD) {
+        BuildMI(BB,dl,MI->getDesc()).addReg(MI->getOperand(0).getReg());
+      }
+      // well done! then return...
+
+      BB->addSuccessor(exitMBB);
+
+      BB = exitMBB ;
+
+      MI->eraseFromParent();
+      return BB;
   }
 
   //fprintf(stderr,"------------> OpCode:%d, NumOp=%d,\n",MI->getOpcode(),MI->getNumOperands());
@@ -907,24 +935,30 @@ printf("xpicTargetLowering::EmitInstrWithCustomInserter()::xCALL/xCALL_LOAD \n")
 
   //  thisMBB:
   //  ...
-  //   %TrueVal = ...
-  //   [f]bCC sinkMBB
+  //   TrueVal = ...
+  //   [f]bCC copy1MBB
   //   fallthrough --> copy0MBB
   MachineBasicBlock *thisMBB = BB;
+  MachineFunction *F = BB->getParent();
   MachineBasicBlock *copy0MBB = F->CreateMachineBasicBlock(LLVM_BB);
   MachineBasicBlock *sinkMBB = F->CreateMachineBasicBlock(LLVM_BB);
-  F->insert(It, copy0MBB);
-  F->insert(It, sinkMBB);
 
   // insert copy node for physregs before the compare because the PHI node cannot handle physregs
   MachineBasicBlock::iterator I = BB->end();
   if( TrueVal < XPIC::NUM_TARGET_REGS ) {
     int vreg = F->getRegInfo().createVirtualRegister(&XPIC::IntRegsRegClass);
-    BuildMI(*thisMBB, --I, dl, TII.get(XPIC::xMOV), vreg).addReg(XPIC::z0).addReg(TrueVal);
+    if( TrueVal == XPIC::z0 ){
+      BuildMI(*thisMBB, --I, dl, TII.get(XPIC::xMOV), vreg).addReg(XPIC::z0);
+    }else{
+      BuildMI(*thisMBB, --I, dl, TII.get(XPIC::xMOV), vreg).addReg(XPIC::z0).addReg(TrueVal);
+    }
     TrueVal = vreg;
   }
   // insert conditional branch for FalseVal
   BuildMI(thisMBB,dl, TII.get(BROpcode)).addMBB(sinkMBB).addImm(CC);
+
+  F->insert(It, copy0MBB);
+  F->insert(It, sinkMBB);
 
   // Update machine-CFG edges by transferring all successors of the current
   // block to the new block which will contain the Phi node for the select.
@@ -942,15 +976,15 @@ printf("xpicTargetLowering::EmitInstrWithCustomInserter()::xCALL/xCALL_LOAD \n")
   //  copy0MBB:
   //   %FalsVal = ...
   //   # fallthrough to sinkMBB
-
+  BB = copy0MBB;
   // Update machine-CFG edges
-  copy0MBB->addSuccessor(sinkMBB);
+  BB->addSuccessor(sinkMBB);
   
   //  sinkMBB:
   //   %Result = phi [ %FalseValue, copy0MBB ], [ %TrueValue, thisMBB ]
   //  ...
   BB = sinkMBB;
-  BuildMI(BB,dl, TII.get(XPIC::PHI), MI->getOperand(0).getReg())
+  BuildMI(*BB, BB->begin(), dl, TII.get(XPIC::PHI), MI->getOperand(0).getReg())
     .addReg(FalseVal).addMBB(copy0MBB)
     .addReg(TrueVal).addMBB(thisMBB);
   

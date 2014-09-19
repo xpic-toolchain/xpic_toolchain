@@ -41,7 +41,7 @@ xpicRegisterInfo::xpicRegisterInfo(xpicSubtarget &st)
 
 const uint16_t* xpicRegisterInfo::getCalleeSavedRegs(const MachineFunction *MF)
                                                                          const {
-  static const uint16_t CalleeSavedRegs[] = { 0 };
+  static const uint16_t CalleeSavedRegs[] = { XPIC::r7,0 };
   return CalleeSavedRegs;
 }
 
@@ -75,8 +75,13 @@ void xpicRegisterInfo::eliminateFrameIndex(MachineBasicBlock::iterator II, int S
   assert(SPAdj == 0 && "Unexpected");
 
   MachineInstr &MI = *II;
+  DebugLoc dl = MI.getDebugLoc();
+  int FrameIndex = MI.getOperand(FIOperandNum).getIndex();
+  
   // Get MachineFunction
-  MachineFunction &MF = *(*II).getParent()->getParent();
+  // Addressable stack objects are accessed using offsets from $fp (SP-> r7)
+  MachineFunction &MF = *MI.getParent()->getParent();
+  int Offset =0;
 
   const TargetInstrInfo &TII = *MF.getTarget().getInstrInfo();
 
@@ -91,11 +96,6 @@ void xpicRegisterInfo::eliminateFrameIndex(MachineBasicBlock::iterator II, int S
     ++i;
     assert(i < (*II).getNumOperands() && "Instr doesn't have FrameIndex operand!");
   }
-
-  // Addressable stack objects are accessed using offsets from $fp (SP-> r7)
-  int FrameIndex = MI.getOperand(FIOperandNum).getIndex();
-  //int FrameIndex = (*II).getOperand(i).getIndex();
-  int Offset =0;
 
   // Base offset
   // it is negative: for debug locations (locale variables)
@@ -139,7 +139,7 @@ void xpicRegisterInfo::eliminateFrameIndex(MachineBasicBlock::iterator II, int S
     // get GlobalVariable
     const GlobalVariable *NewGV = xpicHlprGetGlobalVariable(M, val);
     // debug location:
-    DebugLoc dl = (II != (MF.begin())->end() ? II->getDebugLoc() : DebugLoc());
+    dl = (II != (MF.begin())->end() ? II->getDebugLoc() : DebugLoc());
     // Add instruction: load r6, [pc + #off_const]d
     BuildMI(*(II->getParent()),II,dl,TII.get(XPIC::xLDri),XPIC::r6).addReg( XPIC::pc).addGlobalAddress(NewGV);
     //   load reg, [r7 + FI]  :> load reg, [r7 + r6]

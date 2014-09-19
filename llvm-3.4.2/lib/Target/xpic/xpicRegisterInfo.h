@@ -46,7 +46,7 @@ struct xpicRegisterInfo : public xpicGenRegisterInfo {
 
   // Debug information queries.
   unsigned getFrameRegister(const MachineFunction &MF) const;
-
+  
 };
 
 } // end namespace llvm

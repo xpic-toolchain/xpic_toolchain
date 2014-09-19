@@ -219,21 +219,24 @@ defm xSTB   : IXST_ri_rr < "store [$addr]b, $src",
 // Calls
 //===----------------------------------------------------------------------===//
 
-def SDT_XPICCall: SDTypeProfile<0, 1, [SDTCisVT<0, i32>]>;
+def SDT_XPICCall: SDTypeProfile<0, -1, [SDTCisVT<0, i32>]>;
 def call        : SDNode<"XPICISD::CALL",SDT_XPICCall,[SDNPHasChain,SDNPOptInGlue,SDNPOutGlue]>;
 def calltarget  : Operand<i32>;
 
 // xCALL has dummy DelaySlot. It is used to insert "save return address" instruction in xpicDelaySlotFiller
-let isCall=1, usesCustomInserter=1, Uses=[r2,r3,r4,r5,r6], Defs=[r2,r3,r4,r5,r6], hasDelaySlot=1 in {
-def xCALL : InstructionXPIC<(outs),
-                          (ins calltarget:$dst),
-                          "jmp $dst",
-                          []>;
+let isCall=1, 
+    usesCustomInserter=1,  
+    Defs=[r2,r3,r4,r5,r6],
+    hasDelaySlot=1 in {
+  def xCALL : InstructionXPIC<(outs),
+                            (ins calltarget:$dst),
+                            "jmp $dst",
+                            []>;
 
-def xCALL_LOAD    : InstructionXPIC< (outs), 
-                                     (ins IntRegs:$dst),
-                                     "mov pc, $dst, z0",
-                                     []>;
+  def xCALL_LOAD    : InstructionXPIC< (outs), 
+                                       (ins IntRegs:$dst),
+                                       "mov pc, $dst, z0",
+                                       []>;
 }
 
 def : Pat<(call tglobaladdr:$dst ),(xCALL      tglobaladdr:$dst)>;
@@ -706,13 +709,13 @@ class Pseudo<dag outs, dag ins, string asmstr, list<dag> pattern>
 let usesCustomInserter = 1 in {   // Expanded by the scheduler.
  def SELECT_CC_Int_ICC : Pseudo< (outs IntRegs:$dst),
                                  (ins IntRegs:$T, IntRegs:$F, i32imm:$Cond),
-                                 "; SELECT_CC_Int_ICC PSEUDO!",
+                                 "// SELECT_CC_Int_ICC PSEUDO!",
                                  [(set IntRegs:$dst, (Xselecticc IntRegs:$T, IntRegs:$F, imm:$Cond))]>;
                                  
 /*
  def SELECT_CC_Int_FCC : Pseudo< (outs IntRegs:$dst),
                                  (ins IntRegs:$T, IntRegs:$F, i32imm:$Cond),
-                                 "; SELECT_CC_Int_FCC PSEUDO!",
+                                 "// SELECT_CC_Int_FCC PSEUDO!",
                                  [(set IntRegs:$dst, (Xselectfcc IntRegs:$T, IntRegs:$F, imm:$Cond))]>;
 */
 }

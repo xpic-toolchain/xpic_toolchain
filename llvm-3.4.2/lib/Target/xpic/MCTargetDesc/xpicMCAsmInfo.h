@@ -14,14 +14,12 @@
 #ifndef XPICTARGETASMINFO_H
 #define XPICTARGETASMINFO_H
 
-#include "llvm/MC/MCAsmInfo.h"
+#include "llvm/MC/MCAsmInfoELF.h"
 
 namespace llvm {
-  // Forward declaration.
-  //class Target;
   class StringRef;
 
-  struct xpicELFMCAsmInfo : public MCAsmInfo {
+  class xpicELFMCAsmInfo : public MCAsmInfoELF {
   	 virtual void anchor();
   public:
     explicit xpicELFMCAsmInfo(StringRef TT);

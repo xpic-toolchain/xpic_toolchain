@@ -192,9 +192,10 @@ bool Filler::runOnMachineFunction(MachineFunction &MF)
   const TargetInstrInfo *TII = TM.getInstrInfo();
 
   bool Changed = false;
-  for (MachineFunction::iterator FI = MF.begin(), FE = MF.end();FI != FE; ++FI)
+  for (MachineFunction::iterator FI = MF.begin(), FE = MF.end();FI != FE; )
   {
     MachineBasicBlock *MBB = FI;
+    ++FI ;
     for (MachineBasicBlock::iterator MI = (*MBB).begin(); MI != (*MBB).end(); ++MI)
     {
       if( isDataDependence(*MI) )
