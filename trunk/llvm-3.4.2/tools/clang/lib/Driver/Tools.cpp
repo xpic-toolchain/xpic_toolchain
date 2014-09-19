@@ -6710,7 +6710,6 @@ void minix::Link::ConstructJob(Compilation &C, const JobAction &JA,
   const char *Exec = Args.MakeArgString(getToolChain().GetProgramPath("ld"));
   C.addCommand(new Command(JA, *this, Exec, CmdArgs));
 }
-
 /// DragonFly Tools
 
 // For now, DragonFly Assemble does just about the same as for
@@ -6892,6 +6891,60 @@ void dragonfly::Link::ConstructJob(Compilation &C, const JobAction &JA,
 
   const char *Exec =
     Args.MakeArgString(getToolChain().GetProgramPath("ld"));
+  C.addCommand(new Command(JA, *this, Exec, CmdArgs));
+}
+
+/// xpic Tools
+
+void xpic::Assemble::ConstructJob(Compilation &C, const JobAction &JA,
+                                       const InputInfo &Output,
+                                       const InputInfoList &Inputs,
+                                       const ArgList &Args,
+                                       const char *LinkingOutput) const {
+  ArgStringList CmdArgs;
+  
+  Args.AddAllArgValues(CmdArgs,options::OPT_Wa_COMMA,options::OPT_Xassembler);
+
+  CmdArgs.push_back("-o");
+  CmdArgs.push_back(Output.getFilename());
+
+  for (InputInfoList::const_iterator
+         it = Inputs.begin(), ie = Inputs.end(); it != ie; ++it) {
+    const InputInfo &II = *it;
+    CmdArgs.push_back(II.getFilename());
+  }
+
+  const char *Exec = Args.MakeArgString(getToolChain().GetProgramPath("xpic-as"));
+
+  C.addCommand(new Command(JA, *this, Exec, CmdArgs));
+}
+
+void xpic::Link::ConstructJob(Compilation &C, const JobAction &JA,
+                                   const InputInfo &Output,
+                                   const InputInfoList &Inputs,
+                                   const ArgList &Args,
+                                   const char *LinkingOutput) const {
+  bool UseGCC47 = false;
+  const Driver &D = getToolChain().getDriver();
+  ArgStringList CmdArgs;
+
+  if (Output.isFilename()) {
+    CmdArgs.push_back("-o");
+    CmdArgs.push_back(Output.getFilename());
+  } else {
+    assert(Output.isNothing() && "Invalid output.");
+  }
+  
+  Args.AddAllArgs(CmdArgs, options::OPT_L);
+  Args.AddAllArgs(CmdArgs, options::OPT_T_Group);
+  Args.AddAllArgs(CmdArgs, options::OPT_e);
+
+  AddLinkerInputs(getToolChain(), Inputs, Args, CmdArgs);
+
+  addProfileRT(getToolChain(), Args, CmdArgs, getToolChain().getTriple());
+
+  const char *Exec =
+    Args.MakeArgString(getToolChain().GetProgramPath("xpic-ld"));
   C.addCommand(new Command(JA, *this, Exec, CmdArgs));
 }
 

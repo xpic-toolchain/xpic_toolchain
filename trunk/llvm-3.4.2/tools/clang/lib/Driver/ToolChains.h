@@ -571,6 +571,16 @@ protected:
   virtual Tool *buildLinker() const;
 };
 
+class LLVM_LIBRARY_VISIBILITY xpic : public Generic_GCC {
+public:
+  xpic(const Driver &D, const llvm::Triple &Triple,
+            const llvm::opt::ArgList &Args);
+
+protected:
+  virtual Tool *buildAssembler() const;
+  virtual Tool *buildLinker() const;
+};
+
 class LLVM_LIBRARY_VISIBILITY Linux : public Generic_ELF {
 public:
   Linux(const Driver &D, const llvm::Triple &Triple,

@@ -1953,7 +1953,10 @@ const ToolChain &Driver::getToolChain(const ArgList &Args,
       TC = new toolchains::Minix(*this, Target, Args);
       break;
     case llvm::Triple::Linux:
-      if (Target.getArch() == llvm::Triple::hexagon)
+      if (Target.getArch() == llvm::Triple::xpic) {
+        TC = new toolchains::xpic(*this, Target, Args);
+        break;
+      } else if (Target.getArch() == llvm::Triple::hexagon)
         TC = new toolchains::Hexagon_TC(*this, Target, Args);
       else
         TC = new toolchains::Linux(*this, Target, Args);
@@ -1979,6 +1982,10 @@ const ToolChain &Driver::getToolChain(const ArgList &Args,
       }
       if (Target.getArch() == llvm::Triple::xcore) {
         TC = new toolchains::XCore(*this, Target, Args);
+        break;
+      }
+      if (Target.getArch() == llvm::Triple::xpic) {
+        TC = new toolchains::xpic(*this, Target, Args);
         break;
       }
       TC = new toolchains::Generic_GCC(*this, Target, Args);
