@@ -2827,6 +2827,21 @@ Tool *DragonFly::buildLinker() const {
   return new tools::dragonfly::Link(*this);
 }
 
+/// xpic - xpic tool chain which has to call xpic-as(1) and xpic-ld(1)
+
+xpic::xpic(const Driver &D, const llvm::Triple& Triple, const ArgList &Args)
+  : Generic_GCC(D, Triple, Args) {
+  // ProgramPaths are found via 'PATH' environment variable.
+}
+
+Tool *xpic::buildAssembler() const {
+  return new tools::xpic::Assemble(*this);
+}
+
+Tool *xpic::buildLinker() const {
+  return new tools::xpic::Link(*this);
+}
+
 
 /// XCore tool chain
 XCore::XCore(const Driver &D, const llvm::Triple &Triple,
