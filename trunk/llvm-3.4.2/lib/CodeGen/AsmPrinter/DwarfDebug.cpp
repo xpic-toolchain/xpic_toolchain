@@ -757,11 +757,18 @@ CompileUnit *DwarfDebug::constructCompileUnit(DICompileUnit DIUnit) {
     // left in the skeleton CU and so not included.
     // The line table entries are not always emitted in assembly, so it
     // is not okay to use line_table_start here.
-    if (Asm->MAI->doesDwarfUseRelocationsAcrossSections())
-      NewCU->addLabel(Die, dwarf::DW_AT_stmt_list, dwarf::DW_FORM_sec_offset,
-                      UseTheFirstCU ? Asm->GetTempSymbol("section_line")
-                                    : LineTableStartSym);
-    else if (UseTheFirstCU)
+    if (Asm->MAI->doesDwarfUseRelocationsAcrossSections()) {
+      // Fix for debugging problems with gdb 7.0.1 - G.Pietschmann
+      if( Asm->getTargetTriple() == "xpic--"){
+                NewCU->addLabel(Die, dwarf::DW_AT_stmt_list, dwarf::DW_FORM_addr,
+                                UseTheFirstCU ? Asm->GetTempSymbol("section_line")
+                                              : LineTableStartSym);
+      }else{
+                 NewCU->addLabel(Die, dwarf::DW_AT_stmt_list, dwarf::DW_FORM_sec_offset,
+                                UseTheFirstCU ? Asm->GetTempSymbol("section_line")
+                                              : LineTableStartSym); 
+      }
+    } else if (UseTheFirstCU)
       NewCU->addUInt(Die, dwarf::DW_AT_stmt_list, dwarf::DW_FORM_data4, 0);
     else
       NewCU->addDelta(Die, dwarf::DW_AT_stmt_list, dwarf::DW_FORM_data4,
@@ -2969,11 +2976,24 @@ CompileUnit *DwarfDebug::constructSkeletonCU(const CompileUnit *CU) {
   // DW_AT_stmt_list is a offset of line number information for this
   // compile unit in debug_line section.
   // FIXME: Should handle multiple compile units.
-  if (Asm->MAI->doesDwarfUseRelocationsAcrossSections())
-    NewCU->addLabel(Die, dwarf::DW_AT_stmt_list, dwarf::DW_FORM_sec_offset,
+  if (Asm->MAI->doesDwarfUseRelocationsAcrossSections()){
+    // Fix for debugging problems with gdb 7.0.1 - G.Pietschmann
+      if( Asm->getTargetTriple() == "xpic--"){
+      NewCU->addLabel(Die, dwarf::DW_AT_stmt_list, dwarf::DW_FORM_addr,
+                          DwarfLineSectionSym);
+
+    }else{
+      NewCU->addLabel(Die, dwarf::DW_AT_stmt_list, dwarf::DW_FORM_sec_offset,
                     DwarfLineSectionSym);
-  else
-    NewCU->addUInt(Die, dwarf::DW_AT_stmt_list, dwarf::DW_FORM_sec_offset, 0);
+    }
+  }else{
+    // Fix for debugging problems with gdb 7.0.1 - G.Pietschmann
+    if( Asm->getTargetTriple() == "xpic--"){
+      NewCU->addUInt(Die, dwarf::DW_AT_stmt_list, dwarf::DW_FORM_addr, 0);   
+    }else{
+      NewCU->addUInt(Die, dwarf::DW_AT_stmt_list, dwarf::DW_FORM_sec_offset, 0);     
+    }
+  }
 
   if (!CompilationDir.empty())
     NewCU->addLocalString(Die, dwarf::DW_AT_comp_dir, CompilationDir);
