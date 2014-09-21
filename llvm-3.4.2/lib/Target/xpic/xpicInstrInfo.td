@@ -227,6 +227,7 @@ def calltarget  : Operand<i32>;
 let isCall=1, 
     usesCustomInserter=1,  
     Defs=[r2,r3,r4,r5,r6],
+    Uses=[r2,r3,r4,r5,r6],
     hasDelaySlot=1 in {
   def xCALL : InstructionXPIC<(outs),
                             (ins calltarget:$dst),
