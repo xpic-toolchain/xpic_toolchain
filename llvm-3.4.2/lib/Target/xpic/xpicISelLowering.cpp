@@ -962,7 +962,10 @@ printf("xpicTargetLowering::EmitInstrWithCustomInserter()::xCALL/xCALL_LOAD \n")
 
   // Update machine-CFG edges by transferring all successors of the current
   // block to the new block which will contain the Phi node for the select.
-  sinkMBB->transferSuccessors(thisMBB);
+  sinkMBB->splice(sinkMBB->begin(), BB,
+                   llvm::next(MachineBasicBlock::iterator(MI)),
+                   BB->end());
+  sinkMBB->transferSuccessorsAndUpdatePHIs(thisMBB);
   // Next, add the true and fallthrough blocks as its successors.
   thisMBB->addSuccessor(copy0MBB);
   thisMBB->addSuccessor(sinkMBB);
