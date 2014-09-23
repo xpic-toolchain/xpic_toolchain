@@ -233,9 +233,11 @@ xpic_env['AR']         = '"' + prefix + 'xpic-ar' + '"'
 xpic_env['ARFLAGS']    = 'ru'
 xpic_env['AS']         = '"' + prefix + 'xpic-as' + '"'
 xpic_env['ASFLAGS']    = str(_build_options_asm)
-xpic_env['CC']         = '"' + prefix + 'xpic-llvmc' + '"'
+# xpic_env['CC']         = '"' + prefix + 'xpic-llvmc' + '"'
+xpic_env['CC']         = '"' + 'clang' + '"'
 xpic_env['CXX']        = 'g++'
-xpic_env['CCFLAGS']    = '-Wimplicit -I"'+_xpicpath+'/include" -I"'+_xpicpath+'/lib/gcc/xpic-hilscher-elf/0.1.1/include"'
+# xpic_env['CCFLAGS']    = '-v -Wimplicit -I"'+_xpicpath+'/include" -I"'+_xpicpath+'/lib/gcc/xpic-hilscher-elf/0.1.1/include"'
+xpic_env['CCFLAGS']    = '--target=xpic -Os -Wimplicit -I"'+_xpicpath+'/include" -I"'+_xpicpath+'/lib/gcc/xpic-hilscher-elf/0.1.1/include"'
 xpic_env.Append(CCFLAGS = ' ' + _build_options_c)
 xpic_env['IMAGELAGS']  = "-O srec"
 
