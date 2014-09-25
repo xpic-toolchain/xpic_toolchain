@@ -227,7 +227,6 @@ def calltarget  : Operand<i32>;
 let isCall=1, 
     usesCustomInserter=1,  
     Defs=[r2,r3,r4,r5,r6],
-    Uses=[r2,r3,r4,r5,r6],
     hasDelaySlot=1 in {
   def xCALL : InstructionXPIC<(outs),
                             (ins calltarget:$dst),
@@ -235,6 +234,21 @@ let isCall=1,
                             []>;
 
   def xCALL_LOAD    : InstructionXPIC< (outs), 
+                                       (ins IntRegs:$dst),
+                                       "mov pc, $dst, z0",
+                                       []>;
+}
+
+// xCALL has dummy DelaySlot. It is used to insert "save return address" instruction in xpicDelaySlotFiller
+let isCall=1, 
+    Defs=[r2,r3,r4,r5,r6],
+    hasDelaySlot=1 in {
+  def xCALL_done : InstructionXPIC<(outs),
+                            (ins calltarget:$dst),
+                            "jmp $dst",
+                            []>;
+
+  def xCALL_LOAD_done    : InstructionXPIC< (outs), 
                                        (ins IntRegs:$dst),
                                        "mov pc, $dst, z0",
                                        []>;

@@ -205,7 +205,7 @@ void xpicAsmPrinter::printOperand(const MachineInstr *MI, unsigned opNum, raw_os
 
   case MachineOperand::MO_GlobalAddress:
     {
-      if(MI->getOpcode() != XPIC::xCALL)
+      if(MI->getOpcode() != XPIC::xCALL && MI->getOpcode() != XPIC::xCALL_done)
        O<<"$";
 
       O << *getSymbol(MO.getGlobal());
@@ -215,7 +215,7 @@ void xpicAsmPrinter::printOperand(const MachineInstr *MI, unsigned opNum, raw_os
     O <<  GetBlockAddressSymbol(MO.getBlockAddress())->getName();
     break;
   case MachineOperand::MO_ExternalSymbol:
-    if(MI->getOpcode() != XPIC::xCALL)
+    if(MI->getOpcode() != XPIC::xCALL && MI->getOpcode() != XPIC::xCALL_done)
       O <<"$";
     O<< MO.getSymbolName();
     break;

@@ -284,7 +284,8 @@ void xpicFrameLowering::getUsedRegisters(MachineFunction &MF) const
     MachineBasicBlock *MBB = FI;
     for (MachineBasicBlock::iterator MI = (*MBB).begin(); MI != (*MBB).end(); ++MI){
       // Do not analyse subroutines:
-      if(MI->getOpcode()==XPIC::xCALL || MI->getOpcode()==XPIC::xCALL_LOAD)
+      if(MI->getOpcode()==XPIC::xCALL || MI->getOpcode()==XPIC::xCALL_LOAD ||
+         MI->getOpcode()==XPIC::xCALL_done || MI->getOpcode()==XPIC::xCALL_LOAD_done)
         continue;
 
       for(unsigned op=0; op<MI->getNumOperands();op++){
@@ -502,7 +503,8 @@ bool  xpicFrameLowering::HasRELIInstruction(MachineFunction &MF, bool &fCallee) 
   for (MachineFunction::iterator FI = MF.begin(), FE = MF.end();FI != FE; ++FI){
     MachineBasicBlock *MBB = FI;
     for (MachineBasicBlock::iterator MI = (*MBB).begin(); MI != (*MBB).end(); ++MI){
-      if(MI->getOpcode()==XPIC::xCALL || MI->getOpcode()==XPIC::xCALL_LOAD) 
+      if(MI->getOpcode()==XPIC::xCALL || MI->getOpcode()==XPIC::xCALL_LOAD ||
+         MI->getOpcode()==XPIC::xCALL_done || MI->getOpcode()==XPIC::xCALL_LOAD_done) 
         fCallee=true; // function call
       if(MI->getOpcode()==XPIC::INLINEASM){
         std::string AsmStr = MI->getOperand(0).getSymbolName();
