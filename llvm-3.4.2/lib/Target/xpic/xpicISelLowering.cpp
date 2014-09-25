@@ -876,44 +876,36 @@ printf("xpicTargetLowering::EmitInstrWithCustomInserter() \n");
 printf("xpicTargetLowering::EmitInstrWithCustomInserter()::xCALL/xCALL_LOAD \n");
 #endif
 
-      const BasicBlock *LLVM_BB = BB->getBasicBlock();
-      MachineFunction::iterator It = BB;
-      ++It;
-      MachineFunction *F = BB->getParent();
-      
-      MachineBasicBlock *newMBB = F->CreateMachineBasicBlock(LLVM_BB);
-      MachineBasicBlock *exitMBB = F->CreateMachineBasicBlock(LLVM_BB);
-      
-      F->insert(It, newMBB);
-      F->insert(It, exitMBB);
-      // Transfer the remainder of BB and its successor edges to exitMBB.
-      exitMBB->splice(exitMBB->begin(), BB,
-                      llvm::next(MachineBasicBlock::iterator(MI)),
-                      BB->end());
-      exitMBB->transferSuccessorsAndUpdatePHIs(BB);
-
-      BB->addSuccessor(newMBB);
-
-      BB = newMBB ;
-
+      MachineBasicBlock *thisMBB = BB;
+      MachineBasicBlock::iterator I = MI;
       // add native Machine Instruction:
-      if(MI->getOperand(0).isGlobal()) {
-        BuildMI(BB,dl,MI->getDesc()).addGlobalAddress(MI->getOperand(0).getGlobal() ,0);
-      }
+      if(MI->getOpcode() == XPIC::xCALL) {
+        if(MI->getOperand(0).isGlobal()) {
+          BuildMI(*thisMBB,I,dl,TII.get(XPIC::xCALL_done)).addGlobalAddress(MI->getOperand(0).getGlobal() ,0);
+          I++;
+        }
 
-      if(MI->getOperand(0).isSymbol()) {
-        BuildMI(BB,dl,MI->getDesc()).addExternalSymbol(MI->getOperand(0).getSymbolName() );
+        if(MI->getOperand(0).isSymbol()) {
+          BuildMI(*thisMBB,I,dl,TII.get(XPIC::xCALL_done)).addExternalSymbol(MI->getOperand(0).getSymbolName() );
+          I++;
+        }
       }
-
       if(MI->getOpcode() == XPIC::xCALL_LOAD) {
-        BuildMI(BB,dl,MI->getDesc()).addReg(MI->getOperand(0).getReg());
+        if(MI->getOperand(0).isGlobal()) {
+          BuildMI(*thisMBB,I,dl,TII.get(XPIC::xCALL_LOAD_done)).addGlobalAddress(MI->getOperand(0).getGlobal() ,0);
+          I++;
+        }
+
+        if(MI->getOperand(0).isSymbol()) {
+          BuildMI(*thisMBB,I,dl,TII.get(XPIC::xCALL_LOAD_done)).addExternalSymbol(MI->getOperand(0).getSymbolName() );
+          I++;
+        }
+      }
+
+      if(MI->getOpcode() == XPIC::xCALL_LOAD) {       
+        BuildMI(*thisMBB,I,dl,TII.get(XPIC::xCALL_LOAD_done)).addReg(MI->getOperand(0).getReg());
       }
       // well done! then return...
-
-      BB->addSuccessor(exitMBB);
-
-      BB = exitMBB ;
-
       MI->eraseFromParent();
       return BB;
   }
@@ -942,11 +934,25 @@ printf("xpicTargetLowering::EmitInstrWithCustomInserter()::xCALL/xCALL_LOAD \n")
   MachineFunction *F = BB->getParent();
   MachineBasicBlock *copy0MBB = F->CreateMachineBasicBlock(LLVM_BB);
   MachineBasicBlock *sinkMBB = F->CreateMachineBasicBlock(LLVM_BB);
+  F->insert(It, copy0MBB);
+  F->insert(It, sinkMBB);
+  
+  // Update machine-CFG edges by transferring all successors of the current
+  // block to the new block which will contain the Phi node for the select.
+  sinkMBB->splice(sinkMBB->begin(), BB,
+                   llvm::next(MachineBasicBlock::iterator(MI)),
+                   BB->end());
+  sinkMBB->transferSuccessorsAndUpdatePHIs(BB);
+  // Next, add the true and fallthrough blocks as its successors.
+  thisMBB->addSuccessor(copy0MBB);
+  thisMBB->addSuccessor(sinkMBB);
+
 
   // insert copy node for physregs before the compare because the PHI node cannot handle physregs
   MachineBasicBlock::iterator I = BB->end();
   if( TrueVal < XPIC::NUM_TARGET_REGS ) {
     int vreg = F->getRegInfo().createVirtualRegister(&XPIC::IntRegsRegClass);
+    F->getRegInfo().addLiveIn(TrueVal, vreg);
     if( TrueVal == XPIC::z0 ){
       BuildMI(*thisMBB, --I, dl, TII.get(XPIC::xMOV), vreg).addReg(XPIC::z0);
     }else{
@@ -954,24 +960,13 @@ printf("xpicTargetLowering::EmitInstrWithCustomInserter()::xCALL/xCALL_LOAD \n")
     }
     TrueVal = vreg;
   }
+
   // insert conditional branch for FalseVal
   BuildMI(thisMBB,dl, TII.get(BROpcode)).addMBB(sinkMBB).addImm(CC);
-
-  F->insert(It, copy0MBB);
-  F->insert(It, sinkMBB);
-
-  // Update machine-CFG edges by transferring all successors of the current
-  // block to the new block which will contain the Phi node for the select.
-  sinkMBB->splice(sinkMBB->begin(), BB,
-                   llvm::next(MachineBasicBlock::iterator(MI)),
-                   BB->end());
-  sinkMBB->transferSuccessorsAndUpdatePHIs(thisMBB);
-  // Next, add the true and fallthrough blocks as its successors.
-  thisMBB->addSuccessor(copy0MBB);
-  thisMBB->addSuccessor(sinkMBB);
   
   if( FalseVal < XPIC::NUM_TARGET_REGS ) {
     int vreg = F->getRegInfo().createVirtualRegister(&XPIC::IntRegsRegClass);
+    F->getRegInfo().addLiveIn(FalseVal, vreg);
     BuildMI(copy0MBB, dl, TII.get(XPIC::xORrr), vreg).addReg(XPIC::z0).addReg(FalseVal);
     FalseVal = vreg;
   }
