@@ -101,7 +101,9 @@ bool Filler::isDataDependence(MachineInstr &MI)
 
   // return and call's have additional instructions with stack pointer r7
   case XPIC::xCALL:
+  case XPIC::xCALL_done:
   case XPIC::xCALL_LOAD:
+  case XPIC::xCALL_LOAD_done:
   case XPIC::xRETL:
                 if( PrevTargetReg == XPIC::r7 ) isDependency = true;
                 PrevTargetReg = XPIC::NoRegister;
@@ -210,12 +212,12 @@ bool Filler::runOnMachineFunction(MachineFunction &MF)
         MachineBasicBlock::iterator J = MI;
 
 	// xCALL instructions has delay slots, but xCALL has dummy: insert "save return address" instruction
-        if(MI->getOpcode()==XPIC::xCALL)
+        if(MI->getOpcode()==XPIC::xCALL || MI->getOpcode()==XPIC::xCALL_done)
         {
 	  BuildMI(*MBB,MI,dl, TII->get(XPIC::xSTORE_TO_STACK)).addReg(XPIC::r7,RegState::Define).addReg(XPIC::pc,RegState::Kill);
 	  continue;
         }
-        if(MI->getOpcode()==XPIC::xCALL_LOAD)
+        if(MI->getOpcode()==XPIC::xCALL_LOAD || MI->getOpcode()==XPIC::xCALL_LOAD_done)
         {
 	  BuildMI(*MBB,MI,dl, TII->get(XPIC::xSTORE_TO_STACK)).addReg(XPIC::r7,RegState::Define).addReg(XPIC::pc,RegState::Kill);
         }
