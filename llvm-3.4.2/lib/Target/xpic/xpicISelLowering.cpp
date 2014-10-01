@@ -1027,4 +1027,10 @@ xpicTargetLowering::getRegForInlineAsmConstraint(const std::string &Constraint, 
   return TargetLowering::getRegForInlineAsmConstraint(Constraint, VT);
 }
 
+bool
+xpicTargetLowering::isOffsetFoldingLegal(const GlobalAddressSDNode *GA) const {
+  // The xpic target isn't yet aware of offsets.
+  return false;
+}
+
 
