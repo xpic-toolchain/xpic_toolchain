@@ -119,7 +119,7 @@ bool xpicDAGToDAGISel::SelectADDRframe(SDValue Addr, SDValue  &Reg, SDValue &Bas
   if (FrameIndexSDNode *FIN = dyn_cast<FrameIndexSDNode>(Addr)) 
   {
     Reg    = CurDAG->getRegister(XPIC::r7, MVT::i32);
-    Base   = CurDAG->getTargetFrameIndex(FIN->getIndex(), getTargetLowering()->getPointerTy());
+    Base   = CurDAG->getTargetFrameIndex(FIN->getIndex(), MVT::i32);
     Offset = CurDAG->getTargetConstant(0, MVT::i32);
     return true;
   }
@@ -200,7 +200,7 @@ bool xpicDAGToDAGISel::SelectADDRframe(SDValue Addr, SDValue  &Reg, SDValue &Bas
       if (FrameIndexSDNode *FIN = dyn_cast<FrameIndexSDNode>(Global))
       {  // Constant offset from frame ref.
         Reg    = CurDAG->getRegister(XPIC::r7, MVT::i32);
-        Base = CurDAG->getTargetFrameIndex(FIN->getIndex(), getTargetLowering()->getPointerTy());
+        Base = CurDAG->getTargetFrameIndex(FIN->getIndex(), MVT::i32);
         Offset = CurDAG->getTargetConstant(CN->getZExtValue(), MVT::i32);
         return true;
       }
@@ -219,7 +219,7 @@ SDNode *xpicDAGToDAGISel::SelectFrameIndex(SDNode *FI)
   if (FrameIndexSDNode *FIN = dyn_cast<FrameIndexSDNode>(FI))
   {
     SDValue Reg    = CurDAG->getRegister(XPIC::z0, MVT::i32);
-    SDValue Base   = CurDAG->getTargetFrameIndex(FIN->getIndex(), getTargetLowering()->getPointerTy());
+    SDValue Base   = CurDAG->getTargetFrameIndex(FIN->getIndex(), MVT::i32);
     SDValue Offset = CurDAG->getTargetConstant(0, MVT::i32);
     SDValue Ops0[] = {Reg, Base, Offset};
     return CurDAG->SelectNodeTo(FI, XPIC::xEL_FRAME, MVT::i32, Ops0, 3);
@@ -244,7 +244,7 @@ SDNode *xpicDAGToDAGISel::SelectSpecialADD(SDNode *ADD )
   {
     SDValue Reg    = CurDAG->getRegister(XPIC::z0, MVT::i32);
     FrameIndexSDNode *FIN = dyn_cast<FrameIndexSDNode>( ADD->getOperand(0) );
-    SDValue Base   = CurDAG->getTargetFrameIndex(FIN->getIndex(), getTargetLowering()->getPointerTy());
+    SDValue Base   = CurDAG->getTargetFrameIndex(FIN->getIndex(), MVT::i32);
     SDValue Offset = CurDAG->getTargetConstant(ADD->getConstantOperandVal(1), MVT::i32);
     SDValue Ops0[] = {Reg,Base,Offset};
     return CurDAG->SelectNodeTo(ADD, XPIC::xEL_FRAME, MVT::i32, Ops0, 3);
@@ -438,7 +438,7 @@ bool xpicDAGToDAGISel::SelectADDRri(SDValue Addr, SDValue &Base, SDValue &Offset
     return false;  // direct calls.
 
   Base   = Addr;
-  Offset = CurDAG->getTargetConstant(0, getTargetLowering()->getPointerTy());
+  Offset = CurDAG->getTargetConstant(0, MVT::i32);
 
   return true;
 }
@@ -519,7 +519,6 @@ printf("xpicDAGToDAGISel::Select()\n");
 
     case ISD::Constant:
       return SelectConstant(N);
-
 /*
     case ISD::LOAD:
     {
@@ -527,7 +526,6 @@ printf("xpicDAGToDAGISel::Select()\n");
       break;
     }
 */
-
   }
   return SelectCode(N);
 }
