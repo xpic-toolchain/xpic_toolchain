@@ -65,10 +65,9 @@ printf("xpecTargetLowering::LowerReturn\n");
   CCState CCInfo(CallConv, IsVarArg, DAG.getMachineFunction(), DAG.getTarget(),RVLocs, *DAG.getContext());
   // Analize return values of ISD::RET
   CCInfo.AnalyzeReturn(Outs, RetCC_xpic32);
-  /* removed georg not needed
   // If this is the first return lowered for this function, add the regs to the
-  // liveout set for the functionI
-  if (DAG.getMachineFunction().getRegInfo().liveout_empty()) {
+  // liveout set for the function.
+  /*if (DAG.getMachineFunction().getRegInfo().liveout_empty()) {
     for (unsigned i = 0; i != RVLocs.size(); ++i)
       if (RVLocs[i].isRegLoc())
         DAG.getMachineFunction().getRegInfo().addLiveOut(RVLocs[i].getLocReg());
@@ -129,6 +128,8 @@ printf("xpicTargetLowering::LowerCall\n");
   SmallVector<CCValAssign, 16> ArgLocs;
   CCState CCInfo(CallConv, IsVarArg, DAG.getMachineFunction(), DAG.getTarget(), ArgLocs,*DAG.getContext());
   CCInfo.AnalyzeCallOperands(Outs, CC_xpic32);
+
+  (void)CC_xpic32;
 
   // The size of the outgoing arguments.
   unsigned ArgsSize = ArgLocs.size();
@@ -434,8 +435,6 @@ static XPICCC::CondCodes FPCondCCodeToFCC(ISD::CondCode CC) {
 
 xpicTargetLowering::xpicTargetLowering(TargetMachine &TM)
   : TargetLowering(TM, new TargetLoweringObjectFileELF()) {
-    //Subtarget = &TM.getSubtarget<xpicSubtarget>();
-
 
   // Set up the register classes.
   addRegisterClass(MVT::i32, &XPIC::IntRegsRegClass);
@@ -698,9 +697,9 @@ printf("LowerBR_CC()\n");
   SDValue CompareFlag;
   if (LHS.getValueType() == MVT::i32) 
   {
-    //std::vector<MVT> VTs;
-    //VTs.push_back(MVT::i32);
-    //VTs.push_back(MVT::Flag);
+    std::vector<MVT> VTs;
+    VTs.push_back(MVT::i32);
+    VTs.push_back(MVT::Glue);
     if (XPICCC == ~0U) XPICCC = IntCondCCodeToICC(CC);
     Opc = XPICISD::BRICC;
     CompareFlag = DAG.getNode(XPICISD::CMPICC,dl, MVT::Glue, LHS, RHS);
@@ -734,9 +733,9 @@ printf("LowerSELECT_CC()\n");
   
   SDValue CompareFlag;
   if (LHS.getValueType() == MVT::i32) {
-    //std::vector<MVT> VTs;
+    std::vector<MVT> VTs;
  //   VTs.push_back(LHS.getValueType());   // subcc returns a value
-    //VTs.push_back(MVT::Flag);
+    VTs.push_back(MVT::Glue);
   //  SDValue Ops[2] = { LHS, RHS };
 //    CompareFlag = DAG.getNode(XPICISD::CMPICC, VTs, Ops, 2).getValue(1);
     CompareFlag = DAG.getNode(XPICISD::CMPICC,dl, MVT::Glue, LHS, RHS);
