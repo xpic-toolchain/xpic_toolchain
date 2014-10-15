@@ -27,16 +27,16 @@ export PATH_GNU_XPIC=$INSTALLPATH_LOCAL
 # LLVM
 echo
 echo ================================================================================
-echo "  building llvm-2.8 ..."
+echo "  building llvm-3.4.2 ..."
 echo --------------------------------------------------------------------------------
 
-cd llvm-2.8
+cd llvm-3.4.2
 #rm -fr localbuild || true
 mkdir -p localbuild
 cd localbuild
 
-../configure --prefix=$INSTALLPATH_LOCAL  --enable-optimized --enable-targets=xpic  --with-c-include-dirs=$INSTALLPATH_LOCAL/include
-#./configure --prefix=$TARGETPATH  --enable-debug-symbols --enable-debug-runtime --enable-targets=xpic  --with-c-include-dirs=$TARGETPATH/include
+#../configure --prefix=$INSTALLPATH_LOCAL  --enable-optimized --enable-targets=host,xpic,cpp  --with-c-include-dirs=$INSTALLPATH_LOCAL/include
+../configure --prefix=$TARGETPATH  --enable-debug-symbols --enable-debug-runtime --enable-targets=host,xpic  --with-c-include-dirs=/usr/include:$TARGETPATH/include
 #make clean
 make -j$MAKE_PARALLEL_JOBS
 make install
@@ -53,8 +53,8 @@ echo ---------------------------------------------------------------------------
 #rm -fr crossbuild || true
 mkdir -p crossbuild
 cd crossbuild
-../configure --prefix=$INSTALLPATH_CROSS --enable-optimized --enable-targets=xpic --host=i686-w64-mingw32 --with-c-include-dirs=$INSTALLPATH_CROSS/include
-#../configure --prefix=$TARGETPATHCROSS  --enable-optimized --enable-targets=xpic --host=i686-w64-mingw32 --with-c-include-dirs=$TARGETPATHCROSS/include
+#../configure --prefix=$INSTALLPATH_CROSS --enable-optimized --enable-targets=xpic --host=i686-w64-mingw32 --with-c-include-dirs=$INSTALLPATH_CROSS/include
+../configure --prefix=$TARGETPATHCROSS  --enable-optimized --enable-targets=xpic --host=i686-w64-mingw32 --with-c-include-dirs=$TARGETPATHCROSS/include
 sed -i 's/#define HAVE_STRERROR_S 1/\/* #undef HAVE_STRERROR_S *\//g' include/llvm/Config/config.h
 # Dirty fixup for DOS Path
 #sed -i 's|/c:/xpic|/c\\:/xpic|g' projects/sample/Makefile.common
