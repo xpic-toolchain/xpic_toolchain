@@ -123,7 +123,7 @@ static MCContext *addPassesToGenerateCode(LLVMTargetMachine *TM,
   if (EnableFastISelOption == cl::BOU_TRUE ||
       (TM->getOptLevel() == CodeGenOpt::None &&
        EnableFastISelOption != cl::BOU_FALSE))
-    TM->setFastISel(true);
+    TM->setFastISel(false);
 
   // Ask the target for an isel.
   if (PassConfig->addInstSelector())
