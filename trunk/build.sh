@@ -31,7 +31,7 @@ echo "  building llvm-3.4.2 ..."
 echo --------------------------------------------------------------------------------
 
 cd llvm-3.4.2
-#rm -fr localbuild || true
+rm -fr localbuild || true
 mkdir -p localbuild
 cd localbuild
 
@@ -46,11 +46,11 @@ cd ..
 # Cross LLVM
 echo
 echo ================================================================================
-echo "  crossbuilding llvm-2.8 ..."
+echo "  crossbuilding llvm-3.4.2 ..."
 echo --------------------------------------------------------------------------------
 
 #export PATH=$HOME/mingw32/bin/:$PATH
-#rm -fr crossbuild || true
+rm -fr crossbuild || true
 mkdir -p crossbuild
 cd crossbuild
 #../configure --prefix=$INSTALLPATH_CROSS --enable-optimized --enable-targets=xpic --host=i686-w64-mingw32 --with-c-include-dirs=$INSTALLPATH_CROSS/include
