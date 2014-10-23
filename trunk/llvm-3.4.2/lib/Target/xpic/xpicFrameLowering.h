@@ -66,6 +66,8 @@ public:
 
   bool hasFP(const MachineFunction &MF) const;
 
+  bool hasReservedCallFrame(const MachineFunction &MF) const;
+
 protected: /// Saving to stack content of used in function registers:
   /// registers, allocated in function:
   mutable unsigned    *pUsedRegisters;

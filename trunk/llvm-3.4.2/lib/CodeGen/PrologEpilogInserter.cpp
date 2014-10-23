@@ -584,7 +584,7 @@ void PEI::calculateFrameObjectOffsets(MachineFunction &Fn) {
     // immediately on entry to the current function, count it as part of the
     // overall stack size.
     if (MFI->adjustsStack() && TFI.hasReservedCallFrame(Fn)){
-      //Offset += MFI->getMaxCallFrameSize();
+      Offset += MFI->getMaxCallFrameSize();
     }
 
     // Round up the size to a multiple of the alignment.  If the function has

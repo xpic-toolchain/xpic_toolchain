@@ -12,7 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-//#define DEBUG_SHOW_FNS_NAMES
+#define DEBUG_SHOW_FNS_NAMES
 
 
 #ifndef TARGET_XPIC_H
@@ -23,6 +23,7 @@
 #include "llvm/Target/TargetMachine.h"
 #include <cassert>
 #include <iosfwd>
+#include <stdio.h>
 
 namespace llvm {
   class FunctionPass;
