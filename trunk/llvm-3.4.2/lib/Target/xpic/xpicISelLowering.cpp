@@ -74,7 +74,7 @@ printf("xpecTargetLowering::LowerReturn\n");
   }*/
 
   SDValue Flag;
-  SmallVector<SDValue, 4> RetOps(1, Chain);
+  SmallVector<SDValue, 16> RetOps(1, Chain);
   // Make room for the return address offset.
   //RetOps.push_back(SDValue());
 
@@ -122,6 +122,8 @@ printf("xpicTargetLowering::LowerCall\n");
   CallingConv::ID CallConv              = CLI.CallConv;
   bool IsVarArg                         = CLI.IsVarArg;
 
+  // do not accept tail calls
+  isTailCall=false;
 
   MachineFunction &MF = DAG.getMachineFunction();
   // Analyze operands of the call, assigning locations to each operand.
@@ -192,7 +194,7 @@ printf("xpicTargetLowering::LowerCall\n");
         if(ArgOffset >= Offset)
           // if not enouth, resize more
           MF.getFrameInfo()->setObjectSize(ArgFrameIdx,Offset+ObjSize);
-      }
+      }   
       // add to chain construction "ADD FI + ArgOffset"
       SDValue FIPtr = DAG.getFrameIndex(ArgFrameIdx, MVT::i32);
       SDValue PtrOff   = DAG.getConstant(ArgOffset, MVT::i32);
@@ -230,15 +232,9 @@ printf("xpicTargetLowering::LowerCall\n");
 
   // Returns a chain & a flag for retval copy to use.
   SDVTList NodeTys = DAG.getVTList(MVT::Other, MVT::Glue);
-  SmallVector<SDValue, 8> Ops;
+  SmallVector<SDValue, 16> Ops;
   Ops.push_back(Chain);
   Ops.push_back(Callee);
-
-  /// these 3 lines are used for output registers handling
-  // Assign locations to each value returned by this call.
-  SmallVector<CCValAssign, 16> RVLocs;
-  CCState RVInfo(CallConv, IsVarArg, DAG.getMachineFunction(), DAG.getTarget(), RVLocs, *DAG.getContext());
-  RVInfo.AnalyzeCallResult(Ins, RetCC_xpic32);
 
   // Add argument registers to the end of the list so that they are
   // known live into the call.
@@ -255,17 +251,22 @@ printf("xpicTargetLowering::LowerCall\n");
   //SDValue Ops[] = { Chain, Callee, InFlag };
 
   Chain = DAG.getNode(XPICISD::CALL,dl, NodeTys, &Ops[0], Ops.size());
-
   InFlag = Chain.getValue(1);
 
+  // Create the CALLSEQ_END node.
   Chain = DAG.getCALLSEQ_END(Chain, DAG.getIntPtrConstant(ArgsSize, true),DAG.getIntPtrConstant(0, true), InFlag, dl);
   InFlag = Chain.getValue(1);
 
   ///output registers handling:
-  // do not accept tail calls
-  isTailCall=false;
 
   MachineRegisterInfo &OutRegInfo = MF.getRegInfo();
+  
+  /// these 3 lines are used for output registers handling
+  // Assign locations to each value returned by this call.
+  SmallVector<CCValAssign, 16> RVLocs;
+  CCState RVInfo(CallConv, IsVarArg, DAG.getMachineFunction(), DAG.getTarget(), RVLocs, *DAG.getContext());
+  RVInfo.AnalyzeCallResult(Ins, RetCC_xpic32);
+
   // Copy all of the result registers out of their specified physreg.
   for (unsigned i = 0; i != RVLocs.size(); ++i) 
   {
