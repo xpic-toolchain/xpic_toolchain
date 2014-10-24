@@ -32,7 +32,7 @@ using namespace llvm;
 
 
 // Pin the vtable to this file.
-void xpicInstrInfo::anchor() {}
+void xpicInstrInfo::anchor() { }
 
 xpicInstrInfo::xpicInstrInfo(xpicSubtarget &ST)
   : xpicGenInstrInfo(XPIC::ADJCALLSTACKDOWN, XPIC::ADJCALLSTACKUP),
@@ -136,16 +136,8 @@ printf("xpicInstrInfo::storeRegToStackSlot()\n");
   DebugLoc DL;
   if (I != MBB.end()) DL = I->getDebugLoc();
 
-  MachineFunction *MF = MBB.getParent();
-  const MachineFrameInfo &MFI = *MF->getFrameInfo();
-  MachineMemOperand *MMO =
-    MF->getMachineMemOperand(MachinePointerInfo::getFixedStack(FI),
-                             MachineMemOperand::MOStore,
-                             MFI.getObjectSize(FI),
-                             MFI.getObjectAlignment(FI));
-
   if (RC == &XPIC::IntRegsRegClass || RC == &XPIC::WRegRegClass) {
-    BuildMI(MBB,I,DL, get(XPIC::xSTOREframe)).addReg(XPIC::r7).addFrameIndex(FI).addImm(0).addReg(SrcReg,  RegState::Kill,0).addMemOperand(MMO);
+    BuildMI(MBB,I,DL, get(XPIC::xSTOREframe)).addReg(XPIC::r7).addFrameIndex(FI).addImm(0).addReg(SrcReg,  RegState::Kill,0);
   } else {
     assert(0 && "Can't store this register to stack slot       \"storeRegToStackSlot\"");
   }
@@ -161,16 +153,8 @@ printf("xpicInstrInfo::loadRegFromStackSlot()\n");
   DebugLoc DL = DebugLoc();
   if (I != MBB.end()) DL = I->getDebugLoc();
 
-  MachineFunction *MF = MBB.getParent();
-  const MachineFrameInfo &MFI = *MF->getFrameInfo();
-  MachineMemOperand *MMO =
-    MF->getMachineMemOperand(MachinePointerInfo::getFixedStack(FI),
-                             MachineMemOperand::MOLoad,
-                             MFI.getObjectSize(FI),
-                             MFI.getObjectAlignment(FI));
-
   if (RC == &XPIC::IntRegsRegClass || RC == &XPIC::WRegRegClass) {
-    BuildMI(MBB, I, DL, get(XPIC::xLOADframe), DestReg).addReg(XPIC::r7).addFrameIndex(FI).addImm(0).addMemOperand(MMO);//28.03.2010
+    BuildMI(MBB, I, DL, get(XPIC::xLOADframe), DestReg).addReg(XPIC::r7).addFrameIndex(FI).addImm(0);//28.03.2010
   } else {
     assert(0 && "Can't load this register from stack slot");
   }
