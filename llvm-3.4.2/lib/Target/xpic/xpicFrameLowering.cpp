@@ -60,10 +60,6 @@ bool xpicFrameLowering::hasFP(const MachineFunction &MF) const {
   return false;
 }
 
-bool xpicFrameLowering::hasReservedCallFrame(const MachineFunction &MF) const {
-  return false;
-}
-
 void xpicFrameLowering::eliminateCallFramePseudoInstr(MachineFunction &MF, MachineBasicBlock &MBB, MachineBasicBlock::iterator I) const {
 #ifdef DEBUG_SHOW_FNS_NAMES
 printf("xpicFrameLowering::eliminateCallFramePseudoInstr\n");
