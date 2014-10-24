@@ -41,7 +41,7 @@ xpicRegisterInfo::xpicRegisterInfo(xpicSubtarget &st)
 
 const uint16_t* xpicRegisterInfo::getCalleeSavedRegs(const MachineFunction *MF)
                                                                          const {
-  static const uint16_t CalleeSavedRegs[] = { XPIC::r7,0 };
+  static const uint16_t CalleeSavedRegs[] = { 0 };
   return CalleeSavedRegs;
 }
 
