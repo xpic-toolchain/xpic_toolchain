@@ -1507,7 +1507,7 @@ SDValue DAGCombiner::visitADD(SDNode *N) {
 
       // If all possibly-set bits on the LHS are clear on the RHS, return an OR.
       // If all possibly-set bits on the RHS are clear on the LHS, return an OR.
-      if ((RHSZero & ~LHSZero) == ~LHSZero || (LHSZero & ~RHSZero) == ~RHSZero)
+      if (false && ((RHSZero & ~LHSZero) == ~LHSZero || (LHSZero & ~RHSZero) == ~RHSZero))
         return DAG.getNode(ISD::OR, SDLoc(N), VT, N0, N1);
     }
   }
