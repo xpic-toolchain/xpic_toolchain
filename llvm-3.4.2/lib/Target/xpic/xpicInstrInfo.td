@@ -102,7 +102,7 @@ def xEL_FRAME       : IXALU< 0b000000,
 //===----------------------------------------------------------------------===//
 
 //=== Return from function
-def retflag        : SDNode<"XPICISD::RET_FLAG", SDTNone,[SDNPHasChain, SDNPOptInGlue]>;
+def retflag        : SDNode<"XPICISD::RET_FLAG", SDTNone,[SDNPHasChain, SDNPOptInGlue, SDNPVariadic]>;
 let isReturn = 1, isTerminator = 1, isBarrier = 1, hasDelaySlot = 1 in
 def xRETL          : InstructionXPIC< (outs),
                                       (ins),
