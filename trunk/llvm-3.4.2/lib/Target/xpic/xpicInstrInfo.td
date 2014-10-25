@@ -648,7 +648,7 @@ def SDTIntBinOpX : SDTypeProfile<0, 2, [   // has 0-outputs, 2-inputs
 def XPICcmpiccX : SDNode<"XPICISD::CMPICC", SDTIntBinOpX, [SDNPOutGlue]>;
 
 let isTerminator = 1, isCmp = 1 in
-defm xCMP  : IXCMP_multi<0b011001, "rol", XPICcmpiccX>;
+defm xCMP  : IXCMP_multi<0b011001, "sub", XPICcmpiccX>;
 
 
 
