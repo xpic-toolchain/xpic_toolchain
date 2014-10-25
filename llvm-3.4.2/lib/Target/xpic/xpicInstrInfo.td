@@ -468,10 +468,10 @@ multiclass IXALU_shift <bits<6> opcode, string OpcStr, SDNode OpNode> {
 
 // ir_mr_ir
 multiclass IXCMP_multi <bits<6> opcode, string OpcStr, SDNode OpNode, bit Commutable = 0> {
- def ri5     : IXCMP< opcode, 
-                      (ins IntRegs:$src1, i32imm:$src2),
-                      !strconcat(OpcStr, " z0, $src1, $src2"), 
-                      [(OpNode IntRegs:$src1, imm5:$src2)]>;
+// def ri5     : IXCMP< opcode, 
+//                      (ins IntRegs:$src1, i32imm:$src2),
+//                      !strconcat(OpcStr, " z0, $src1, $src2"), 
+//                      [(OpNode IntRegs:$src1, imm5:$src2)]>;
 
  def ir      : IXCMP< opcode, 
                       (ins i32imm:$src1, IntRegs:$src2),
