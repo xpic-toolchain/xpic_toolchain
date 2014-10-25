@@ -12,7 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-#define DEBUG_SHOW_FNS_NAMES
+//#define DEBUG_SHOW_FNS_NAMES
 
 
 #ifndef TARGET_XPIC_H
