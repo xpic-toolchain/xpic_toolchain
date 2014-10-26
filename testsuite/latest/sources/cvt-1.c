@@ -1,5 +1,10 @@
 #include <stdlib.h>
 
+void ab(void) {
+	while(1) {
+	}
+}
+
 static inline long
 g1 (double x)
 {
@@ -16,15 +21,15 @@ double
 f (long i)
 {
   if (g1 (i) != g2 (i))
-    abort ();
+    ab ();
   return g2 (i);
 }
 
 main ()
 {
   if (f (123456789L) != 123456789L)
-    abort ();
+    ab ();
   if (f (123456789L) != g2 (123456789L))
-    abort ();
+    ab ();
   return 0;
 }

@@ -2,7 +2,7 @@
 /* { dg-options "-O2 -ffinite-math-only" } */
 /* { dg-require-effective-target double64plus } */
 
-void abort (void)
+void ab (void)
 {
   while (1)
   {
@@ -19,6 +19,6 @@ main()
   b = 1. / a;
 
   if (b != (1. / 2.002083e-146))
-    abort ();
+    ab ();
   return 0;
 }

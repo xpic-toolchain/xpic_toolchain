@@ -2,7 +2,7 @@
 #define UCHAR_MAX 255
 #endif
 
-void abort (void)
+void ab (void)
 {
   while (1)
   {
@@ -18,7 +18,7 @@ void foo (void)
   p = (char *) &i;
   *p = -10;
   if (* (unsigned char *) p != 0x100 - 10)
-    abort();
+    ab();
 }
 
 int main (void)

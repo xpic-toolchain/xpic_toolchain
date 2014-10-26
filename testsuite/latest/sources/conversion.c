@@ -8,14 +8,6 @@
    Note that this code is NOT intended for testing of accuracy of fp
    conversions.  */
 
-void abort (void)
-{
-  while (1)
-  {
-    ;
-  }
-}
-
 float
 u2f(u)
      unsigned int u;
@@ -79,61 +71,66 @@ ldnear ( double x,  double y)
   return t == 0 || x / t > 100000000000000000000000000000000.0;
 }
 
+void ab(void) {
+	while (1 ) {
+	}
+}
+
 test_integer_to_float()
 {
   if (u2f(0U) != (float) 0U)				/* 0 */
-    abort();
+    ab();
   if (!fnear (u2f(~0U), (float) ~0U))			/* 0xffffffff */
-    abort();
+    ab();
   if (!fnear (u2f((~0U) >> 1), (float) ((~0U) >> 1)))	/* 0x7fffffff */
-    abort();
+    ab();
   if (u2f(~((~0U) >> 1)) != (float) ~((~0U) >> 1))	/* 0x80000000 */
-    abort();
+    ab();
 
   if (u2d(0U) != (double) 0U)				/* 0 */
-    abort();
+    ab();
   if (!dnear (u2d(~0U), (double) ~0U))			/* 0xffffffff */
-    abort();
+    ab();
   if (!dnear (u2d((~0U) >> 1),(double) ((~0U) >> 1)))	/* 0x7fffffff */
-    abort();
+    ab();
   if (u2d(~((~0U) >> 1)) != (double) ~((~0U) >> 1))	/* 0x80000000 */
-    abort();
+    ab();
 
   if (u2ld(0U) != ( double) 0U)			/* 0 */
-    abort();
+    ab();
   if (!ldnear (u2ld(~0U), ( double) ~0U))		/* 0xffffffff */
-    abort();
+    ab();
   if (!ldnear (u2ld((~0U) >> 1),( double) ((~0U) >> 1)))	/* 0x7fffffff */
-    abort();
+    ab();
   if (u2ld(~((~0U) >> 1)) != ( double) ~((~0U) >> 1))	/* 0x80000000 */
-    abort();
+    ab();
 
   if (s2f(0) != (float) 0)				/* 0 */
-    abort();
+    ab();
   if (!fnear (s2f(~0), (float) ~0))			/* 0xffffffff */
-    abort();
+    ab();
   if (!fnear (s2f((int)((~0U) >> 1)), (float)(int)((~0U) >> 1))) /* 0x7fffffff */
-    abort();
+    ab();
   if (s2f((int)(~((~0U) >> 1))) != (float)(int)~((~0U) >> 1)) /* 0x80000000 */
-    abort();
+    ab();
 
   if (s2d(0) != (double) 0)				/* 0 */
-    abort();
+    ab();
   if (!dnear (s2d(~0), (double) ~0))			/* 0xffffffff */
-    abort();
+    ab();
   if (!dnear (s2d((int)((~0U) >> 1)), (double)(int)((~0U) >> 1))) /* 0x7fffffff */
-    abort();
+    ab();
   if (s2d((int)~((~0U) >> 1)) != (double)(int)~((~0U) >> 1)) /* 0x80000000 */
-    abort();
+    ab();
 
   if (s2ld(0) != ( double) 0)			/* 0 */
-    abort();
+    ab();
   if (!ldnear (s2ld(~0), ( double) ~0))		/* 0xffffffff */
-    abort();
+    ab();
   if (!ldnear (s2ld((int)((~0U) >> 1)), ( double)(int)((~0U) >> 1))) /* 0x7fffffff */
-    abort();
+    ab();
   if (s2ld((int)~((~0U) >> 1)) != ( double)(int)~((~0U) >> 1)) /* 0x80000000 */
-    abort();
+    ab();
 }
 
 unsigned int
@@ -175,120 +172,120 @@ ld2s( double d)
 test_float_to_integer()
 {
   if (f2u(0.0) != 0)
-    abort();
+    ab();
   if (f2u(0.999) != 0)
-    abort();
+    ab();
   if (f2u(1.0) != 1)
-    abort();
+    ab();
   if (f2u(1.99) != 1)
-    abort();
+    ab();
 
   if (f2u((float) ((~0U) >> 1)) != (~0U) >> 1 &&	/* 0x7fffffff */
       f2u((float) ((~0U) >> 1)) != ((~0U) >> 1) + 1)
-    abort();
+    ab();
 
   if (f2u((float) ~((~0U) >> 1)) != ~((~0U) >> 1))	/* 0x80000000 */
-    abort();
+    ab();
 
  /* These tests require double precision, so for hosts that don't offer
     that much precision, just ignore these test.  */
  if (sizeof (double) >= 8) {
   if (d2u(0.0) != 0)
-    abort();
+    ab();
   if (d2u(0.999) != 0)
-    abort();
+    ab();
   if (d2u(1.0) != 1)
-    abort();
+    ab();
   if (d2u(1.99) != 1)
-    abort();
+    ab();
   if (d2u((double) (~0U)) != ~0U)			/* 0xffffffff */
-    abort();
+    ab();
   if (d2u((double) ((~0U) >> 1)) != (~0U) >> 1)		/* 0x7fffffff */
-    abort();
+    ab();
   if (d2u((double) ~((~0U) >> 1)) != ~((~0U) >> 1))	/* 0x80000000 */
-    abort();
+    ab();
  }
 
  /* These tests require  double precision, so for hosts that don't offer
     that much precision, just ignore these test.  */
  if (sizeof ( double) >= 8) {
   if (ld2u(0.0) != 0)
-    abort();
+    ab();
   if (ld2u(0.999) != 0)
-    abort();
+    ab();
   if (ld2u(1.0) != 1)
-    abort();
+    ab();
   if (ld2u(1.99) != 1)
-    abort();
+    ab();
   if (ld2u(( double) (~0U)) != ~0U)			/* 0xffffffff */
-    abort();
+    ab();
   if (ld2u(( double) ((~0U) >> 1)) != (~0U) >> 1)	/* 0x7fffffff */
-    abort();
+    ab();
   if (ld2u(( double) ~((~0U) >> 1)) != ~((~0U) >> 1))	/* 0x80000000 */
-    abort();
+    ab();
  }
 
   if (f2s(0.0) != 0)
-    abort();
+    ab();
   if (f2s(0.999) != 0)
-    abort();
+    ab();
   if (f2s(1.0) != 1)
-    abort();
+    ab();
   if (f2s(1.99) != 1)
-    abort();
+    ab();
   if (f2s(-0.999) != 0)
-    abort();
+    ab();
   if (f2s(-1.0) != -1)
-    abort();
+    ab();
   if (f2s(-1.99) != -1)
-    abort();
+    ab();
   if (f2s((float)(int)~((~0U) >> 1)) != (int)~((~0U) >> 1)) /* 0x80000000 */
-    abort();
+    ab();
 
  /* These tests require double precision, so for hosts that don't offer
     that much precision, just ignore these test.  */
  if (sizeof (double) >= 8) {
   if (d2s(0.0) != 0)
-    abort();
+    ab();
   if (d2s(0.999) != 0)
-    abort();
+    ab();
   if (d2s(1.0) != 1)
-    abort();
+    ab();
   if (d2s(1.99) != 1)
-    abort();
+    ab();
   if (d2s(-0.999) != 0)
-    abort();
+    ab();
   if (d2s(-1.0) != -1)
-    abort();
+    ab();
   if (d2s(-1.99) != -1)
-    abort();
+    ab();
   if (d2s((double) ((~0U) >> 1)) != (~0U) >> 1)		/* 0x7fffffff */
-    abort();
+    ab();
   if (d2s((double)(int)~((~0U) >> 1)) != (int)~((~0U) >> 1)) /* 0x80000000 */
-    abort();
+    ab();
  }
 
  /* These tests require  double precision, so for hosts that don't offer
     that much precision, just ignore these test.  */
  if (sizeof ( double) >= 8) {
   if (ld2s(0.0) != 0)
-    abort();
+    ab();
   if (ld2s(0.999) != 0)
-    abort();
+    ab();
   if (ld2s(1.0) != 1)
-    abort();
+    ab();
   if (ld2s(1.99) != 1)
-    abort();
+    ab();
   if (ld2s(-0.999) != 0)
-    abort();
+    ab();
   if (ld2s(-1.0) != -1)
-    abort();
+    ab();
   if (ld2s(-1.99) != -1)
-    abort();
+    ab();
   if (ld2s(( double) ((~0U) >> 1)) != (~0U) >> 1)		/* 0x7fffffff */
-    abort();
+    ab();
   if (ld2s(( double)(int)~((~0U) >> 1)) != (int)~((~0U) >> 1)) /* 0x80000000 */
-    abort();
+    ab();
  }
 }
 

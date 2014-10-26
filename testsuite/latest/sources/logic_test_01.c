@@ -1,6 +1,9 @@
 /* PR tree-optimization/9814  */
 
-extern void abort(void);
+void ab(void) {
+	while(1) {
+	}
+}
 
 int test1(int x)
 {
@@ -47,29 +50,29 @@ int test6(int x)
 int main()
 {
   if (test1(0) != 0)
-    abort();
+    ab();
   if (test1(2) != 2)
-    abort();
+    ab();
   if (test1(5) != 5)
-    abort();
+    ab();
   if (test1(7) != 7)
-    abort();
+    ab();
 
   if (test2(0) != 2)
-    abort();
+    ab();
   if (test2(2) != 2)
-    abort();
+    ab();
   if (test2(5) != 7)
-    abort();
+    ab();
   if (test2(7) != 7)
-    abort();
+    ab();
 
   if (test3(0) != 0)
-    abort();
+    ab();
   if (test3(2) != 0)
-    abort();
+    ab();
   if (test3(5) != 5)
-    abort();
+    ab();
   if (test3(7) != 5)
     return -1;
 

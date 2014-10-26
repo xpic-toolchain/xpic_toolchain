@@ -1,4 +1,4 @@
-void abort (void)
+void ab (void)
 {
   while (1)
   {
@@ -22,6 +22,6 @@ int
 main ()
 {
   if (f(2,31) != 1)
-    abort ();
+    ab ();
   return 0;
 }
