@@ -881,29 +881,39 @@ printf("xpicTargetLowering::EmitInstrWithCustomInserter()::xCALL/xCALL_LOAD \n")
       // add native Machine Instruction:
       if(MI->getOpcode() == XPIC::xCALL) {
         if(MI->getOperand(0).isGlobal()) {
-          BuildMI(*thisMBB,I,dl,TII.get(XPIC::xCALL_done)).addGlobalAddress(MI->getOperand(0).getGlobal() ,0);
+          MachineInstrBuilder MIB = BuildMI(*thisMBB,I,dl,TII.get(XPIC::xCALL_done));
+          MIB.addGlobalAddress(MI->getOperand(0).getGlobal() ,0);
+          MIB.copyImplicitOps(MI);
           I++;
         }
 
         if(MI->getOperand(0).isSymbol()) {
-          BuildMI(*thisMBB,I,dl,TII.get(XPIC::xCALL_done)).addExternalSymbol(MI->getOperand(0).getSymbolName() );
+          MachineInstrBuilder MIB = BuildMI(*thisMBB,I,dl,TII.get(XPIC::xCALL_done));
+          MIB.addExternalSymbol(MI->getOperand(0).getSymbolName() );
+          MIB.copyImplicitOps(MI);
           I++;
         }
       }
       if(MI->getOpcode() == XPIC::xCALL_LOAD) {
         if(MI->getOperand(0).isGlobal()) {
-          BuildMI(*thisMBB,I,dl,TII.get(XPIC::xCALL_LOAD_done)).addGlobalAddress(MI->getOperand(0).getGlobal() ,0);
+          MachineInstrBuilder MIB = BuildMI(*thisMBB,I,dl,TII.get(XPIC::xCALL_LOAD_done));
+          MIB.addGlobalAddress(MI->getOperand(0).getGlobal() ,0);
+          MIB.copyImplicitOps(MI);
           I++;
         }
 
         if(MI->getOperand(0).isSymbol()) {
-          BuildMI(*thisMBB,I,dl,TII.get(XPIC::xCALL_LOAD_done)).addExternalSymbol(MI->getOperand(0).getSymbolName() );
+          MachineInstrBuilder MIB = BuildMI(*thisMBB,I,dl,TII.get(XPIC::xCALL_LOAD_done));
+          MIB.addExternalSymbol(MI->getOperand(0).getSymbolName());
+          MIB.copyImplicitOps(MI);
           I++;
         }
       }
 
       if(MI->getOpcode() == XPIC::xCALL_LOAD) {       
-        BuildMI(*thisMBB,I,dl,TII.get(XPIC::xCALL_LOAD_done)).addReg(MI->getOperand(0).getReg());
+        MachineInstrBuilder MIB = BuildMI(*thisMBB,I,dl,TII.get(XPIC::xCALL_LOAD_done));
+        MIB.addReg(MI->getOperand(0).getReg());
+        MIB.copyImplicitOps(MI);
       }
       // well done! then return...
       MI->eraseFromParent();
