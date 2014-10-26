@@ -64,7 +64,11 @@ public:
   /// not, return 0.  This predicate must return 0 if the instruction has
   /// any side effects other than storing to the stack slot.
   virtual unsigned isStoreToStackSlot(const MachineInstr *MI, int &FrameIndex) const;
-  
+
+  virtual bool AnalyzeBranch(MachineBasicBlock &MBB, MachineBasicBlock *&TBB,
+                             MachineBasicBlock *&FBB,
+                             SmallVectorImpl<MachineOperand> &Cond,
+                             bool AllowModify = false) const ;
   
   virtual unsigned int InsertBranch(MachineBasicBlock &MBB, MachineBasicBlock *TBB,
                                 MachineBasicBlock *FBB,

@@ -91,6 +91,111 @@ printf("xpicInstrInfo::isStoreToStackSlot()\n");
   }
   return 0;
 }
+bool xpicInstrInfo::AnalyzeBranch(MachineBasicBlock &MBB,
+                                   MachineBasicBlock *&TBB,
+                                   MachineBasicBlock *&FBB,
+                                   SmallVectorImpl<MachineOperand> &Cond,
+                                   bool AllowModify) const
+{
+
+  MachineBasicBlock::iterator I = MBB.end();
+  MachineBasicBlock::iterator UnCondBrIter = MBB.end();
+  while (I != MBB.begin()) {
+    --I;
+
+    if (I->isDebugValue())
+      continue;
+
+    // When we see a non-terminator, we are done.
+    if (!isUnpredicatedTerminator(I))
+      break;
+
+    // Terminator is not a branch.
+    if (!I->isBranch())
+      return true;
+
+    // Handle Unconditional branches.
+    if (I->getOpcode() == XPIC::xBA) {
+      UnCondBrIter = I;
+
+      if (!AllowModify) {
+        TBB = I->getOperand(0).getMBB();
+        continue;
+      }
+
+      while (llvm::next(I) != MBB.end())
+        llvm::next(I)->eraseFromParent();
+
+      Cond.clear();
+      FBB = 0;
+
+      if (MBB.isLayoutSuccessor(I->getOperand(0).getMBB())) {
+        TBB = 0;
+        I->eraseFromParent();
+        I = MBB.end();
+        UnCondBrIter = MBB.end();
+        continue;
+      }
+
+      TBB = I->getOperand(0).getMBB();
+      continue;
+    }
+
+#if 0
+    unsigned Opcode = I->getOpcode();
+    if (Opcode != SP::BCOND && Opcode != SP::FBCOND)
+      return true; // Unknown Opcode.
+
+    SPCC::CondCodes BranchCode = (SPCC::CondCodes)I->getOperand(1).getImm();
+
+    if (Cond.empty()) {
+      MachineBasicBlock *TargetBB = I->getOperand(0).getMBB();
+      if (AllowModify && UnCondBrIter != MBB.end() &&
+          MBB.isLayoutSuccessor(TargetBB)) {
+
+        // Transform the code
+        //
+        //    brCC L1
+        //    ba L2
+        // L1:
+        //    ..
+        // L2:
+        //
+        // into
+        //
+        //   brnCC L2
+        // L1:
+        //   ...
+        // L2:
+        //
+        BranchCode = GetOppositeBranchCondition(BranchCode);
+        MachineBasicBlock::iterator OldInst = I;
+        BuildMI(MBB, UnCondBrIter, MBB.findDebugLoc(I), get(Opcode))
+          .addMBB(UnCondBrIter->getOperand(0).getMBB()).addImm(BranchCode);
+        BuildMI(MBB, UnCondBrIter, MBB.findDebugLoc(I), get(SP::BA))
+          .addMBB(TargetBB);
+
+        OldInst->eraseFromParent();
+        UnCondBrIter->eraseFromParent();
+
+        UnCondBrIter = MBB.end();
+        I = MBB.end();
+        continue;
+      }
+      FBB = TBB;
+      TBB = I->getOperand(0).getMBB();
+      Cond.push_back(MachineOperand::CreateImm(BranchCode));
+      continue;
+    }
+#endif
+    // FIXME: Handle subsequent conditional branches.
+    // For now, we can't handle multiple conditional branches.
+    return true;
+  }
+  return false;
+}
+
+
 
 unsigned
 xpicInstrInfo::InsertBranch(MachineBasicBlock &MBB,MachineBasicBlock *TBB,
