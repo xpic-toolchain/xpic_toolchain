@@ -1,4 +1,4 @@
-void abort (void)
+void ab (void)
 {
   while (1)
   {
@@ -14,12 +14,12 @@ main()
   b.y = 10;
   b.x = 15;
   if (b.y != 15)
-    abort();
+    ab();
 
   e.x = 10;
   e.q = 15;
   if (e.x != 15)
-    abort();
+    ab();
 
   return 0;
 }

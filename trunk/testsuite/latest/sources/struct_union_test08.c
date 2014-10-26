@@ -1,4 +1,4 @@
-void abort (void)
+void ab (void)
 {
   while (1)
   {
@@ -21,6 +21,6 @@ main() {
   struct s foo = {0 , 0, 3, 0};
   set (&foo, -1);
   if (foo.g != 2)
-    abort();
+    ab();
   return 0;
 }

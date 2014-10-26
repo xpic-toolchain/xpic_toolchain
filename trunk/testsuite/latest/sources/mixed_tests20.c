@@ -1,7 +1,7 @@
 /* { dg-do run } */
 /* { dg-options "-O2" } */
 
-void abort (void)
+void ab (void)
 {
   while(1)
   {
@@ -24,7 +24,7 @@ struct data_t
   int d;
 };
 
-extern void abort(void);
+extern void ab(void);
 void function_calling_listener (struct data_t data);
 
 void function_calling_listener (struct data_t data)
@@ -35,7 +35,7 @@ void function_calling_listener (struct data_t data)
 void my_listener(int a, int b, int c)
 {
   if (a != 42 || b != 44 || c != 45)
-    abort ();
+    ab ();
 }
 
 int main()

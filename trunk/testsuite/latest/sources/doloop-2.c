@@ -1,6 +1,6 @@
 /* { dg-do run } */
 /* { dg-options "-O2" } */
-void abort (void)
+void ab (void)
 {
   while (1)
   {
@@ -20,6 +20,6 @@ int main()
 {
   bi_reverse(5);
   if (global_iters != 5)
-    abort ();
+    ab ();
   return 0;
 }

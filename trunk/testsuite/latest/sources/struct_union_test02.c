@@ -5,7 +5,10 @@
  *      Author: Alexander
  */
 
-void abort (void);
+void ab (void) {
+	while(1) {
+	}
+}
 
 int main (void)
 {
@@ -23,11 +26,11 @@ int main (void)
     bX.yX = 10;
     bX.xX = 15;
     if (bX.yX != 15)
-      abort();
+      ab();
 
     eX.xX = 10;
     eX.qX = 15;
     if (eX.xX != 15)
-      abort();
+      ab();
     return 0;
 }

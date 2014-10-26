@@ -1,4 +1,4 @@
-void abort (void)
+void ab (void)
 {
   while (1)
   {
@@ -35,7 +35,7 @@ main ()
   uint32_t S[2] = {0xffff, 0xffffff};
 
   if (f (S,2)!= 1392607300)
-    abort();
+    ab();
 
   return 0;
 }

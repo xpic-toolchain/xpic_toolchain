@@ -1,4 +1,4 @@
-void abort (void);
+void ab (void);
 
 #define small   __attribute__((mode(QI))) int
 int main()
@@ -8,9 +8,9 @@ int main()
 
   x = (small) y;
   if (sizeof (small) != sizeof (char))
-    abort ();
+    ab ();
   if (sizeof (x) != sizeof (char) && x == y)
-    abort ();
+    ab ();
 #endif
   return 0;
 }

@@ -49,7 +49,7 @@ foo (struct tree_base *rhs)
   return 0;
 }
 
-void abort (void)
+void ab (void)
 {
   while (1)
   {
@@ -63,7 +63,7 @@ int main (void)
 
   t.readonly_flag = t.static_flag = 0;
   if (foo (&t))
-    abort ();
+    ab ();
 
   return 0;
 }

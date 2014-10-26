@@ -8,6 +8,11 @@
 
 #include <stdlib.h>
 
+void ab(void) {
+	while(1) {
+	}
+}
+
 double foo(double x)
 {
   return 12.0/(x*3.0);
@@ -21,10 +26,10 @@ double bar(double x)
 int main()
 {
   if (foo(2.0) != 2.0)
-    abort ();
+    ab ();
 
   if (bar(2.0) != 6.0)
-    abort ();
+    ab ();
 
   return 0;
 }

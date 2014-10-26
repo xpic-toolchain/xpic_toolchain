@@ -1,4 +1,4 @@
-extern void abort(void);
+extern void ab(void);
 
 int test1(int x)
 {

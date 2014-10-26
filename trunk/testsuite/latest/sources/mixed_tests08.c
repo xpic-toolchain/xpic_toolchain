@@ -1,6 +1,6 @@
 unsigned char a[256], b[256], c[256], d[256];
 
-void abort (void)
+void ab (void)
 {
   while(1) { ; }
 }
@@ -15,7 +15,7 @@ void bar(int x, ...)
 void baz(int y)
 {
   if (y != 0x10)
-    abort();
+    ab();
 }
 
 void test(int x, unsigned char *y)

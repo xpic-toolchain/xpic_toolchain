@@ -1,6 +1,6 @@
 /* Contributed by Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz> */
 
-void abort (void)
+void ab (void)
 {
   while (1)
   {
@@ -22,6 +22,6 @@ unsigned f1 (int x)
 int main ()
 {
   if (f1 (-5) != f (-5))
-    abort ();
+    ab ();
   return 0;
 }
