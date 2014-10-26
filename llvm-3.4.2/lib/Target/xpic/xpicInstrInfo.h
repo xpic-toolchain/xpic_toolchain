@@ -69,6 +69,8 @@ public:
                              MachineBasicBlock *&FBB,
                              SmallVectorImpl<MachineOperand> &Cond,
                              bool AllowModify = false) const ;
+
+  virtual unsigned RemoveBranch(MachineBasicBlock &MBB) const;
   
   virtual unsigned int InsertBranch(MachineBasicBlock &MBB, MachineBasicBlock *TBB,
                                 MachineBasicBlock *FBB,
