@@ -220,7 +220,7 @@ defm xSTB   : IXST_ri_rr < "store [$addr]b, $src",
 //===----------------------------------------------------------------------===//
 
 def SDT_XPICCall: SDTypeProfile<0, -1, [SDTCisVT<0, i32>]>;
-def call        : SDNode<"XPICISD::CALL",SDT_XPICCall,[SDNPHasChain,SDNPOptInGlue,SDNPOutGlue]>;
+def call        : SDNode<"XPICISD::CALL",SDT_XPICCall,[SDNPHasChain,SDNPOptInGlue,SDNPOutGlue,SDNPVariadic]>;
 def calltarget  : Operand<i32>;
 
 // xCALL has dummy DelaySlot. It is used to insert "save return address" instruction in xpicDelaySlotFiller
@@ -468,10 +468,10 @@ multiclass IXALU_shift <bits<6> opcode, string OpcStr, SDNode OpNode> {
 
 // ir_mr_ir
 multiclass IXCMP_multi <bits<6> opcode, string OpcStr, SDNode OpNode, bit Commutable = 0> {
-// def ri5     : IXCMP< opcode, 
-//                      (ins IntRegs:$src1, i32imm:$src2),
-//                      !strconcat(OpcStr, " z0, $src1, $src2"), 
-//                      [(OpNode IntRegs:$src1, imm5:$src2)]>;
+ def ri5     : IXCMP< opcode, 
+                      (ins IntRegs:$src1, i32imm:$src2),
+                      !strconcat(OpcStr, " z0, $src1, $src2"), 
+                      [(OpNode IntRegs:$src1, imm5:$src2)]>;
 
  def ir      : IXCMP< opcode, 
                       (ins i32imm:$src1, IntRegs:$src2),
@@ -648,7 +648,7 @@ def SDTIntBinOpX : SDTypeProfile<0, 2, [   // has 0-outputs, 2-inputs
 def XPICcmpiccX : SDNode<"XPICISD::CMPICC", SDTIntBinOpX, [SDNPOutGlue]>;
 
 let isTerminator = 1, isCmp = 1 in
-defm xCMP  : IXCMP_multi<0b011001, "sub", XPICcmpiccX>;
+defm xCMP  : IXCMP_multi<0b011001, "rol", XPICcmpiccX>;
 
 
 
