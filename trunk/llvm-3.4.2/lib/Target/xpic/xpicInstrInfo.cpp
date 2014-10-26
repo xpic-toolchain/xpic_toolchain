@@ -211,6 +211,27 @@ printf("xpicInstrInfo::InsertBranch()\n");
   return 1;
 }
 
+unsigned xpicInstrInfo::RemoveBranch(MachineBasicBlock &MBB) const
+{
+  MachineBasicBlock::iterator I = MBB.end();
+  unsigned Count = 0;
+  while (I != MBB.begin()) {
+    --I;
+
+    if (I->isDebugValue())
+      continue;
+
+    if (I->getOpcode() != XPIC::xBA
+        && I->getOpcode() != XPIC::xBCOND)
+      break; // Not a branch
+
+    I->eraseFromParent();
+    I = MBB.end();
+    ++Count;
+  }
+  return Count;
+}
+
 void xpicInstrInfo::copyPhysReg(MachineBasicBlock &MBB,
                                  MachineBasicBlock::iterator I, DebugLoc DL,
                                  unsigned DestReg, unsigned SrcReg,
