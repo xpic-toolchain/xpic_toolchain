@@ -24,6 +24,10 @@ xpicELFMCAsmInfo::xpicELFMCAsmInfo(StringRef TT)
    Triple TheTriple(TT);
 
   CommentString = "//";
+  
+  // TODO: G.Pietschmann Hotfix;
+  // We need to determine, where the alignment has to be given as a byte-value
+  AlignmentIsInBytes = true;
 
 // xpic:
   InlineAsmStart ="begin inline asm";

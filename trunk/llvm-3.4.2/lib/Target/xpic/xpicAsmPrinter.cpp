@@ -315,10 +315,12 @@ void xpicAsmPrinter::EmitAlignment(unsigned NumBits, const GlobalValue *GV,
   if (NumBits == 0) return;   // No need to emit alignment.
   if (NumBits  > 2) NumBits = 2; // maximal 4byte aligned!
 
+  // TODO: G.Pietschmann Hotfix; Code before: "OutStreamer.EmitCodeAlignment(NumBits);"
+  // We need to determine, where the alignment has to be given as a byte-value
   if (getCurrentSection()->getKind().isText())
-    OutStreamer.EmitCodeAlignment( NumBits);
+    OutStreamer.EmitCodeAlignment( 1 << NumBits);
   else
-    OutStreamer.EmitValueToAlignment( NumBits, 0, 1, 0);
+    OutStreamer.EmitValueToAlignment( 1 << NumBits, 0, 1, 0);
 }
 
 /// EmitGlobalVariable - Emit the specified global variable to the .s file.
