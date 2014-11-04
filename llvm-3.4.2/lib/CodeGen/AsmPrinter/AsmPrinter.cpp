@@ -457,7 +457,9 @@ void AsmPrinter::EmitFunctionHeader() {
   EmitVisibility(CurrentFnSym, F->getVisibility());
 
   EmitLinkage(F, CurrentFnSym);
-  EmitAlignment(MF->getAlignment(), F);
+  // TODO: G.Pietschmann Hotfix; Code before: "EmitAlignment(MF->getAlignment(), F);"
+  // The alignment of functions was not found; We need to find the correct place to tell LLVM our alignment
+  EmitAlignment(2, F);
 
   if (MAI->hasDotTypeDotSizeDirective())
     OutStreamer.EmitSymbolAttribute(CurrentFnSym, MCSA_ELF_TypeFunction);
