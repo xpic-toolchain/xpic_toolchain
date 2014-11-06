@@ -19,7 +19,7 @@ struct B
 struct A p = { &p, -1 };
 struct B q = { &p, 0 };
 
-extern void ab (void);
+extern void abort (void);
 extern void exit (int);
 
 struct B *

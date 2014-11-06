@@ -250,8 +250,7 @@ xpic_env['LIBPATH']    = library_includes_netx10
 xpic_env['LINKFLAGS']  = '--fatal-warnings '
 xpic_env['LINKCOM']    = str(xpic_env['LINKCOM']) + ' -T$LDFILE'
 
-xpic_env['_LIBFLAGS']  = 'mallocr.o umodsi3.o modsi3.o adddf3.o udivdi3.o divsi3.o divdi3.o ashldi3.o abort.o fixunsdfsi.o fixunssfsi.o --start-group ${_stripixes(LIBLINKPREFIX, LIBS, LIBLINKSUFFIX, LIBPREFIX, LIBSUFFIX, __env__)} --end-group'
-#xpic_env['_LIBFLAGS']  = '--start-group ${_stripixes(LIBLINKPREFIX, LIBS, LIBLINKSUFFIX, LIBPREFIX, LIBSUFFIX, __env__)} --end-group'
+xpic_env['_LIBFLAGS']  = '--start-group ${_stripixes(LIBLINKPREFIX, LIBS, LIBLINKSUFFIX, LIBPREFIX, LIBSUFFIX, __env__)} --end-group'
 
 xpic_env['OBJSUFFIX'] = '.o'
 xpic_env['PROGSUFFIX'] = '.elf'

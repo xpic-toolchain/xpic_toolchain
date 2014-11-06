@@ -1,6 +1,6 @@
 /* Check that MIN-MAX and MAX-MIN combinations are folded.  */
 
-extern void ab (void);
+extern void abort (void);
 
 #define MIN(a,b) ((a) < (b) ? (a) : (b))
 #define MAX(a,b) ((a) > (b) ? (a) : (b))

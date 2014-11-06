@@ -1,4 +1,4 @@
-void ab14(void)
+void abort14(void)
 {
   while(1) { ; }
 }
@@ -42,7 +42,7 @@ int main(void)
 
 //  b14(&j,&i);
   if (s != 1)
-    ab14 ();
+    abort14 ();
   return 0;
 }
 

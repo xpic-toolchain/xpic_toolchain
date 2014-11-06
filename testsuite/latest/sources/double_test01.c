@@ -6,7 +6,7 @@
    Written by Roger Sayle, 27th March 2003.
 */
 
-void ab (void)
+void abort (void)
 {
   while (1)
   {
@@ -27,16 +27,16 @@ int bar (double x)
 int main()
 {
   if (foo (8.0))
-    ab ();
+    abort ();
 
   if (! foo (6.0))
-    ab ();
+    abort ();
 
   if (bar (1.0))
-    ab ();
+    abort ();
 
   if (! bar (5.0))
-    ab ();
+    abort ();
   return 0;
 }
 

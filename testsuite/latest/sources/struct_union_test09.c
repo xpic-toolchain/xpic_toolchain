@@ -1,6 +1,6 @@
 /* This failed because if conversion didn't handle insv patterns properly.  */
 
-void ab (void)
+void abort (void)
 {
   while (1)
   {
@@ -17,7 +17,7 @@ union y
 void bar (unsigned short u, union y v)
 {
   if (u != 1)
-    ab ();
+    abort ();
 }
 
 void foo (int check)

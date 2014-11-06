@@ -1,6 +1,6 @@
-/* This used to ab due to a loop bug on s390*.  */
+/* This used to abort due to a loop bug on s390*.  */
 
-void ab (void)
+void abort (void)
 {
   while (1)
   {
@@ -34,7 +34,7 @@ int main (void)
   test (1);
 
   if (str[0] != 't')
-    ab ();
+    abort ();
 
   return 0;
 }

@@ -1,4 +1,4 @@
-extern void ab7 (void)
+extern void abort7 (void)
 {
   while (1) { ; }
 }
@@ -39,6 +39,6 @@ int main (void)
   c.c4 = 0;
   bar7 (&c, &d);
   if (a.a5 != 9)
-    ab7 ();
+    abort7 ();
   return 0;
 }

@@ -1,4 +1,4 @@
-void ab (void)
+void abort (void)
 {
   while (1)
   {
@@ -10,6 +10,6 @@ int main (void)
 {
   struct { int count: 2; } s = { -2 };
   while (s.count-- != -2)
-    ab ();
+    abort ();
   return 0;
 }

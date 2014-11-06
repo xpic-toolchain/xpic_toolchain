@@ -1,7 +1,7 @@
 /* PR target/14262 */
 /* { dg-do run } */
 
-void ab (void)
+void abort (void)
 {
   while (1)
   {
@@ -29,13 +29,13 @@ typedef struct {
 void sub (DRIVEID driveid)
 {
   if (driveid.drive != 1)
-    ab ();
+    abort ();
   if (driveid.panel_id.panel != 2)
-    ab ();
+    abort ();
   if (driveid.panel_id.lsm_id.lsm != 3)
-    ab ();
+    abort ();
   if (driveid.panel_id.lsm_id.acs != 4)
-    ab ();
+    abort ();
 }
 
 int main(void)

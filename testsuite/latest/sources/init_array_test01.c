@@ -1,7 +1,7 @@
 /* Test array initializion by store_by_pieces.  */
 
 struct A { char c[10]; };
-void ab (void)
+void abort (void)
 {
   while (1)
   {
@@ -30,10 +30,10 @@ void check (struct A * a, int b)
       p = "qrstuvwx\0";
       break;
     default:
-      ab ();
+      abort ();
     }
   if (__builtin_memcmp (a->c, p, 10) != 0)
-    ab ();
+    abort ();
 }
 
 int
