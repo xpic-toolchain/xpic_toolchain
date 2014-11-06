@@ -1,6 +1,6 @@
 /* PR middle-end/26561 */
 
-extern void ab(void);
+extern void abort(void);
 
 int always_one_1 (int a)
 {

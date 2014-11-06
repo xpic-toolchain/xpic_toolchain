@@ -7,7 +7,7 @@
 /* { dg-do run } */
 /* { dg-options "-O2 -ffast-math" } */
 
-void ab (void)
+void abort (void)
 {
   while (1)
   {
@@ -58,44 +58,44 @@ void
 ftest(float src, float dst)
 {
   if (fneg (src) != dst)
-    ab ();
+    abort ();
 
   if (src != fneg (dst))
-    ab ();
+    abort ();
 
   if (fmult (src) != dst)
-    ab ();
+    abort ();
 
   if (src != fmult (dst))
-    ab ();
+    abort ();
 
   if (fdiv (src) != dst)
-    ab ();
+    abort ();
 
   if (src != fdiv(dst))
-    ab ();
+    abort ();
 }
 
 void
 dtest(double src, double dst)
 {
   if (dneg (src) != dst)
-    ab ();
+    abort ();
 
   if (src != dneg (dst))
-    ab ();
+    abort ();
 
   if (dmult (src) != dst)
-    ab ();
+    abort ();
 
   if (src != dmult (dst))
-    ab ();
+    abort ();
 
   if (ddiv (src) != dst)
-    ab ();
+    abort ();
 
   if (src != ddiv(dst))
-    ab ();
+    abort ();
 }
 
 

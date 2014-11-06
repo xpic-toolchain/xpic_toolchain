@@ -1,4 +1,4 @@
-void ab8 (void)
+void abort8 (void)
 {
   while(1) { ; }
 }
@@ -11,9 +11,9 @@ void exit8 (void)
 int bar8 (int x, char **y)
 {
   if (x != 56)
-    ab8 ();
+    abort8 ();
   if (**y != 'a')
-    ab8 ();
+    abort8 ();
   *y = "def";
   return 1;
 }
@@ -21,9 +21,9 @@ int bar8 (int x, char **y)
 int baz8 (int x, char **y)
 {
   if (x != 56)
-    ab8 ();
+    abort8 ();
   if (**y != 'a')
-    ab8 ();
+    abort8 ();
   return 26;
 }
 
@@ -47,6 +47,6 @@ int foo8 (int x, char *y)
 int main ()
 {
   if (foo8 (56, "abc") != 26)
-    ab8 ();
+    abort8 ();
   return 0;
 }

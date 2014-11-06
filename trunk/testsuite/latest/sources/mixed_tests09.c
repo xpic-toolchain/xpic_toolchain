@@ -1,4 +1,4 @@
-void ab (void)
+void abort (void)
 {
   while (1)
   {
@@ -9,9 +9,9 @@ void ab (void)
 int bar (int x, char **y)
 {
   if (x != 56)
-    ab ();
+    abort ();
   if (**y != 'a')
-    ab ();
+    abort ();
   *y = "def";
   return 1;
 }
@@ -19,9 +19,9 @@ int bar (int x, char **y)
 int baz (int x, char **y)
 {
   if (x != 56)
-    ab ();
+    abort ();
   if (**y != 'a')
-    ab ();
+    abort ();
   return 26;
 }
 
@@ -45,6 +45,6 @@ int foo (int x, char *y)
 int main ()
 {
   if (foo (56, "abc") != 26)
-    ab ();
+    abort ();
   return 0;
 }

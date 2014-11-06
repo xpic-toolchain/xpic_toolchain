@@ -7,7 +7,7 @@
 
 /* Testing save/restore of floating point caller-save registers on ia64.  */
 
-void ab (void)
+void abort (void)
 {
   while (1)
   {
@@ -75,6 +75,6 @@ main ()
             (f21+f22+f23+f24+f25+f26+f27+f28+f29+f30);
 
 	/* Exact value is not needed, on IA64 it is massively off. */
-        if (x < 19503.0 || x > 19504.0) ab();
+        if (x < 19503.0 || x > 19504.0) abort();
 	return 0;
 }

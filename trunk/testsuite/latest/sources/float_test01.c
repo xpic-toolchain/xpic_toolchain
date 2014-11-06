@@ -1,4 +1,4 @@
-void ab (void)
+void abort (void)
 {
   while (1)
   {
@@ -25,6 +25,6 @@ main() {
        foo(&dists[12], 64) +
        foo(&dists[14], 128)
 	!= 156)
-    ab();
+    abort();
   return 0;
 }

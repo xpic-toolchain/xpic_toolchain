@@ -1,4 +1,4 @@
-void ab (void)
+void abort (void)
 {
   while (1)
   {
@@ -50,6 +50,6 @@ main (void)
   T x = 1UL << (M * 2 - 1);
   S y = foo (1, x);
   if (y.a || y.b != x || y.c != 1 || y.d)
-    ab ();
+    abort ();
   return 0;
 }
