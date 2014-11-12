@@ -2494,7 +2494,7 @@ stored_address_to_load:
 	      // fix the relocation's type
 	      irel->r_info   = search_irel_curr->r_info;
 	      irel->r_addend = search_irel_curr->r_addend;
-	      goto add_nop_load;// exit switch, but add two last instructions
+	      goto skip_symbol_creation;// exit switch, but add two last instructions
 	    }
 	    addr_of_stored_addr_to_load = data->size;
 	    /// Insertion at the end of '.data' section. It will be AddresS that stores value of callee address
@@ -2519,6 +2519,7 @@ stored_address_to_load:
             irel->r_info   = ELF32_R_INFO (indx_new_symb,R_XPIC_Y17_PCREL);
 	    irel->r_addend = 0;
 
+skip_symbol_creation:
 
 	    // II. Insert next, instruction "nop"
 	    if(!elf32_xpic_relax_insert_instruction (abfd, sec, irel->r_offset+4, XPIC_INS_NOP))
