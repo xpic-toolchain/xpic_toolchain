@@ -61,7 +61,11 @@ bool xpicFrameLowering::hasFP(const MachineFunction &MF) const {
 }
 
 bool xpicFrameLowering::hasReservedCallFrame(const MachineFunction &MF) const {
-  return !MF.getFrameInfo()->hasVarSizedObjects();
+  return false;
+}
+
+bool xpicFrameLowering::canSimplifyCallFramePseudos(const MachineFunction &MF) const {
+  return true;
 }
 
 void xpicFrameLowering::eliminateCallFramePseudoInstr(MachineFunction &MF, MachineBasicBlock &MBB, MachineBasicBlock::iterator I) const {
@@ -171,7 +175,7 @@ void xpicFrameLowering::AlignStackObjects(MachineFunction &MF) const {
       {
         MachineOperand &MO = MI->getOperand(op);
 
-        if(MO.isFI()  && ( MFI->getObjectAlignment(MO.getIndex()) < 4 ) )
+        if(MO.isFI())
         { // this is a frame index
           MFI->setObjectAlignment(MO.getIndex(),4);
         }

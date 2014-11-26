@@ -43,6 +43,11 @@ public:
   int get_numStackSavedRegisters( void ) const;
   void set_numStackSavedRegisters( int value ) const;
 
+  /// targetHandlesStackFrameRounding - Returns true if the target is
+  /// responsible for rounding up the stack frame (probably at emitPrologue
+  /// time).
+  bool targetHandlesStackFrameRounding() const { return true; }
+
 public:
   /// This structure holds info in current function about frame index with arguments for called function
   /// Valid after xpicTargetLowering::LowerCall()
@@ -66,6 +71,7 @@ public:
 
   bool hasFP(const MachineFunction &MF) const;
   bool hasReservedCallFrame(const MachineFunction &MF) const;
+  bool canSimplifyCallFramePseudos(const MachineFunction &MF) const;
 
 protected: /// Saving to stack content of used in function registers:
   /// registers, allocated in function:
