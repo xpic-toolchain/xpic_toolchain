@@ -42,9 +42,10 @@ import sys
 import os
 import re
 sys.path.append('build/scons')
-#sys.path.append('build/runtest')
+sys.path.append('build/runtest')
 import xpic
-#import xpic_test
+import xpic_test
+import runtest
 from time import gmtime, strftime
 
 
@@ -224,59 +225,59 @@ xpic.netx10_xpic_install("build/include",installdir)
 # ------------------------  Tests  -------------------------------
 # ----------------------------------------------------------------
   
-#testbuild = ARGUMENTS.get('test', 'debug').lower()
-#if testbuild == 'debug':
-#  xpic.env_netx10['CCFLAGS'] += '-g -gdwarf-2 -O0 '
-#
-#xpic_test_outdir = 'build/output'
-#xpic_test_cdefines = cdefines + ['__XPIC__','DEBUG']
-#
-#if in_netx_chip == 'netx51' or in_netx_chip == 'netx51_usb2jtag':
-#    xpic_test_sources_common = Files('testsuite/common/common_NX51/init_xpic.S')
-#else:
-#    xpic_test_sources_common = Files('testsuite/common/common_NX10/init_xpic.S')
-#
-#xpic_test_prog_files_common = xpic.netx10_xpic_compile(xpic_test_sources_common,
-#                                                includes_xpic, 
-#                                                xpic_test_cdefines, 
-#                                                xpic_test_outdir)
-#
-#
-#def gcc_test(test_c_file):  
-#  xpic_test_artifact = re.sub(".*/([^/]+)\\.c$", "\\1", test_c_file, 1)
-#  xpic_test_sources = [test_c_file]
-#  
-#  xpic_test_prog_files = xpic.netx10_xpic_compile(xpic_test_sources,
-#                                                  includes_xpic, 
-#                                                  xpic_test_cdefines, 
-#                                                  xpic_test_outdir)
-#  
-#  xpic_test_xpic_elf = xpic.netx10_xpic_makeelf(xpic_test_prog_files+xpic_test_prog_files_common,
-#                                                xpic_test_outdir,
-#                                                xpic_test_artifact, 
-#                                                [installdir], 
-#                                                [artifact], 
-#                                                ldfile)
-#  
-#  return xpic_test_xpic_elf
+testbuild = ARGUMENTS.get('test', 'debug').lower()
+if testbuild == 'debug':
+ xpic.env_netx10['CCFLAGS'] += '-g -gdwarf-2 -O0 '
+
+xpic_test_outdir = 'build/output'
+xpic_test_cdefines = cdefines + ['__XPIC__','DEBUG']
+
+if in_netx_chip == 'netx51' or in_netx_chip == 'netx51_usb2jtag':
+   xpic_test_sources_common = Files('testsuite/common/common_NX51/init_xpic.S')
+else:
+   xpic_test_sources_common = Files('testsuite/common/common_NX10/init_xpic.S')
+
+xpic_test_prog_files_common = xpic.netx10_xpic_compile(xpic_test_sources_common,
+                                               includes_xpic, 
+                                               xpic_test_cdefines, 
+                                               xpic_test_outdir)
+
+
+def gcc_test(test_c_file):  
+ xpic_test_artifact = re.sub(".*/([^/]+)\\.c$", "\\1", test_c_file, 1)
+ xpic_test_sources = [test_c_file]
+ 
+ xpic_test_prog_files = xpic.netx10_xpic_compile(xpic_test_sources,
+                                                 includes_xpic, 
+                                                 xpic_test_cdefines, 
+                                                 xpic_test_outdir)
+ 
+ xpic_test_xpic_elf = xpic.netx10_xpic_makeelf(xpic_test_prog_files+xpic_test_prog_files_common,
+                                               xpic_test_outdir,
+                                               xpic_test_artifact, 
+                                               [installdir], 
+                                               [artifact], 
+                                               ldfile)
+ 
+ return xpic_test_xpic_elf
 
 # ----------------------------------------------------------
 # ------------------- TEST-FILES ---------------------------
 # ----------------------------------------------------------
-#
-#xpic_testf = []
-#
-#
-#test_dir = ARGUMENTS.get('testdir', 'testsuite')
-#
-#xpic_testf_list = Files(test_dir+'/*.c')
-#
-#for src in xpic_testf_list:
-#  xpic_testf.append(gcc_test(src))
-#
-#Alias('compiletests', xpic_testf)
-#testreport = xpic_test.xpic_runtest(strftime("%Y-%m-%d_%H-%M-%S_test", gmtime()), xpic_testf, gdb_connection = in_gdb_connection, netx = in_netx_chip)
-#Alias('check',testreport)
+
+xpic_testf = []
+
+
+test_dir = ARGUMENTS.get('testdir', 'testsuite')
+
+xpic_testf_list = Files(test_dir+'/*.c')
+
+for src in xpic_testf_list:
+ xpic_testf.append(gcc_test(src))
+
+Alias('compiletests', xpic_testf)
+testreport = xpic_test.xpic_runtest(strftime("%Y-%m-%d_%H-%M-%S_test", gmtime()), xpic_testf, gdb_connection = in_gdb_connection, netx = in_netx_chip)
+Alias('check',testreport)
 
                                       
                             
