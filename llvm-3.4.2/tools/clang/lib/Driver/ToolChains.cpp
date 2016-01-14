@@ -2607,7 +2607,7 @@ void Linux::AddClangSystemIncludeArgs(const ArgList &DriverArgs,
     CIncludeDirs.split(dirs, ":");
     for (SmallVectorImpl<StringRef>::iterator I = dirs.begin(), E = dirs.end();
          I != E; ++I) {
-      StringRef Prefix = llvm::sys::path::is_absolute(*I) ? SysRoot : "";
+      StringRef Prefix = llvm::sys::path::is_absolute(*I) ? StringRef(SysRoot) : "";
       addExternCSystemInclude(DriverArgs, CC1Args, Prefix + *I);
     }
     return;
