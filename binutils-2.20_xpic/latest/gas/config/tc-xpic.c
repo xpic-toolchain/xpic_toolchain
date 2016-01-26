@@ -1405,7 +1405,7 @@ void apply_shifts(int *type, int *shift)
 /// Each xpic-asm-instruction has several sets of operands.
 /// Get all characteristic (1),analyse it and identify
 /// operands type (2), and add at the end specific subnumber
-int analyse_code(char *str, char *op)
+int analyse_code(char *str, char *op, int conditional_execution)
 {
   uint32_t *ulOp = (uint32_t *)op;
   int iRet=0,n=0;//iRet=1 is error
@@ -1479,62 +1479,64 @@ int analyse_code(char *str, char *op)
   case 0x006c736c:/// lsl / lsl_h / lsl_l
                   n=3;
 		  if(fComma!=2){iRet = 1;break;} // must be 3 operand!
-                  if((fConst==3) && fAddr && fPC){op[n]='7'; break;}//        'opcode' reg, [pc + const], sconst
-                  if((fConst==3) && fAddr       ){op[n]='8'; break;}//        'opcode' reg, [const], sconst
-                  if((fConst==2) && fAddr && fPC){op[n]='b'; break;}//{[cond]}'opcode' reg, {s}[pc + wreg{++}]{b}, sconst
-                  if((fConst==3)                ){op[n]='9'; break;}//         'opcode' reg, const, sconst
-                  if((fConst==2) && fAddr       ){op[n]='c'; break;}//{[cond]} 'opcode' reg, {s}[wreg{++}]{b}, sconst
-                  if (fConst==2)                 {op[n]='a'; break;}//{[cond]} 'opcode' reg, reg, sconst
+                  if((fConst==3) && fAddr && fPC){if(conditional_execution){iRet = 1;break;}op[n]='7'; break;}//        'opcode' reg, [pc + const], sconst
+                  if((fConst==3) && fAddr       ){if(conditional_execution){iRet = 1;break;}op[n]='8'; break;}//        'opcode' reg, [const], sconst
+                  if((fConst==2) && fAddr && fPC){                                          op[n]='b'; break;}//{[cond]}'opcode' reg, {s}[pc + wreg{++}]{b}, sconst
+                  if((fConst==3)                ){if(conditional_execution){iRet = 1;break;}op[n]='9'; break;}//         'opcode' reg, const, sconst
+                  if((fConst==2) && fAddr       ){                                          op[n]='c'; break;}//{[cond]} 'opcode' reg, {s}[wreg{++}]{b}, sconst
+                  if (fConst==2)                 {                                          op[n]='a'; break;}//{[cond]} 'opcode' reg, reg, sconst
 
    construction1: if(fComma!=2){iRet = 1;break;} // must be 3 operand!
-                  if((fConst==1)&& fAddr && fPC){op[n]='1'; break;}//        'opcode' reg, [pc + const], reg
-                  if((fConst==1)&& fAddr       ){op[n]='2'; break;}//        'opcode' reg, [const], reg
-                  if(              fAddr && fPC){op[n]='5'; break;}//{[cond]}'opcode' reg, {s}[pc + wreg{++}]{b}, reg
-                  if((fConst==1)               ){op[n]='3'; break;}//         'opcode' reg, const, reg
-                  if(              fAddr       ){op[n]='6'; break;}//{[cond]} 'opcode' reg, {s}[wreg{++}]{b}, reg
-                                                {op[n]='4'; break;}//{[cond]} 'opcode' reg, reg, reg
+                  if((fConst==1)&& fAddr && fPC){if(conditional_execution){iRet = 1;break;}op[n]='1'; break;}//        'opcode' reg, [pc + const], reg
+                  if((fConst==1)&& fAddr       ){if(conditional_execution){iRet = 1;break;}op[n]='2'; break;}//        'opcode' reg, [const], reg
+                  if(              fAddr && fPC){                                          op[n]='5'; break;}//{[cond]}'opcode' reg, {s}[pc + wreg{++}]{b}, reg
+                  if((fConst==1)               ){if(conditional_execution){iRet = 1;break;}op[n]='3'; break;}//         'opcode' reg, const, reg
+                  if(              fAddr       ){                                          op[n]='6'; break;}//{[cond]} 'opcode' reg, {s}[wreg{++}]{b}, reg
+                                                {                                          op[n]='4'; break;}//{[cond]} 'opcode' reg, reg, reg
 /// 3.2.7 Multiplication commands
   case 0x756c756d:/// mulu <- umul
   case 0x736c756d:/// muls <- smul
 		  if(fComma!=2){iRet = 1;break;} // must be 3 operand!
                   if(fConst==1                 ){op[4]='1'; break;}//         'opcode' reg, const, reg
-					        {op[4]='2'; break;}//         'opcode' reg, reg, reg
+				  if(!conditional_execution)	{op[4]='2'; break;}//{[cond]} 'opcode' reg, reg, reg
+                  iRet = 1;break;
 /// 3.2.8 Increment / Decrement commands
   case 0x00636e69:/// inc
   case 0x00636564:/// dec
                   n=3;
 		  if(fComma!=2){iRet = 1;break;} // must be 3 operand!
-                  if((fConst==3) && fAddr && fPC){op[n]='1'; break;}//        'opcode' reg, [pc + const], sconst
-                  if((fConst==3) && fAddr       ){op[n]='2'; break;}//        'opcode' reg, [const], sconst
-                  if((fConst==2) && fAddr && fPC){op[n]='5'; break;}//{[cond]}'opcode' reg, {s}[pc + wreg{++}]{b}, sconst
-                  if((fConst==3)                ){op[n]='3'; break;}//         'opcode' reg, const, sconst
-                  if((fConst==2) && fAddr       ){op[n]='6'; break;}//{[cond]} 'opcode' reg, {s}[wreg{++}]{b}, sconst
-                  if (fConst==2)                 {op[n]='4'; break;}//{[cond]} 'opcode' reg, reg, sconst
+                  if((fConst==3) && fAddr && fPC){if(conditional_execution){iRet = 1;break;}op[n]='1'; break;}//        'opcode' reg, [pc + const], sconst
+                  if((fConst==3) && fAddr       ){if(conditional_execution){iRet = 1;break;}op[n]='2'; break;}//        'opcode' reg, [const], sconst
+                  if((fConst==2) && fAddr && fPC){                                          op[n]='5'; break;}//{[cond]}'opcode' reg, {s}[pc + wreg{++}]{b}, sconst
+                  if((fConst==3)                ){if(conditional_execution){iRet = 1;break;}op[n]='3'; break;}//         'opcode' reg, const, sconst
+                  if((fConst==2) && fAddr       ){                                          op[n]='6'; break;}//{[cond]} 'opcode' reg, {s}[wreg{++}]{b}, sconst
+                  if (fConst==2)                 {                                          op[n]='4'; break;}//{[cond]} 'opcode' reg, reg, sconst
 /// 3.2.9 Load/Store  commands
   case 0x64616f6c:///load
 		  if(fComma!=1){iRet = 1;break;} // must be 2 operand!
-                  if((fConst==1)&&fAddr) 	{op[4]='1';break;}// load1: load reg, s[base_reg + #const]b 
-                  if((fPlus ==0)&&fAddr) 	{op[4]='1';break;}// load1: load reg, s[base_reg]b 
-                  if(fConst==1)	 		{op[4]='2';break;}// load2: load reg, #const 
-                  if(fAddr)			{op[4]='3';break;}// load3: {[cond]} load reg, s[base_reg + wreg++]w_bs
+                  if((fConst==1)&&fAddr) 	{if(conditional_execution){iRet = 1;break;}op[4]='1';break;}// load1: load reg, s[base_reg + #const]b
+                  if((fPlus ==0)&&fAddr) 	{if(conditional_execution){iRet = 1;break;}op[4]='1';break;}// load1: load reg, s[base_reg]b
+                  if(fConst==1)	 		{if(conditional_execution){iRet = 1;break;}op[4]='2';break;}// load2: load reg, #const
+                  if(fAddr)			{                                          op[4]='3';break;}// load3: {[cond]} load reg, s[base_reg + wreg++]w_bs
                   iRet = 1;break;
   case 0x726f7473:///store
 		  if(fComma!=1){iRet = 1;break;} // must be 2 operand!
-                  if((fConst==1)&&fAddr)	{op[5]='1';break;}// store1: [base_reg + const]b, reg
-                  if((fPlus ==0)&&fAddr) 	{op[5]='1';break;}// store1: [base_reg]b 
-                  if(fAddr)			{op[5]='2';break;}// store2: {[cond]} store [base_reg + wreg++]w_bs, reg
+                  if((fConst==1)&&fAddr)	{if(conditional_execution){iRet = 1;break;}op[5]='1';break;}// store1: [base_reg + const]b, reg
+                  if((fPlus ==0)&&fAddr) 	{if(conditional_execution){iRet = 1;break;}op[5]='1';break;}// store1: [base_reg]b
+                  if(fAddr)			{                                          op[5]='2';break;}// store2: {[cond]} store [base_reg + wreg++]w_bs, reg
                   iRet = 1;break;
 /// 3.2.10 Jump commands
-  case 0x00706d6a:op[3]='1'; break;///jmp cond, label
+  case 0x00706d6a:if(conditional_execution){iRet = 1;break;}op[3]='1'; break;///jmp cond, label
 /*
 if(fComma==1)op[3]='2';///jmp cond, label
 		  else         op[3]='1';///jmp label
 		  break;
 */
-  case 0x64706d6a:op[6]='1';break;///jmpdec <- jmp_dec
+  case 0x64706d6a:if(conditional_execution){iRet = 1;break;}op[6]='1';break;///jmpdec <- jmp_dec
 
 /// 3.2.11 Special commands
   case 0x00656973:                ///sie
+                  if(conditional_execution){iRet = 1;break;}
                   if(fComma==1)
                     op[3]='2';    /// sie iem, iev
                   else
@@ -1542,16 +1544,16 @@ if(fComma==1)op[3]='2';///jmp cond, label
                             break;
 
   case 0x00656967:                ///gie
-  case 0x00706f6e:op[3]='1';break;///nop
+  case 0x00706f6e:if(conditional_execution){iRet = 1;break;}op[3]='1';break;///nop
 
   case 0x65697367:                ///gsie
   case 0x66746572:                ///retf <- rfirq
   case 0x69746572:                ///reti <- rirq
-  case 0x696c6572:op[4]='1';break;///reli <- release_irq 
+  case 0x696c6572:if(conditional_execution){iRet = 1;break;}op[4]='1';break;///reli <- release_irq
 
-  case 0x61657262:op[5]='1';break;///break
+  case 0x61657262:if(conditional_execution){iRet = 1;break;}op[5]='1';break;///break
 
-  case 0x726c6572:op[7]='1';break;///relreti <- release_rirq
+  case 0x726c6572:if(conditional_execution){iRet = 1;break;}op[7]='1';break;///relreti <- release_rirq
 
   default:        iRet = 1; break;
   };
@@ -1584,7 +1586,7 @@ void md_assemble (char *str)
   if (!op[0])
     as_bad (_("can't find instruction opcode!  Source string: %s"),__SrcStr__);
 
-  if(analyse_code(str,op))
+  if(analyse_code(str,op, cond[0] != 0))
     {as_bad (_("wrong opcode or invalid combination of operands! Source string: %s"),__SrcStr__);return;}
 /// serch algorithm +
   opcode = xpic_opcodes;
