@@ -63,7 +63,7 @@ int getIConst(char **str);
 int getMConst(char **str);
 char *getJump(char **line, int where);
 void apply_shifts(int *type, int *shift);
-int  analyse_code(char *str, char *op);
+int  analyse_code(char *str, char *op, int conditional_execution);
 
 
 
