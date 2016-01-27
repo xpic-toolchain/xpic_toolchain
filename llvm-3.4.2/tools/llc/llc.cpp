@@ -159,6 +159,18 @@ static tool_output_file *GetOutputStream(const char *TargetName,
   return FDOut;
 }
 
+#define GIT_XSTR(s) GIT_STR(s)
+#define GIT_STR(s) #s
+
+static void printGitHash() {
+  raw_ostream& out = outs();
+#ifdef GIT_HASH
+  out << "\n  Xpic llvm source hash: " << GIT_XSTR(GIT_HASH) << "\n";
+#else
+  out << "\n  Xpic llvm source hash: UNKNOWN\n";
+#endif
+}
+
 // main - Entry point for the llc compiler.
 //
 int main(int argc, char **argv) {
@@ -188,6 +200,7 @@ int main(int argc, char **argv) {
 
   // Register the target printer for --version.
   cl::AddExtraVersionPrinter(TargetRegistry::printRegisteredTargetsForVersion);
+  cl::AddExtraVersionPrinter(printGitHash);
 
   cl::ParseCommandLineOptions(argc, argv, "llvm system compiler\n");
 
