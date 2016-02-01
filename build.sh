@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [ $1 = "clean" ] ; then
-	rm -r llvm-3.4.2/localbuild llvm-3.4.2/crossbuild
-        exit
-fi
-
 # Allow overriding the number parallel make jobs with the
 # environment variable MAKE_PARALLEL_JOBS. The default is 8.
 [ -z "$MAKE_PARALLEL_JOBS" ] && MAKE_PARALLEL_JOBS="8"
@@ -36,14 +31,12 @@ echo "  building llvm-3.4.2 ..."
 echo --------------------------------------------------------------------------------
 
 cd llvm-3.4.2
-if [ -d localbuild ] ; then 
-  cd localbuild
-else
-  mkdir -p localbuild
-  cd localbuild
-  ../configure --prefix=$INSTALLPATH_LOCAL  --enable-optimized --enable-targets=host,xpic  --with-c-include-dirs=/usr/include:$INSTALLPATH_LOCAL/include --enable-debug-runtime --enable-debug-symbols --enable-keep-symbols
-  #../configure --prefix=$TARGETPATH  --enable-debug-symbols --enable-debug-runtime --enable-targets=host,xpic  --with-c-include-dirs=/usr/include:$TARGETPATH/include
-fi
+rm -fr localbuild || true
+mkdir -p localbuild
+cd localbuild
+
+../configure --prefix=$INSTALLPATH_LOCAL  --enable-optimized --enable-targets=host,xpic  --with-c-include-dirs=/usr/include:$INSTALLPATH_LOCAL/include
+#../configure --prefix=$TARGETPATH  --enable-debug-symbols --enable-debug-runtime --enable-targets=host,xpic  --with-c-include-dirs=/usr/include:$TARGETPATH/include
 #make clean
 make -j$MAKE_PARALLEL_JOBS
 make install
@@ -57,18 +50,15 @@ echo "  crossbuilding llvm-3.4.2 ..."
 echo --------------------------------------------------------------------------------
 
 #export PATH=$HOME/mingw32/bin/:$PATH
-if [ -d crossbuild ] ; then
-  cd crossbuild
-else
-  mkdir -p crossbuild
-  cd crossbuild
-  ../configure --prefix=$INSTALLPATH_CROSS --enable-optimized --enable-targets=xpic --host=i686-w64-mingw32 --with-c-include-dirs=$INSTALLPATH_CROSS/include --enable-debug-runtime 
-  #../configure --prefix=$TARGETPATHCROSS  --enable-optimized --enable-targets=xpic --host=i686-w64-mingw32 --with-c-include-dirs=$TARGETPATHCROSS/include
-  sed -i 's/#define HAVE_STRERROR_S 1/\/* #undef HAVE_STRERROR_S *\//g' include/llvm/Config/config.h
-  # Dirty fixup for DOS Path
-  #sed -i 's|/c:/xpic|/c\\:/xpic|g' projects/sample/Makefile.common
-  export "LDFLAGS=--static -static-libgcc -static-libstdc++"
-fi
+rm -fr crossbuild || true
+mkdir -p crossbuild
+cd crossbuild
+../configure --prefix=$INSTALLPATH_CROSS --enable-optimized --enable-targets=xpic --host=i686-w64-mingw32 --with-c-include-dirs=$INSTALLPATH_CROSS/include
+#../configure --prefix=$TARGETPATHCROSS  --enable-optimized --enable-targets=xpic --host=i686-w64-mingw32 --with-c-include-dirs=$TARGETPATHCROSS/include
+sed -i 's/#define HAVE_STRERROR_S 1/\/* #undef HAVE_STRERROR_S *\//g' include/llvm/Config/config.h
+# Dirty fixup for DOS Path
+#sed -i 's|/c:/xpic|/c\\:/xpic|g' projects/sample/Makefile.common
+export "LDFLAGS=--static -static-libgcc -static-libstdc++"
 #make clean
 make -j$MAKE_PARALLEL_JOBS
 #make install DESTDIR=$INSTALLPATH_CROSS
@@ -86,10 +76,10 @@ cd binutils-2.20_xpic/latest
 chmod +x configure mkinstalldirs missing
 
 # Local build
-rm -fr localbuild || true
+#rm -fr localbuild || true
 mkdir -p localbuild
 cd localbuild
-CFLAGS="-Wno-error -g" ../configure --prefix=$INSTALLPATH_LOCAL --target=xpic
+CFLAGS=-Wno-error ../configure --prefix=$INSTALLPATH_LOCAL --target=xpic
 #make clean
 make all
 make install
@@ -109,7 +99,7 @@ echo ---------------------------------------------------------------------------
 #rm -fr crossbuild || true
 mkdir -p crossbuild
 cd crossbuild
-CFLAGS="-Wno-error -g" ../configure --prefix=$INSTALLPATH_CROSS --target=xpic --host=i686-w64-mingw32
+CFLAGS=-Wno-error ../configure --prefix=$INSTALLPATH_CROSS --target=xpic --host=i686-w64-mingw32
 #CFLAGS=-Wno-error ../configure --prefix=$TARGETPATHCROSS --target=xpic --host=i686-w64-mingw32
 #make clean 
 make all
