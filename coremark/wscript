@@ -1,0 +1,18 @@
+REQUIRED_TOOLCHAINS = ['llvm_xpic', 'codesourcery']
+
+def options(ctx):
+    ctx.load('hilscher_netx hilscher_firmware hilscher_extras', tooldir='Waf')
+
+def configure(conf):
+    conf.load('hilscher_netx hilscher_firmware hilscher_extras', tooldir='Waf')
+
+def build(bld):
+  coremark_sources  = bld.path.find_dir("Sources/Coremark").ant_glob('**/*.c')
+  coremark_includes = [bld.path.find_dir("Sources/Coremark/Includes")]
+  coremark_defines  = ['ITERATIONS=2000','PERFORMANCE_RUN=1','MULTITHREAD=1']
+
+  bld.coremark_sources  = coremark_sources;
+  bld.coremark_includes = coremark_includes;
+  bld.coremark_defines  = coremark_defines;
+  
+  bld.autorecurse()

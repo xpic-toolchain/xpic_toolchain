@@ -1,0 +1,48 @@
+def build(bld):
+  netx51_xpic_sources  = ["Sources/init_netX51_xpic.S",
+                          "Sources/core_portme.c"]
+  netx51_xpic_includes = ["Includes"]
+
+  sources  = bld.coremark_sources  + netx51_xpic_sources
+  includes = bld.coremark_includes + netx51_xpic_includes
+  defines  = bld.coremark_defines
+
+  bld.program(
+    target          = 'netx51_xpic_coremark_intram',
+    name            = 'llvm-xpic/2.7.0/netx51_xpic_coremark_intram',
+    platform        = 'xpic',
+    toolchain       = 'llvm_xpic',
+    source          = sources,
+    defines         = defines + ['INTRAM'],
+    includes        = list(includes),
+    use             = "llvm_xpic_includes",
+    linkerscript    = 'LDScripts/netX51_xpic_intram.ld',
+    install_path    = "netX51_xpic",
+  )
+
+  bld.program(
+    target          = 'netx51_xpic_coremark_tcm',
+    name            = 'llvm-xpic/2.7.0/netx51_xpic_coremark_tcm',
+    platform        = 'xpic',
+    toolchain       = 'llvm_xpic',
+    source_arm      = sources,
+    linkflags       = ['-Wl,--nmagic'],
+    defines         = defines + ['TCM'],
+    includes        = list(includes),
+    use             = "llvm_xpic_includes",
+    linkerscript    = 'LDScripts/netX51_xpic_tcm.ld',
+    install_path    = "netX51_xpic",
+  )
+
+  bld.program(
+    target          = 'netx51_xpic_coremark_sdram',
+    name            = 'llvm-xpic/2.7.0/netx51_coremark_sdram',
+    platform        = 'xpic',
+    toolchain       = 'llvm_xpic',
+    source_arm      = sources,
+    defines         = defines + ['SDRAM'],
+    includes        = list(includes),
+    use             = "llvm_xpic_includes",
+    linkerscript    = 'LDScripts/netX51_xpic_sdram.ld',
+    install_path    = "netX51_xpic",
+  )

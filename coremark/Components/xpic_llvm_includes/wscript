@@ -1,0 +1,36 @@
+top = "."
+out = "build"
+
+VERSION_MAJOR    = 1
+VERSION_MINOR    = 0
+VERSION_BUILD    = 0
+VERSION_REVISION = 0
+
+APPNAME             = "Xpic-llvm Includes"
+VERSION             = "%u.%u.%u.%u" % (VERSION_MAJOR, VERSION_MINOR, VERSION_BUILD, VERSION_REVISION)
+REQUIRED_TOOLCHAINS = ["llvm_xpic",]
+
+def options(ctx):
+    ctx.load("hilscher_netx hilscher_firmware hilscher_extras", tooldir="Waf")
+
+def configure(conf):
+    conf.load("hilscher_netx hilscher_firmware hilscher_extras", tooldir="Waf")
+
+def dist(bld):
+    pass
+
+def build(bld):
+    
+    PATH_GNU_XPIC = "c:/tools/xpic-tools/"
+    includes = [
+        PATH_GNU_XPIC + "include",
+        PATH_GNU_XPIC + "lib/gcc/xpic-hilscher-elf/0.1.1/include",
+        PATH_GNU_XPIC + "include/sys",
+        PATH_GNU_XPIC + "include/nx51_xpic_hal",
+    ]
+
+    bld.sdkcomponent(name            = "llvm_xpic_includes",
+                     description     = APPNAME + " SDK",
+                     export_includes = includes,
+                     public_includes = includes,
+                    )
