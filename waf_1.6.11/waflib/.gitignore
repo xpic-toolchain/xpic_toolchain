@@ -1,0 +1,15 @@
+/__init__.pyc
+/ansiterm.pyc
+/Build.pyc
+/ConfigSet.pyc
+/Configure.pyc
+/Context.pyc
+/Errors.pyc
+/Logs.pyc
+/Node.pyc
+/Options.pyc
+/Runner.pyc
+/Scripting.pyc
+/Task.pyc
+/TaskGen.pyc
+/Utils.pyc
