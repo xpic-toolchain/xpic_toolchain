@@ -493,8 +493,8 @@ def configure_toolchain_xpic(conf):
     f('DEFINES', ['__XPIC__'])
 
     for x in 'CFLAGS CXXFLAGS'.split():
-        f(x + '_compile_debug',    ['-O0', '-g', '-gdwarf-2'])
-        f(x + '_compile_debugrel', ['-Os', '-g', '-gdwarf-2'])
+        f(x + '_compile_debug',    ['-O0', '-g', '-gdwarf-4'])
+        f(x + '_compile_debugrel', ['-Os', '-g', '-gdwarf-4'])
         f(x + '_compile_release',  ['-Os'])
 
     # fix wrong directories in xpic compiler
