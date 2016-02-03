@@ -10,3 +10,10 @@ Testsuite
 =========
 
 python.exe scons.py check gdb_connection=usb netx=netx51
+
+
+Build compiler with following command
+=====================================
+
+./build.sh 2>&1 | tee build.log
+
