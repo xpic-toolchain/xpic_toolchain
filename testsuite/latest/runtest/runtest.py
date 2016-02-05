@@ -58,12 +58,12 @@ def eprint(str):
   log.writeln("ERROR: " + str)
 
     
-def _spawn(command):
+def _spawn(command, logfile=None):
   spawned = None
   if sys.platform == "win32":
-    spawned = winspawn(command)
+    spawned = winspawn(command,logfile=logfile)
   else:
-    spawned = spawn(command)
+    spawned = spawn(command,logfile=logfile)
   return spawned
 
 prefix = os.environ.get("XPIC_TOOLS", "")
@@ -119,14 +119,18 @@ def executeOpenOcd(config):
   
   if g_netx_chip == 'netx51':
       # openocd     = 'openocd_new.exe'
-      openocd     = 'openocd.exe'
-      config_file = 'nxhx51_etm.cfg'
-      
-      run_cmd = '"' + config["prefix"] + openocd + '" -f' + '"' + config["prefix"] + '\\' + config_file + '"'
+      openocd     = '..\\..\\openocd\\openocd.exe'
+      config_search = '..\\..\\netx_openocd_scripts'
+      config_file_if = '..\\..\\netx_openocd_scripts\\interface\\hilscher_nxhx51_etm.cfg'
+      config_file_board = '..\\..\\netx_openocd_scripts\\board\\hilscher_nxhx51.cfg'
+      #  -s C:\Daten\netx_openocd_scripts.git -f c:\Daten\netx_openocd_scripts.git\interface\hilscher_nxhx51_etm.cfg -f c:\Daten\netx_openocd_scripts.git\board\hilscher_nxhx51.cfg
+      run_cmd = '"' + config["prefix"] + openocd + '" -s "' + config["prefix"] + config_search + '"' + ' -f' + ' "' + config["prefix"] + config_file_if + '" -f "' + config["prefix"] + config_file_board + '"' + ' "-c puts oocd-started"' 
       print("Launching run command: " + run_cmd)
       child_openocd = _spawn (run_cmd)
         
-      match = child_openocd.expect(["target halted in ARM state due to debug-request", TIMEOUT], timeout=15)
+      #match = child_openocd.expect(["target halted in ARM state due to debug-request", TIMEOUT], timeout=15)
+      match = child_openocd.expect(["oocd-started", TIMEOUT], timeout=15)	  
+      
       if match != 0:
         eprint("Unable to run openocd: " + child_openocd.before)
         child_openocd.terminate()
@@ -167,14 +171,13 @@ def executeOpenOcd(config):
 def executeGdbSwitch(config):
   global child_gdbswitch
   global g_netx_chip
-  
+
+  # C:\Daten\Projekte\XPIC_Testenvironment\xpic-llvm_201602011609\gdb_switch\gdb_switch_v2.exe
+  gdbswitch = '..\\..\\gdb_switch\\gdb_switch_v2.exe'
   if g_netx_chip == 'netx51' or g_netx_chip == 'netx51_usb2jtag':
-      gdbswitch = 'gdb_switch.exe'
-      netx      = ' -c netX51'
+        netx      = ' -c netX51'
   else:
-      #gdbswitch = 'netx10_gdb_switch.exe'
-      gdbswitch = 'gdb_switch.exe'
-      netx      = ' -c netX10'
+        netx      = ' -c netX10'
       
   run_cmd = '"' + config["prefix"] + gdbswitch + '"' + netx
   print("Launching run command: " + run_cmd)
@@ -488,8 +491,10 @@ def runGdbTestUsb_StartGDB(config):
                       ]          
   run_cmd = config["run_cmd"] + " -q -nw " + add_opt # + file
   vprint("Launching run command: " + run_cmd)
+  #file = open("C:\\Daten\\gdb.log","w")
+  #child_gdb = _spawn (run_cmd, file) # to create a logfile with output/input for xpic-GDB
   child_gdb = _spawn (run_cmd)
-    
+  
   match = child_gdb.expect(["\\(gdb\\)", TIMEOUT], timeout=5)
   if match != 0:
     eprint("Unable to run gdb: " + child_gdb.before)
@@ -589,6 +594,9 @@ def runGdbTestUsbV2(file=None, gdb=None, config=None):
   match = child_gdb.expect(["Breakpoint.*", TIMEOUT], timeout=config["exit_timeout"])
   if match != 0:
     eprint("No breakpoint reached!")
+    #child_gdb.sendcontrol('c')
+    #eprint("sendcontrol")
+    #sleep(3)
     # child_gdbswitch.expect([".*", TIMEOUT], timeout=5)
     # vprint("g: " + str(child_gdbswitch.after))
     # vprint("o: " + str(child_openocd.before))
@@ -692,6 +700,7 @@ def runTests(files, configs):
         if g_gdb_connection == 'usb':     
             child_openocd.terminate()
             child_gdbswitch.terminate()
+            sleep(1)
                     
         failures += failcnt + 1
         if failcnt == 0:
@@ -699,6 +708,7 @@ def runTests(files, configs):
         return failcnt
 
     if retcode != 0:
+      sleep(1)
       vprint("Test result: ERROR", 2)
       failcnt += 1
     else:  
@@ -738,7 +748,7 @@ def runTestsV2(files, configs):
      eprint( "test runs just only with USB connection! Use option: gdb_connection=usb" )
      return CRITICAL_ERROR    
      # starting openocd:
-   
+  
   result = executeOpenOcd(common_config)    
   if result != 0:
      eprint( "could not start OpenOCD!" )
@@ -754,6 +764,7 @@ def runTestsV2(files, configs):
     return CRITICAL_ERROR
 
   # waiting for gdb-switch be ready
+
   sleep(0.5)
 
   # start gdb at first
