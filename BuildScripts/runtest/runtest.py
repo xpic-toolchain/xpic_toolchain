@@ -118,17 +118,14 @@ def executeOpenOcd(config):
   global g_netx_chip
   
   if g_netx_chip == 'netx51':
-      # openocd     = 'openocd_new.exe'
       openocd     = '..\\..\\openocd\\openocd.exe'
       config_search = '..\\..\\netx_openocd_scripts'
       config_file_if = '..\\..\\netx_openocd_scripts\\interface\\hilscher_nxhx51_etm.cfg'
       config_file_board = '..\\..\\netx_openocd_scripts\\board\\hilscher_nxhx51.cfg'
-      #  -s C:\Daten\netx_openocd_scripts.git -f c:\Daten\netx_openocd_scripts.git\interface\hilscher_nxhx51_etm.cfg -f c:\Daten\netx_openocd_scripts.git\board\hilscher_nxhx51.cfg
       run_cmd = '"' + config["prefix"] + openocd + '" -s "' + config["prefix"] + config_search + '"' + ' -f' + ' "' + config["prefix"] + config_file_if + '" -f "' + config["prefix"] + config_file_board + '"' + ' "-c puts oocd-started"' 
       print("Launching run command: " + run_cmd)
       child_openocd = _spawn (run_cmd)
-        
-      #match = child_openocd.expect(["target halted in ARM state due to debug-request", TIMEOUT], timeout=15)
+      
       match = child_openocd.expect(["oocd-started", TIMEOUT], timeout=15)	  
       
       if match != 0:
@@ -151,14 +148,24 @@ def executeOpenOcd(config):
         return CRITICAL_ERROR    
     
   else:
-      openocd     = 'openocd.exe'
-      config_file = 'nxhx10_etm.cfg'
-      
-      run_cmd = '"' + config["prefix"] + openocd + '" -f' + '"' + config["prefix"] + '\\' + config_file + '"'
+      openocd     = '..\\..\\openocd\\openocd.exe'
+      config_search = '..\\..\\netx_openocd_scripts'
+      config_file_if = '..\\..\\netx_openocd_scripts\\interface\\hilscher_nxhx10_etm.cfg'
+      config_file_board = '..\\..\\netx_openocd_scripts\\board\\hilscher_nxhx10.cfg'
+      run_cmd = '"' + config["prefix"] + openocd + '" -s "' + config["prefix"] + config_search + '"' + ' -f' + ' "' + config["prefix"] + config_file_if + '" -f "' + config["prefix"] + config_file_board + '"' + ' "-c puts oocd-started"' 
       print("Launching run command: " + run_cmd)
       child_openocd = _spawn (run_cmd)
-        
-      match = child_openocd.expect(["dcc downloads are enabled", TIMEOUT], timeout=15)
+      
+      match = child_openocd.expect(["oocd-started", TIMEOUT], timeout=15)	  
+      
+#
+#      config_file = 'nxhx10_etm.cfg'
+#      
+#      run_cmd = '"' + config["prefix"] + openocd + '" -f' + '"' + config["prefix"] + '\\' + config_file + '"'
+#      print("Launching run command: " + run_cmd)
+#      child_openocd = _spawn (run_cmd)
+#        
+#      match = child_openocd.expect(["dcc downloads are enabled", TIMEOUT], timeout=15)
       if match != 0:
         eprint("Unable to run openocd: " + child_openocd.before)
         child_openocd.terminate()
