@@ -41,12 +41,14 @@ netx=
 import sys
 import os
 import re
-sys.path.append('build/scons')
-sys.path.append('build/runtest')
+sys.path.append('./../BuildScripts/scons')
+sys.path.append('./../BuildScripts/runtest')
 import xpic
 import xpic_test
 import runtest
 from time import gmtime, strftime
+
+
 
 
 # Match existing files against a pattern string

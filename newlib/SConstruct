@@ -50,8 +50,8 @@ netx=
 
 
 import sys
-sys.path.append('scons')
-sys.path.append('runtest')
+sys.path.append('./../BuildScripts/scons')
+sys.path.append('./../BuildScripts/runtest')
 import xpic
 import xpic_test
 import runtest

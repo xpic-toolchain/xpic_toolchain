@@ -32,8 +32,8 @@ netx=
 import sys
 import os
 import re
-sys.path.append('scons')
-sys.path.append('runtest')
+sys.path.append('./../../BuildScripts/scons')
+sys.path.append('./../../BuildScripts/runtest')
 import xpic
 import xpic_test
 from time import gmtime, strftime
