@@ -149,8 +149,8 @@ if buildarg == 'debug':
   print "**********************"
   _buildroot = 'debug'
 
-  _build_options_c = '-gdwarf-2 -O0'
-  _build_options_asm += '-gdwarf2 '
+  _build_options_c = '-g -gdwarf-4 -O0 '
+  _build_options_asm += '-g -gdwarf4 '
 
 elif buildarg == 'debugrel':
   print "***********************************************"
@@ -158,8 +158,8 @@ elif buildarg == 'debugrel':
   print "***********************************************"
   _buildroot = 'debugrel'
 
-  _build_options_c = '-gdwarf-2 -O1'
-  _build_options_asm += '-gdwarf2 '
+  _build_options_c = '-g -gdwarf-4 -Os'
+  _build_options_asm += '-g -gdwarf4 '
 else:
   print "************************"
   print "*** Release build... ***"
