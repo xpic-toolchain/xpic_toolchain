@@ -151,3 +151,6 @@ cd ..
 rm -f xpic-$VERSION.zip
 7z a -tzip -mx=9 xpic-llvm_$VERSION.zip $INSTALLPATH_CROSS
 
+# add test suite tools
+7z a -tzip -mx=9 xpic-llvm_testsuite_tools_$VERSION.zip add_tools
+
