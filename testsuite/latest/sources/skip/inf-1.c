@@ -4,7 +4,7 @@
 
 int main()
 {
-#ifdef __gcc__
+// #ifdef __gcc__
   /* Assumes rounding mode. */
   if (9999999.E90DF + 1.E90df != __builtin_infd32 ())
     return -1;
@@ -55,6 +55,6 @@ int main()
 
   if (__builtin_finited32 (__builtin_nand32 ("")))
     return -1;
-#endif
+// #endif
   return 0;
 }
