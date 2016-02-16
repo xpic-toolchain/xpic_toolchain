@@ -1,0 +1,133 @@
+
+test.o:     file format elf32-xpic
+
+
+Disassembly of section .text:
+
+00000000 <.text>:
+store [pc + #-100]w, u4
+   0:	ce ff a5 b9 	 store  [ pc + #-100 ]w, u4			0xffffff9c0xffffff9c
+store [pc + #-99]b, u4
+   4:	9d ff a1 b9 	 store  [ pc + #-99 ]b, u4			0xffffffa10xffffffa1
+store [pc + #-104]d, u4
+   8:	e6 ff a9 b9 	 store  [ pc + #-104 ]d, u4			0xffffffa00xffffffa0
+nop
+   c:	10 00 00 c0 	 nop  
+store [pc + #-1000]d, u4
+  10:	06 ff a9 b9 	 store  [ pc + #-1000 ]d, u4			0xfffffc280xfffffc28
+store [pc + #-10400]d, u4
+  14:	d8 f5 a9 b9 	 store  [ pc + #-10400 ]d, u4			0xffffd7740xffffd774
+store [pc + #253604]d, u4
+  18:	a9 f7 a8 b9 	 store  [ pc + #253604 ]d, u4			0x3debc0x3debc
+nop
+  1c:	10 00 00 c0 	 nop  
+
+Disassembly of section .debug_line:
+
+00000000 <.debug_line>:
+store [pc + #-100]w, u4
+   0:	37 00 00 00 	
+store [pc + #-99]b, u4
+   4:	02 00 1d 00 	
+store [pc + #-104]d, u4
+   8:	00 00 01 01 	
+nop
+   c:	fb 0e 0d 00 	
+store [pc + #-1000]d, u4
+  10:	01 01 01 01 	
+store [pc + #-10400]d, u4
+  14:	00 00 00 01 	
+store [pc + #253604]d, u4
+  18:	00 00 01 00 	
+nop
+  1c:	74 65 73 74 	.long	0x74736574	// data or unknown instruction
+  20:	2e 73 00 00 	
+  24:	00 00 00 00 	
+  28:	05 02 00 00 	
+  2c:	00 00 01 4b 	
+  30:	4b 4b 4b 4b 	
+  34:	4b 4b 02 04 	
+  38:	00 01 01 36 	Address 0x00000038 is out of bounds.
+.long	0xffffffff	// data or unknown instruction
+
+Disassembly of section .debug_info:
+
+00000000 <.debug_info>:
+store [pc + #-100]w, u4
+   0:	9e 00 00 00 	
+store [pc + #-99]b, u4
+   4:	02 00 00 00 	
+store [pc + #-104]d, u4
+   8:	00 00 04 01 	
+	...
+nop
+store [pc + #-1000]d, u4
+store [pc + #-10400]d, u4
+store [pc + #253604]d, u4
+  18:	74 65 73 74 	.long	0x74736574	// data or unknown instruction
+nop
+  1c:	2e 73 00 43 	.long	0x4300732e	// data or unknown instruction
+  20:	3a 5c 44 61 	.long	0x61445c3a	// data or unknown instruction
+  24:	74 65 6e 5c 	.long	0x5c6e6574	// data or unknown instruction
+  28:	50 72 6f 6a 	
+  2c:	65 6b 74 65 	
+  30:	5c 58 50 49 	
+  34:	43 5f 63 6f 	
+  38:	6d 70 69 6c 	
+  3c:	65 72 5f 73 	.long	0x735f7265	// data or unknown instruction
+  40:	6f 75 72 63 	.long	0x6372756f	// data or unknown instruction
+  44:	65 5c 78 70 	.long	0x70785c65	// data or unknown instruction
+  48:	69 63 5f 74 	.long	0x745f6369	// data or unknown instruction
+  4c:	6f 6f 6c 63 	.long	0x636c6f6f	// data or unknown instruction
+  50:	68 61 69 6e 	
+  54:	5c 74 65 73 	.long	0x7365745c	// data or unknown instruction
+  58:	74 73 75 69 	
+  5c:	74 65 5c 6c 	
+  60:	61 74 65 73 	.long	0x73657461	// data or unknown instruction
+  64:	74 5c 6f 66 	
+  68:	66 6c 69 6e 	
+  6c:	65 5f 74 65 	
+  70:	73 74 73 5c 	.long	0x5c737473	// data or unknown instruction
+  74:	61 73 6d 5f 	.long	0x5f6d7361	// data or unknown instruction
+  78:	73 69 67 6e 	
+  7c:	5f 65 78 74 	.long	0x7478655f	// data or unknown instruction
+  80:	65 6e 73 69 	
+  84:	6f 6e 5c 74 	.long	0x745c6e6f	// data or unknown instruction
+  88:	65 73 74 5f 	.long	0x5f747365	// data or unknown instruction
+  8c:	73 6f 75 72 	.long	0x72756f73	// data or unknown instruction
+  90:	63 65 73 00 	
+  94:	47 4e 55 20 	
+  98:	41 53 20 32 	
+  9c:	2e 32 30 00 	
+  a0:	01 80 00 00 	Address 0x000000a0 is out of bounds.
+.long	0xffffffff	// data or unknown instruction
+
+Disassembly of section .debug_abbrev:
+
+00000000 <.debug_abbrev>:
+store [pc + #-100]w, u4
+   0:	01 11 00 10 	
+store [pc + #-99]b, u4
+   4:	06 11 01 12 	
+store [pc + #-104]d, u4
+   8:	01 03 08 1b 	
+nop
+   c:	08 25 08 13 	
+store [pc + #-1000]d, u4
+  10:	05 00 00 00 	
+
+Disassembly of section .debug_aranges:
+
+00000000 <.debug_aranges>:
+store [pc + #-100]w, u4
+   0:	1c 00 00 00 	
+store [pc + #-99]b, u4
+   4:	02 00 00 00 	
+store [pc + #-104]d, u4
+   8:	00 00 04 00 	
+	...
+nop
+store [pc + #-1000]d, u4
+store [pc + #-10400]d, u4
+  14:	20 00 00 00 	
+	...

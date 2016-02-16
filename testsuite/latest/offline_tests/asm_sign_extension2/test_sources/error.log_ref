@@ -1,0 +1,2 @@
+test.s: Assembler messages:
+test.s:1: Error: wrong register operand 's[pc+#-1000'!    Source string: store s[pc+#-1000]w,u4
