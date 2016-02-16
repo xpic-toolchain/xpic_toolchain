@@ -1,0 +1,129 @@
+
+test.o:     file format elf32-xpic
+
+
+Disassembly of section .text:
+
+00000000 <.text>:
+load r7, [r5 + r6++]
+   0:	06 0a b8 8e 	 load  r7, [ r5 + r6++ ]d
+load r7, [r5 + --r6]
+   4:	06 14 b8 8e 	 load  r7, [ r5 + --r6 ]d
+load r7, [r5 + --r6++]
+   8:	06 0a b8 8e 	 load  r7, [ r5 + r6++ ]d
+nop
+   c:	10 00 00 c0 	 nop  
+load r7, [r0 + r6++]
+  10:	06 0a 18 8e 	 load  r7, [ r0 + r6++ ]d
+load r7, [r0 + --r6++]
+  14:	06 0a 18 8e 	 load  r7, [ r0 + r6++ ]d
+nop
+  18:	10 00 00 c0 	 nop  
+
+Disassembly of section .debug_line:
+
+00000000 <.debug_line>:
+load r7, [r5 + r6++]
+   0:	36 00 00 00 	
+load r7, [r5 + --r6]
+   4:	02 00 1d 00 	
+load r7, [r5 + --r6++]
+   8:	00 00 01 01 	
+nop
+   c:	fb 0e 0d 00 	
+load r7, [r0 + r6++]
+  10:	01 01 01 01 	
+load r7, [r0 + --r6++]
+  14:	00 00 00 01 	
+nop
+  18:	00 00 01 00 	
+  1c:	74 65 73 74 	.long	0x74736574	// data or unknown instruction
+  20:	2e 73 00 00 	
+  24:	00 00 00 00 	
+  28:	05 02 00 00 	
+  2c:	00 00 01 4b 	
+  30:	4b 4b 4b 4b 	
+  34:	4b 02 04 00 	
+  38:	01 01 72 36 	Address 0x00000038 is out of bounds.
+.long	0xffffffff	// data or unknown instruction
+
+Disassembly of section .debug_info:
+
+00000000 <.debug_info>:
+load r7, [r5 + r6++]
+   0:	a4 00 00 00 	
+load r7, [r5 + --r6]
+   4:	02 00 00 00 	
+load r7, [r5 + --r6++]
+   8:	00 00 04 01 	
+	...
+nop
+load r7, [r0 + r6++]
+load r7, [r0 + --r6++]
+nop
+  18:	74 65 73 74 	.long	0x74736574	// data or unknown instruction
+  1c:	2e 73 00 43 	.long	0x4300732e	// data or unknown instruction
+  20:	3a 5c 44 61 	.long	0x61445c3a	// data or unknown instruction
+  24:	74 65 6e 5c 	.long	0x5c6e6574	// data or unknown instruction
+  28:	50 72 6f 6a 	
+  2c:	65 6b 74 65 	
+  30:	5c 58 50 49 	
+  34:	43 5f 63 6f 	
+  38:	6d 70 69 6c 	
+  3c:	65 72 5f 73 	.long	0x735f7265	// data or unknown instruction
+  40:	6f 75 72 63 	.long	0x6372756f	// data or unknown instruction
+  44:	65 5c 78 70 	.long	0x70785c65	// data or unknown instruction
+  48:	69 63 5f 74 	.long	0x745f6369	// data or unknown instruction
+  4c:	6f 6f 6c 63 	.long	0x636c6f6f	// data or unknown instruction
+  50:	68 61 69 6e 	
+  54:	5c 74 65 73 	.long	0x7365745c	// data or unknown instruction
+  58:	74 73 75 69 	
+  5c:	74 65 5c 6c 	
+  60:	61 74 65 73 	.long	0x73657461	// data or unknown instruction
+  64:	74 5c 6f 66 	
+  68:	66 6c 69 6e 	
+  6c:	65 5f 74 65 	
+  70:	73 74 73 5c 	.long	0x5c737473	// data or unknown instruction
+  74:	61 73 6d 5f 	.long	0x5f6d7361	// data or unknown instruction
+  78:	6d 69 6e 75 	.long	0x756e696d	// data or unknown instruction
+  7c:	73 6d 69 6e 	
+  80:	75 73 72 30 	
+  84:	70 6c 75 73 	.long	0x73756c70	// data or unknown instruction
+  88:	70 6c 75 73 	.long	0x73756c70	// data or unknown instruction
+  8c:	5c 74 65 73 	.long	0x7365745c	// data or unknown instruction
+  90:	74 5f 73 6f 	
+  94:	75 72 63 65 	
+  98:	73 00 47 4e 	
+  9c:	55 20 41 53 	
+  a0:	20 32 2e 32 	
+  a4:	30 00 01 80 	
+
+Disassembly of section .debug_abbrev:
+
+00000000 <.debug_abbrev>:
+load r7, [r5 + r6++]
+   0:	01 11 00 10 	
+load r7, [r5 + --r6]
+   4:	06 11 01 12 	
+load r7, [r5 + --r6++]
+   8:	01 03 08 1b 	
+nop
+   c:	08 25 08 13 	
+load r7, [r0 + r6++]
+  10:	05 00 00 00 	
+
+Disassembly of section .debug_aranges:
+
+00000000 <.debug_aranges>:
+load r7, [r5 + r6++]
+   0:	1c 00 00 00 	
+load r7, [r5 + --r6]
+   4:	02 00 00 00 	
+load r7, [r5 + --r6++]
+   8:	00 00 04 00 	
+	...
+nop
+load r7, [r0 + r6++]
+load r7, [r0 + --r6++]
+  14:	1c 00 00 00 	
+	...
