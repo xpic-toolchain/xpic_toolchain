@@ -257,7 +257,7 @@ xpic_env['IMAGESUFFIX'] = '.srec'
 # --- Override Build outputs if not verbose ---
 show_commands = ARGUMENTS.get('show-commands', 'short')
 if show_commands not in ("short","full"):
-  print "warning: invalid value '" + show_commands + "' for varible 'show-commands', default to 'short'"
+  print "warning: invalid value '" + show_commands + "' for variable 'show-commands', default to 'short'"
   show_commands = 'short'
 if show_commands == 'short':
   xpic_env['CCCOMSTR']     = "[CC]  $SOURCE"
