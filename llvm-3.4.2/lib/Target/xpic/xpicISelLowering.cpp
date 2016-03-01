@@ -628,28 +628,20 @@ static void LookThroughSetCC(SDValue &LHS, SDValue &RHS,
   }
 }
 
+static SDNode* GlobalAddrInRegister(const SDValue globalAddr, const SDLoc loc, SelectionDAG &DAG) {
+  SDNode* unshifted_high = DAG.getMachineNode(XPIC::xLOADUPPER, loc, MVT::i32, globalAddr);
+  SDNode* shifted_high = DAG.getMachineNode(XPIC::xROLri5, SDLoc(unshifted_high), MVT::i32, SDValue(unshifted_high, 0), DAG.getTargetConstant(14, MVT::i32));
+  SDNode* loadedGA = DAG.getMachineNode(XPIC::xORLOWER, SDLoc(shifted_high), MVT::i32, globalAddr, SDValue(shifted_high, 0));
+  return loadedGA;
+}
+
 static SDValue LowerGLOBALADDRESS(SDValue Op, SelectionDAG &DAG) 
 {
-//SDValueInfo("LowerGLOBALADDRESS",Op,&DAG);
   const GlobalValue *GV = cast<GlobalAddressSDNode>(Op)->getGlobal();
   SDLoc dl(Op);
   SDValue GA = DAG.getTargetGlobalAddress(GV,  dl, MVT::i32);
-  // do not lower debug info
-//  if (DAG.isVerifiedDebugInfoDesc(Op))
-//   return GA;
 
-/*
-  SDNode *N = Op.getNode();
-  if(N->hasOneUse())
-  {
-   SDNode *use = *(N->use_begin());
-   if(use->getOpcode()==ISD::DECLARE)
-   return GA;
-  }
-*/
-
-  SDValue ZeroReg = DAG.getRegister(XPIC::z0, MVT::i32);
-  return DAG.getNode(ISD::ADD,dl, MVT::i32, GA, ZeroReg);
+  return SDValue(GlobalAddrInRegister(GA, SDLoc(GA), DAG), 0);
 }
 
 static SDValue LowerCONSTANTPOOL(SDValue Op, SelectionDAG &DAG) 
