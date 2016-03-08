@@ -3783,6 +3783,9 @@ signed long offset into 17 bits.  */
 signed offset into 15 bits (14bit is sign).  */
   BFD_RELOC_XPIC_X15_PCREL,
 
+    BFD_RELOC_XPIC_H18,
+    BFD_RELOC_XPIC_L14,
+
 /* This is a 16 bit reloc for the AVR that stores 17 bit value (usually
 program memory address) into 16 bits.  */
   BFD_RELOC_AVR_16_PM,

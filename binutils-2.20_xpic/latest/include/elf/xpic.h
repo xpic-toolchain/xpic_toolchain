@@ -99,6 +99,8 @@ START_RELOC_NUMBERS (elf_xpic_reloc_type)
      RELOC_NUMBER (R_XPIC_Y17,   	           30)
      RELOC_NUMBER (R_XPIC_LONG_JMP,            31)
      RELOC_NUMBER (R_XPIC_X15,                 32)
+     RELOC_NUMBER (R_XPIC_H18,                 33)
+     RELOC_NUMBER (R_XPIC_L14,                 34)
 END_RELOC_NUMBERS (R_XPIC_max)
 
 #endif /* _ELF_AVR_H */

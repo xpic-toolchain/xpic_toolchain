@@ -1159,6 +1159,20 @@ unsigned int getEXPRConstant(char *str,char ConstantType)
 	return 0;
   }
 
+  if(ConstantType=='H')
+  {
+    parse_exp (str, &ex);
+    fix_new_exp (frag_now, giWHERE,4, &ex, TRUE,  BFD_RELOC_XPIC_H18);
+    return 0;
+  }
+
+  if(ConstantType=='L')
+  {
+    parse_exp (str, &ex);
+    fix_new_exp (frag_now, giWHERE,4, &ex, TRUE,  BFD_RELOC_XPIC_L14);
+    return 0;
+  }
+
   if(ConstantType=='X')
   {
 	parse_exp (str, &ex);
@@ -1303,6 +1317,17 @@ int getZConst(char **str)
   {as_bad (_("constant '%d' don't fit in 19 bits!  Source string: %s"),iRet,__SrcStr__); return 0;}
   else return (iRet)&0x0007ffff;
 }
+// 18 bits high constant
+int getHConst(char **str)
+{
+  int iRet;
+  char acZConstStr[200];
+  *str = extract_word(*str,acZConstStr,sizeof(acZConstStr));
+  iRet=getConstant(acZConstStr,'H');
+  if( iRet>262143 || iRet<-262144)
+  {as_bad (_("constant '%d' don't fit in 19 bits!  Source string: %s"),iRet,__SrcStr__); return 0;}
+  else return (iRet)&0x0007ffff;
+}
 // 15 bit  sign constant, dword aligned
 int getXConst(char **str)
 {
@@ -1339,6 +1364,18 @@ int getVConst(char **str)
   char acVConstStr[200];
   *str = extract_word(*str,acVConstStr,sizeof(acVConstStr));
   iRet=getConstant(acVConstStr,'V');
+  if( iRet>16383 || iRet<-16384)
+  {as_bad (_("constant '%d' don't fit in 15 bits!  Source string: %s"),iRet,__SrcStr__); return 0;}
+
+  return (iRet)&0x00007fff;
+}
+// 14 bits low constant
+int getLConst(char **str)
+{
+  int iRet;
+  char acVConstStr[200];
+  *str = extract_word(*str,acVConstStr,sizeof(acVConstStr));
+  iRet=getConstant(acVConstStr,'L');
   if( iRet>16383 || iRet<-16384)
   {as_bad (_("constant '%d' don't fit in 15 bits!  Source string: %s"),iRet,__SrcStr__); return 0;}
 
@@ -1493,6 +1530,12 @@ int analyse_code(char *str, char *op)
                   if((fConst==1)               ){op[n]='3'; break;}//         'opcode' reg, const, reg
                   if(              fAddr       ){op[n]='6'; break;}//{[cond]} 'opcode' reg, {s}[wreg{++}]{b}, reg
                                                 {op[n]='4'; break;}//{[cond]} 'opcode' reg, reg, reg
+    case 0x006c726f:/// orl
+      n=3;
+      if(fComma!=2){iRet = 1;break;} // must be 3 operand!
+      if((fConst==1)               ){op[n]='1'; break;}//         'opcode' reg, const, reg
+      break;
+
 /// 3.2.7 Multiplication commands
   case 0x756c756d:/// mulu <- umul
   case 0x736c756d:/// muls <- smul
@@ -1524,6 +1567,10 @@ int analyse_code(char *str, char *op)
                   if((fPlus ==0)&&fAddr) 	{op[5]='1';break;}// store1: [base_reg]b 
                   if(fAddr)			{op[5]='2';break;}// store2: {[cond]} store [base_reg + wreg++]w_bs, reg
                   iRet = 1;break;
+    case 0x0069686c: /// lhi load hi 18 bit pseudo command
+      if(fComma!=1){iRet = 1;break;} // must be 2 operand!
+          if(fConst==1)	 		{op[3]='1';break;}// load2: load reg, #const
+          iRet = 1;break;
 /// 3.2.10 Jump commands
   case 0x00706d6a:op[3]='1'; break;///jmp cond, label
 /*
@@ -1699,10 +1746,12 @@ void md_assemble (char *str)
 		break;
       case 'U': iUconst= getUConst(&str);		break;
       case 'V': iVconst= getVConst(&str);		break;
+      case 'L': iVconst= getLConst(&str);       break;
       case 'W': iWconst= getWConst(&str);		break;
       case 'X': iXconst= getXConst(&str);		break;
       case 'Y': str=extract_word(str,acYConstStr,sizeof(acYConstStr)); break;
       case 'Z': iZconst= getZConst(&str);		break;
+      case 'H': iZconst= getHConst(&str);       break;
 // flags:
       case 'j': str  = getJump(&str,where);		break;
       case 'C': iCond  = getConditionCodeCE(cond);	break;

@@ -3973,6 +3973,16 @@ ENUMDOC
   This is a 32 bit reloc for the XPIC that stores  17 bit pc relative
   signed offset into 15 bits (14bit is sign).
 ENUM
+  BFD_RELOC_XPIC_H18
+ENUMDOC
+  This is a 32 bit reloc for the XPIC that stores the hightest 18 bit
+  of a global adress.
+ENUM
+  BFD_RELOC_XPIC_L14
+ENUMDOC
+  This is a 32 bit reloc for the XPIC that stores the lowest 14 bit
+  of a global adress.
+ENUM
   BFD_RELOC_AVR_16_PM
 ENUMDOC
   This is a 16 bit reloc for the AVR that stores 17 bit value (usually
