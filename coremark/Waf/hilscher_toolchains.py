@@ -502,7 +502,7 @@ def configure_toolchain_xpic(conf):
     f('LIBPATH',  [x+"/gcc/xpic-hilscher-elf/0.1.1" for x in libdir_list])
 
     #f('STLIB_default_standardlibs',   ['m', 'c', 'gcc'])
-    f('STLIB_default_standardlibs',   ['c', 'gcc', 'm'])
+    f('STLIB_default_standardlibs',   ['c', 'gcc', 'm', 'c'])
 	
 	# used inside old environment
     f('ASFLAGS', ['-Wa,-mmcu=xpic2','-c','--target=xpic', '-P'])
