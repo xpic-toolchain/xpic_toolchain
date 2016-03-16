@@ -18,6 +18,7 @@ def build(bld):
     use             = "llvm_xpic_includes",
     linkerscript    = 'LDScripts/netX51_xpic_intram.ld',
     install_path    = "netX51_xpic",
+    features = ['group_lib'],
   )
 
   bld.program(
@@ -32,6 +33,7 @@ def build(bld):
     use             = "llvm_xpic_includes",
     linkerscript    = 'LDScripts/netX51_xpic_tcm.ld',
     install_path    = "netX51_xpic",
+    features = ['group_lib'],
   )
 
   bld.program(
@@ -45,4 +47,5 @@ def build(bld):
     use             = "llvm_xpic_includes",
     linkerscript    = 'LDScripts/netX51_xpic_sdram.ld',
     install_path    = "netX51_xpic",
+    features = ['group_lib'],
   )
