@@ -501,9 +501,9 @@ def configure_toolchain_xpic(conf):
     libdir_list = Utils.to_list(conf.cmd_and_log(conf.env['LLVM_CONFIG'] + ["--libdir"]))
     f('LIBPATH',  [x+"/gcc/xpic-hilscher-elf/0.1.1" for x in libdir_list])
 
-    #f('STLIB_default_standardlibs',   ['m', 'c', 'gcc'])
-    f('STLIB_default_standardlibs',   ['c', 'gcc', 'm'])
-	
+    f('STLIB_default_standardlibs',   ['m', 'c', 'gcc'])   # order not correct
+    #f('STLIB_default_standardlibs',   ['c', 'gcc', 'm'])    # order correct
+		
 	# used inside old environment
     f('ASFLAGS', ['-Wa,-mmcu=xpic2','-c','--target=xpic', '-P'])
     f('LINKFLAGS', ['--target=xpic','-L' + os_env + '/lib' , '-L' + os_env + '/lib/gcc/xpic-hilscher-elf/0.1.1'])
