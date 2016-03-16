@@ -153,6 +153,8 @@ xpic_testf = []
 test_dir = ARGUMENTS.get('testdir', 'sources')
 
 xpic_testf_list = Files(test_dir + '/*.c')
+#xpic_testf_list = Files(test_dir + '/*packed_structures*.c')
+
 
 for src in xpic_testf_list:
   xpic_testf.append(gcc_test(src))
