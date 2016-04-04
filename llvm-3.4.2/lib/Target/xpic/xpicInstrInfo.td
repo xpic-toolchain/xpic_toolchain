@@ -254,8 +254,8 @@ let isCall=1,
                                        []>;
 }
 
-def : Pat<(call tglobaladdr:$dst ),(xCALL      tglobaladdr:$dst)>;
-def : Pat<(call texternalsym:$dst),(xCALL      texternalsym:$dst)>;
+def : Pat<(call tglobaladdr:$dst ),(xCALL_LOAD      tglobaladdr:$dst)>;
+def : Pat<(call texternalsym:$dst),(xCALL_LOAD      texternalsym:$dst)>;
 def : Pat<(call IntRegs:$dst),     (xCALL_LOAD IntRegs:$dst)>;
 
 
