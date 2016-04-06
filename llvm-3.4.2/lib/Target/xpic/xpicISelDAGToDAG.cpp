@@ -131,22 +131,6 @@ bool xpicDAGToDAGISel::SelectADDRframe(SDValue Addr, SDValue  &Reg, SDValue &Bas
     SDValue Global  = Addr.getOperand(0);
     SDValue Summand = Addr.getOperand(1);
 
-    // if "LowerGLOBALADDRESS" emits ADD: load rx= ADD $TGC,z0 -> load rx, [pc + $TGC]
-    if (RegisterSDNode *RN = dyn_cast<RegisterSDNode>(Addr.getOperand(1)))
-    {
-      SDValue Global = Addr.getOperand(0);
-      if(Global.getOpcode()==ISD::TargetExternalSymbol || Global.getOpcode()==ISD::TargetGlobalAddress)
-      {
-        if(RN->getReg() == XPIC::z0)
-        {
-          Base   = Global;
-          Reg    = CurDAG->getRegister(XPIC::pc, MVT::i32);
-          Offset = CurDAG->getTargetConstant(0, MVT::i32);
-          return true;
-        }
-      }
-    }
-
     // load rx= ADD (=ADD $TGC,z0),(Const or reg) -> load rx,$TGC : load[rx + (Const or reg)]
     if(Global.getOpcode()==ISD::ADD)
     {
@@ -328,7 +312,7 @@ SDNode *xpicDAGToDAGISel::SelectConstant(SDNode *Const)
 
   SDLoc dl(Const);
 
-  if (ConstantSDNode *C = dyn_cast<ConstantSDNode>(Const)) 
+  if (ConstantSDNode *C = dyn_cast<ConstantSDNode>(Const))
   {
     // use z0 register for zero constant values
     if(C->isNullValue())
@@ -337,6 +321,7 @@ SDNode *xpicDAGToDAGISel::SelectConstant(SDNode *Const)
     }
 
     int64_t val =  C->getSExtValue();
+    SDValue ZeroReg = CurDAG->getRegister(XPIC::z0, MVT::i32);
 
     // constant fit into signed 19 bit?
     if( val >= -(1 << 18) && val < (1 << 18) )
@@ -358,17 +343,26 @@ SDNode *xpicDAGToDAGISel::SelectConstant(SDNode *Const)
       return CurDAG->SelectNodeTo(Const, uShiftOpcode, MVT::i32, ShiftOp1, ShiftOp2);
     }
 
-    // create new constant, and use it
-    const Module *M=CurDAG->getMachineFunction().getFunction()->getParent();
-    // get GlobalVariable
-    unsigned int Val=val;
-    const GlobalVariable *NewGV = xpicHlprGetGlobalVariable(M, Val);
-
-    SDValue Reg    = CurDAG->getRegister(XPIC::pc, MVT::i32);
-    SDValue Base   = CurDAG->getTargetGlobalAddress(NewGV, dl, MVT::i32);
-    SDValue Offset = CurDAG->getTargetConstant(0, MVT::i32);
-    SDValue Ops0[] = {Reg, Base, Offset};
-    return CurDAG->SelectNodeTo(Const, XPIC::xLOADframe, MVT::i32, Ops0, 3);
+    /**
+     * Loading constant into a register using three instructions
+     *
+     *    load  r, #upper18bits
+     *    rol   r, r, #14
+     *    or    r, #lower14bits, r
+     *
+     */
+    uint32_t uval = (C->getZExtValue() & 0xffffffffu);
+    uint32_t upper = uval >> 14;
+    SDValue upperBits = CurDAG->getTargetConstant(upper, MVT::i32);
+    SDNode *unshifted_high = CurDAG->getMachineNode(XPIC::xLOADi, dl, MVT::i32, upperBits, ZeroReg);
+    SDNode *shifted_high = CurDAG->getMachineNode(XPIC::xROLri5, SDLoc(unshifted_high), MVT::i32,
+                                                  SDValue(unshifted_high, 0),
+                                                  CurDAG->getTargetConstant(14, MVT::i32));
+    uint32_t lower = uval & 0x3FFF;
+    SDValue lowerBits = CurDAG->getTargetConstant(lower, MVT::i32);
+    SDNode *loadedGA = CurDAG->getMachineNode(XPIC::xORir, SDLoc(shifted_high), MVT::i32, lowerBits,
+                                              SDValue(shifted_high, 0));
+    return loadedGA;
   }
   return SelectCode(Const);
 }

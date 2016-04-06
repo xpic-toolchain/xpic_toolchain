@@ -369,11 +369,7 @@ multiclass IXALU_2op<bits<6> opcode, string OpcStr, PatFrag OpNode, bit Commutab
                       (ins i32imm:$src1, IntRegs:$src2),
                       !strconcat(OpcStr, " $dst, $src1, $src2"), 
                       [(set IntRegs:$dst, (OpNode simm14:$src1, IntRegs:$src2))]>;
-                                
- def imr     : IXALU< opcode, 
-                      (ins i32imm:$src1, IntRegs:$src2),
-                      !strconcat(OpcStr, " $dst, [pc + $src1], $src2"), 
-                      [(set IntRegs:$dst, (OpNode CONST_MEM:$src1, IntRegs:$src2))]>;
+
 
  def mr      : IXALU< opcode, 
                       (ins i32imm:$addr, IntRegs:$src),
@@ -540,11 +536,6 @@ multiclass IXALU_1op<bits<6> opcode, string OpcStr, PatFrag OpNode> {
                       (ins i32imm:$src1),
                       !strconcat(OpcStr, " $dst, $src1, z0"), 
                       [(set IntRegs:$dst, (OpNode simm14:$src1))]>;
-                      
- def im      : IXALU< opcode, 
-                      (ins i32imm:$src1),
-                      !strconcat(OpcStr, " $dst, [pc + $src1], z0"), 
-                      [(set IntRegs:$dst, (OpNode CONST_MEM:$src1))]>;
  
  def m       : IXALU< opcode, 
                       (ins i32imm:$addr1),
