@@ -642,6 +642,36 @@ static reloc_howto_type elf_xpic_howto_table[] =
 	 0x0001ffff,                 /* src_mask                                          */
 	 0x0001ffff,                 /* dst_mask                                          */
 	 TRUE),                      /* pcrel_offset                                      */
+
+  /* Gets the upper 18 bit of a relocated global address.   */
+  HOWTO (R_XPIC_H18,                 /* type $addr:h18              */
+		 14,                         /* rightshift                                        */
+		 2,                          /* size (0 = byte, 1 = short, 2 = long)              */
+		 18,                         /* bitsize                                           */
+		 FALSE,                      /* pc_relative                                       */
+		 0,                          /* bitpos                                            */
+		 complain_overflow_bitfield, /* complain_on_overflow                              */
+		 bfd_elf_generic_reloc,      /* special_function                                  */
+		 "R_XPIC_H18",               /* name                                              */
+		 FALSE,                      /* partial_inplace                                   */
+		 0xffFFC000,                 /* src_mask                                          */
+		 0x0003ffff,                 /* dst_mask                                          */
+		 TRUE),                      /* pcrel_offset                                      */
+
+		/* Gets the lower 14 bit of a relocated global address.   */
+  HOWTO (R_XPIC_L14,                 /* type $addr:h18              */
+		 0,                         /* rightshift                                        */
+		 2,                          /* size (0 = byte, 1 = short, 2 = long)              */
+		 14,                         /* bitsize                                           */
+		 FALSE,                      /* pc_relative                                       */
+		 0,                          /* bitpos                                            */
+		 complain_overflow_dont, /* complain_on_overflow                              */
+		 bfd_elf_generic_reloc,      /* special_function                                  */
+		 "R_XPIC_L14",               /* name                                              */
+		 FALSE,                      /* partial_inplace                                   */
+		 0x00003fff,                 /* src_mask                                          */
+		 0x00003fff,                 /* dst_mask                                          */
+		 TRUE),                      /* pcrel_offset                                      */
 };
 
 
@@ -684,6 +714,8 @@ static const struct xpic_reloc_map xpic_reloc_map[] =
   { BFD_RELOC_XPIC_X15_PCREL,       R_XPIC_X15_PCREL },
   { BFD_RELOC_XPIC_LONG_JMP,        R_XPIC_LONG_JMP },
 /*  { BFD_RELOC_XPIC_X15,       R_XPIC_X15 },    BFD_RELOC_XPIC_X15 - not exist*/
+  { BFD_RELOC_XPIC_H18,				R_XPIC_H18},
+  { BFD_RELOC_XPIC_L14,				R_XPIC_L14},
   { BFD_RELOC_AVR_HH8_LDI_PM_NEG,   R_AVR_HH8_LDI_PM_NEG },
   { BFD_RELOC_AVR_CALL,             R_AVR_CALL },
   { BFD_RELOC_AVR_LDI,              R_AVR_LDI  },

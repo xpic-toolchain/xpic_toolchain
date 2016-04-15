@@ -254,8 +254,8 @@ let isCall=1,
                                        []>;
 }
 
-def : Pat<(call tglobaladdr:$dst ),(xCALL      tglobaladdr:$dst)>;
-def : Pat<(call texternalsym:$dst),(xCALL      texternalsym:$dst)>;
+def : Pat<(call tglobaladdr:$dst ),(xCALL_LOAD      tglobaladdr:$dst)>;
+def : Pat<(call texternalsym:$dst),(xCALL_LOAD      texternalsym:$dst)>;
 def : Pat<(call IntRegs:$dst),     (xCALL_LOAD IntRegs:$dst)>;
 
 
@@ -369,11 +369,7 @@ multiclass IXALU_2op<bits<6> opcode, string OpcStr, PatFrag OpNode, bit Commutab
                       (ins i32imm:$src1, IntRegs:$src2),
                       !strconcat(OpcStr, " $dst, $src1, $src2"), 
                       [(set IntRegs:$dst, (OpNode simm14:$src1, IntRegs:$src2))]>;
-                                
- def imr     : IXALU< opcode, 
-                      (ins i32imm:$src1, IntRegs:$src2),
-                      !strconcat(OpcStr, " $dst, [pc + $src1], $src2"), 
-                      [(set IntRegs:$dst, (OpNode CONST_MEM:$src1, IntRegs:$src2))]>;
+
 
  def mr      : IXALU< opcode, 
                       (ins i32imm:$addr, IntRegs:$src),
@@ -540,11 +536,6 @@ multiclass IXALU_1op<bits<6> opcode, string OpcStr, PatFrag OpNode> {
                       (ins i32imm:$src1),
                       !strconcat(OpcStr, " $dst, $src1, z0"), 
                       [(set IntRegs:$dst, (OpNode simm14:$src1))]>;
-                      
- def im      : IXALU< opcode, 
-                      (ins i32imm:$src1),
-                      !strconcat(OpcStr, " $dst, [pc + $src1], z0"), 
-                      [(set IntRegs:$dst, (OpNode CONST_MEM:$src1))]>;
  
  def m       : IXALU< opcode, 
                       (ins i32imm:$addr1),
@@ -752,3 +743,14 @@ def : Pat<(i32 (extloadi16 ADDRri:$src)), (xLDUHri ADDRri:$src)>;
 // zextload bool -> zextload byte
 def : Pat<(i32 (zextloadi1 ADDRrr:$src)), (xLDUBrr ADDRrr:$src)>;
 
+// Load upper 18 bit of 32 bit immediate symbol
+def xLOADUPPER          : InstructionXPIC< (outs IntRegs:$dst),
+                                      (ins i32imm:$addr),
+                                      "lhi $dst, $addr",
+                                      []>;
+
+// Bitwise OR register with lower 14 bit of immediate symbol
+def xORLOWER            : InstructionXPIC< (outs IntRegs:$dst),
+                                      (ins i32imm:$addr, IntRegs:$src),
+                                      "orl $dst, $addr, $src",
+                                      []>;
