@@ -519,13 +519,7 @@ printf("xpicDAGToDAGISel::Select()\n");
 
     case ISD::Constant:
       return SelectConstant(N);
-/*
-    case ISD::LOAD:
-    {
-      if(SDNode *SD=SelectAddress(N))return SD;
-      break;
-    }
-*/
+
   }
   return SelectCode(N);
 }

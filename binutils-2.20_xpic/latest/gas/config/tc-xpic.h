@@ -178,6 +178,8 @@ extern long md_pcrel_from_section (struct fix *, segT);
        || FIXP->fx_r_type == BFD_RELOC_XPIC_Y17              \
        || FIXP->fx_r_type == BFD_RELOC_XPIC_Z19              \
        || FIXP->fx_r_type == BFD_RELOC_XPIC_X15_PCREL        \
+       || FIXP->fx_r_type == BFD_RELOC_XPIC_H18              \
+       || FIXP->fx_r_type == BFD_RELOC_XPIC_L14              \
        || FIXP->fx_r_type == BFD_RELOC_AVR_13_PCREL             \
        || FIXP->fx_r_type == BFD_RELOC_AVR_LO8_LDI_PM        \
        || FIXP->fx_r_type == BFD_RELOC_AVR_LO8_LDI_GS        \

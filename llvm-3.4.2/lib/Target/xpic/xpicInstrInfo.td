@@ -752,3 +752,14 @@ def : Pat<(i32 (extloadi16 ADDRri:$src)), (xLDUHri ADDRri:$src)>;
 // zextload bool -> zextload byte
 def : Pat<(i32 (zextloadi1 ADDRrr:$src)), (xLDUBrr ADDRrr:$src)>;
 
+// Load upper 18 bit of 32 bit immediate symbol
+def xLOADUPPER          : InstructionXPIC< (outs IntRegs:$dst),
+                                      (ins i32imm:$addr),
+                                      "lhi $dst, $addr",
+                                      []>;
+
+// Bitwise OR register with lower 14 bit of immediate symbol
+def xORLOWER            : InstructionXPIC< (outs IntRegs:$dst),
+                                      (ins i32imm:$addr, IntRegs:$src),
+                                      "orl $dst, $addr, $src",
+                                      []>;

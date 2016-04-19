@@ -209,6 +209,7 @@ XPIC_INSN (or3,     "d,V,r"         ,"0000000ddddrrrr10VVVVVVVVVVVVVVV", 4, XPIC
 XPIC_INSN (or4,     "Cd,r,q"        ,"0000000ddddqqqq11000000CCCCCrrrr", 4, XPIC_ISA, 0x00018000 + XPIC_OPCODE__OR)
 XPIC_INSN (or5,     "Cd,s[x+pwP]m,q","0000000ddddqqqq1110eeeeCCCCC0www", 4, XPIC_ISA, 0x0001c000 + XPIC_OPCODE__OR)
 XPIC_INSN (or6,     "Cd,s[pwP]m,q"  ,"0000000ddddqqqq1111eeeeCCCCC0www", 4, XPIC_ISA, 0x0001e000 + XPIC_OPCODE__OR)
+XPIC_INSN (orl1,    "d,L,r"         ,"0000000ddddrrrr10LLLLLLLLLLLLLLL", 4, XPIC_ISA, 0x00010000 + XPIC_OPCODE__OR)
 #define XPIC_OPCODE__ADDC 0x1e000000
 XPIC_INSN (addc1,     "d,[x+X],r"    ,"0000000ddddrrrr00XXXXXXXXXXXXXXX", 4, XPIC_ISA, 0x00000000 + XPIC_OPCODE__ADDC)
 XPIC_INSN (addc2,     "d,[W],r"      ,"0000000ddddrrrr01WWWWWWWWWWWWWWW", 4, XPIC_ISA, 0x00008000 + XPIC_OPCODE__ADDC)
@@ -411,6 +412,7 @@ XPIC_INSN (dec6,     "Cd,s[pwP]m,T"  ,"0000000ddddTTTT1111eeeeCCCCC0www", 4, XPI
 /// 3.2.9 Load/Store  commands
 XPIC_INSN (load1,    "d,s[r+Y]m"    ,"100ddddrrrr0mmsYYYYYYYYYYYYYYYYY", 4, XPIC_ISA, 0x80000000)
 XPIC_INSN (load2,    "d,Z"          ,"100dddd000010ZZZZZZZZZZZZZZZZZZZ", 4, XPIC_ISA, 0x80100000)
+XPIC_INSN (lhi1,      "d,H"          ,"100dddd000010HHHHHHHHHHHHHHHHHHH", 4, XPIC_ISA, 0x80100000)
 XPIC_INSN (load3,    "Cd,s[r+pwP]mS","100ddddrrrr11SSxxxxeeeeCCCCCxwww", 4, XPIC_ISA, 0x80180000)
 XPIC_INSN (store1,   "[r+Y]m,d"     ,"101ddddrrrr0mm0YYYYYYYYYYYYYYYYY", 4, XPIC_ISA, 0xa0000000)
 XPIC_INSN (store2,   "Cs[r+pwP]mS,d","101ddddrrrr11SS0000eeeeCCCCC0www", 4, XPIC_ISA, 0xa0180000)
