@@ -242,19 +242,7 @@ printf("xpicTargetLowering::LowerCall\n");
   //NodeTys.push_back(MVT::Flag);    // Returns a flag for retval copy to use.
   //SDValue Ops[] = { Chain, Callee, InFlag };
 
-  if (GlobalAddressSDNode *G = dyn_cast<GlobalAddressSDNode>(Callee)) {
-    SmallVector<SDValue, 16> LoadOps;
-    LoadOps.push_back(Callee);
-    LoadOps.push_back(Chain);
-    Chain = SDValue(DAG.getMachineNode(XPIC::xCALL_LOAD, SDLoc(Callee), NodeTys, LoadOps), 0);
-  } else  if (ExternalSymbolSDNode *E = dyn_cast<ExternalSymbolSDNode>(Callee)) {
-    SmallVector<SDValue, 16> LoadOps;
-    LoadOps.push_back(Callee);
-    LoadOps.push_back(Chain);
-    Chain = SDValue(DAG.getMachineNode(XPIC::xCALL_LOAD, SDLoc(Callee), NodeTys, LoadOps), 0);
-  } else {
-    Chain = DAG.getNode(XPICISD::CALL,dl, NodeTys, &Ops[0], Ops.size());
-  }
+  Chain = DAG.getNode(XPICISD::CALL,dl, NodeTys, &Ops[0], Ops.size());
 
   InFlag = Chain.getValue(1);
 
