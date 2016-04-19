@@ -222,14 +222,6 @@ printf("xpicTargetLowering::LowerCall\n");
     InFlag = Chain.getValue(1);
   }
 
-  // If the callee is a GlobalAddress node (quite common, every direct call is)
-  // turn it into a TargetGlobalAddress node so that legalize doesn't hack it.
-  // Likewise ExternalSymbol -> TargetExternalSymbol.
-  if (GlobalAddressSDNode *G = dyn_cast<GlobalAddressSDNode>(Callee))
-    Callee = DAG.getTargetGlobalAddress(G->getGlobal(), dl, MVT::i32);
-  else if (ExternalSymbolSDNode *E = dyn_cast<ExternalSymbolSDNode>(Callee))
-    Callee = DAG.getTargetExternalSymbol(E->getSymbol(), MVT::i32);
-
   // Returns a chain & a flag for retval copy to use.
   SDVTList NodeTys = DAG.getVTList(MVT::Other, MVT::Glue);
   SmallVector<SDValue, 16> Ops;
@@ -250,7 +242,20 @@ printf("xpicTargetLowering::LowerCall\n");
   //NodeTys.push_back(MVT::Flag);    // Returns a flag for retval copy to use.
   //SDValue Ops[] = { Chain, Callee, InFlag };
 
-  Chain = DAG.getNode(XPICISD::CALL,dl, NodeTys, &Ops[0], Ops.size());
+  if (GlobalAddressSDNode *G = dyn_cast<GlobalAddressSDNode>(Callee)) {
+    SmallVector<SDValue, 16> LoadOps;
+    LoadOps.push_back(Callee);
+    LoadOps.push_back(Chain);
+    Chain = SDValue(DAG.getMachineNode(XPIC::xCALL_LOAD, SDLoc(Callee), NodeTys, LoadOps), 0);
+  } else  if (ExternalSymbolSDNode *E = dyn_cast<ExternalSymbolSDNode>(Callee)) {
+    SmallVector<SDValue, 16> LoadOps;
+    LoadOps.push_back(Callee);
+    LoadOps.push_back(Chain);
+    Chain = SDValue(DAG.getMachineNode(XPIC::xCALL_LOAD, SDLoc(Callee), NodeTys, LoadOps), 0);
+  } else {
+    Chain = DAG.getNode(XPICISD::CALL,dl, NodeTys, &Ops[0], Ops.size());
+  }
+
   InFlag = Chain.getValue(1);
 
   // Create the CALLSEQ_END node.
@@ -454,6 +459,7 @@ xpicTargetLowering::xpicTargetLowering(TargetMachine &TM)
   // Custom legalize GlobalAddress nodes into LO/HI parts.
   setOperationAction(ISD::GlobalAddress,    MVT::i32, Custom);
   setOperationAction(ISD::GlobalTLSAddress, MVT::i32, Custom);
+  setOperationAction(ISD::ExternalSymbol,    MVT::i32, Custom);
   setOperationAction(ISD::ConstantPool,     MVT::i32, Custom);
   
   // xpic has no sign_extend_inreg, replace them with shl/sra
@@ -644,6 +650,17 @@ static SDValue LowerGLOBALADDRESS(SDValue Op, SelectionDAG &DAG)
   return SDValue(GlobalAddrInRegister(GA, SDLoc(GA), DAG), 0);
 }
 
+static SDValue LowerEXTERNALSYMBOL(SDValue Op, SelectionDAG &DAG)
+{
+  const char*Symbol = cast<ExternalSymbolSDNode>(Op)->getSymbol();
+  unsigned char TargetFlags = cast<ExternalSymbolSDNode>(Op)->getTargetFlags();
+  EVT VT = cast<ExternalSymbolSDNode>(Op)->getValueType(0);
+  SDLoc dl(Op);
+  SDValue GA = DAG.getTargetExternalSymbol(Symbol, VT, TargetFlags);
+  return SDValue(GlobalAddrInRegister(GA, SDLoc(GA), DAG), 0);
+}
+
+
 static SDValue LowerCONSTANTPOOL(SDValue Op, SelectionDAG &DAG) 
 {
 #ifdef DEBUG_SHOW_FNS_NAMES  
@@ -829,6 +846,7 @@ SDValue xpicTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const 
   case ISD::GlobalTLSAddress:
     assert(0 && "TLS not implemented for xpic.");
   case ISD::GlobalAddress:      return LowerGLOBALADDRESS(Op, DAG);
+  case ISD::ExternalSymbol:     return LowerEXTERNALSYMBOL(Op, DAG);
   case ISD::ConstantPool:       return LowerCONSTANTPOOL(Op, DAG);
 //  case ISD::FP_TO_SINT:         return LowerFP_TO_SINT(Op, DAG);
 //  case ISD::SINT_TO_FP:         return LowerSINT_TO_FP(Op, DAG);
