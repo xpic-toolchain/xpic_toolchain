@@ -1,22 +1,19 @@
 @echo off
 cd test_sources
-%PATH_GNU_XPIC%\bin\xpic-as -gdwarf2 test.s -o test.o
-%PATH_GNU_XPIC%\bin\xpic-objdump -D -S test.o > dump.tmp
+%PATH_GNU_XPIC%\bin\xpic-as -gdwarf2 test.s -o test.o 2> dump.tmp
 fc dump.txt dump.tmp > null
 if %ERRORLEVEL%==0 (
-echo test failed!
+echo test was succeesful.
 ) else (
-echo test needs manual check!
-echo check if assembler returns with error message
-echo Error message has to mentioned wrong assembler opcode: "load r7, [r5 + --r6++]"
+echo test failed!
 )
-REM if exist test.o (
-REM del test.o
-REM )
-REM if exist dump.tmp (
-REM del dump.tmp
-REM )
-REM if exist null (
-REM del null
-REM )
+if exist test.o (
+del test.o
+)
+if exist dump.tmp (
+del dump.tmp
+)
+if exist null (
+del null
+)
 cd ..

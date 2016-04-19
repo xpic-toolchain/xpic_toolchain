@@ -1410,7 +1410,7 @@ int analyse_code(char *str, char *op, int conditional_execution)
   uint32_t *ulOp = (uint32_t *)op;
   int iRet=0,n=0;//iRet=1 is error
 // flags:
-  int fConst=0,fAddr=0,fPC=0,fComma=0,fPlus=0;
+  int fConst=0,fAddr=0,fPC=0,fComma=0,fPlus=0,fMinus=0;
   // NULL, faled:
   if(str==NULL)return 1;
   // 1 get all characteristics flags:
@@ -1425,7 +1425,8 @@ int analyse_code(char *str, char *op, int conditional_execution)
     case '[': fAddr  = 1; break;
     case ']': fAddr &= 1; break;
     case 'p': if( str[-1] == '[' && str[1] == 'c'&& str[2] == '+'&& str[3] != '+' ) fPC = 1;break;
-    case '+': fPlus++;
+    case '+': fPlus++; break;
+    case '-': fMinus++; break;
     default: break;};
   str++;
   };
@@ -1517,13 +1518,13 @@ int analyse_code(char *str, char *op, int conditional_execution)
                   if((fConst==1)&&fAddr) 	{if(conditional_execution){iRet = 1;break;}op[4]='1';break;}// load1: load reg, s[base_reg + #const]b
                   if((fPlus ==0)&&fAddr) 	{if(conditional_execution){iRet = 1;break;}op[4]='1';break;}// load1: load reg, s[base_reg]b
                   if(fConst==1)	 		{if(conditional_execution){iRet = 1;break;}op[4]='2';break;}// load2: load reg, #const
-                  if(fAddr)			{                                          op[4]='3';break;}// load3: {[cond]} load reg, s[base_reg + wreg++]w_bs
+                  if(fAddr&&((fPlus==1)||((fPlus==3)!=(fMinus==2))))  {op[4]='3';break;}// load3: {[cond]} load reg, s[base_reg + wreg++]w_bs
                   iRet = 1;break;
   case 0x726f7473:///store
 		  if(fComma!=1){iRet = 1;break;} // must be 2 operand!
                   if((fConst==1)&&fAddr)	{if(conditional_execution){iRet = 1;break;}op[5]='1';break;}// store1: [base_reg + const]b, reg
                   if((fPlus ==0)&&fAddr) 	{if(conditional_execution){iRet = 1;break;}op[5]='1';break;}// store1: [base_reg]b
-                  if(fAddr)			{                                          op[5]='2';break;}// store2: {[cond]} store [base_reg + wreg++]w_bs, reg
+                  if(fAddr&&((fPlus==1)||((fPlus==3)!=(fMinus==2))))  {op[5]='2';break;}// store2: {[cond]} store [base_reg + wreg++]w_bs, reg
                   iRet = 1;break;
 /// 3.2.10 Jump commands
   case 0x00706d6a:if(conditional_execution){iRet = 1;break;}op[3]='1'; break;///jmp cond, label
