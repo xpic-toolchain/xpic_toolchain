@@ -1,0 +1,3 @@
+test.s: Assembler messages:
+test.s:5: Error: wrong opcode or invalid combination of operands! Source string: [z] add r6,[#400],r0
+test.s:9: Error: wrong opcode or invalid combination of operands! Source string: [z] add r6,[#400],r0
