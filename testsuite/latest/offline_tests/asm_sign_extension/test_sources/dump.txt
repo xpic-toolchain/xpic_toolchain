@@ -5,6 +5,7 @@ test.o:     file format elf32-xpic
 Disassembly of section .text:
 
 00000000 <.text>:
+// following standard commands without sign-extension have to by correctly handled by xpic-compiler
 store [pc + #-100]w, u4
    0:	ce ff a5 b9 	 store  [ pc + #-100 ]w, u4			0xffffff9c0xffffff9c
 store [pc + #-99]b, u4
