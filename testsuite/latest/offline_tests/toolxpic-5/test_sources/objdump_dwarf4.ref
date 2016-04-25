@@ -1,5 +1,5 @@
 
-test.o:     file format elf32-xpic
+test_dwarf4.o:     file format elf32-xpic
 
 Decoded dump of debug contents of section .debug_line:
 

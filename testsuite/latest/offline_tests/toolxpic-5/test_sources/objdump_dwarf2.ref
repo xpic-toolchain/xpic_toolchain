@@ -1,0 +1,10 @@
+
+test_dwarf2.o:     file format elf32-xpic
+
+Decoded dump of debug contents of section .debug_line:
+
+CU: test.s:
+File name                            Line number    Starting address
+test.s                                         1                   0
+
+
