@@ -1,0 +1,3 @@
+.\libb.a(b.o): In function `test_a':
+C:\Daten\Projekte\XPIC_compiler_source\xpic_toolchain\testsuite\latest\offline_tests\ld_order\test_sources/b.c:6: undefined reference to `b'
+C:\Daten\Projekte\XPIC_compiler_source\xpic_toolchain\testsuite\latest\offline_tests\ld_order\test_sources/b.c:6: undefined reference to `b'

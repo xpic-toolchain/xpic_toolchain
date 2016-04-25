@@ -1,0 +1,155 @@
+Archive member included because of file (symbol)
+
+.\libb.a(b.o)                 a.o (a)
+.\libd.a(d.o)                 .\libb.a(b.o) (b)
+
+Allocating common symbols
+Common symbol       size              file
+
+b                   0x4               .\libd.a(d.o)
+a                   0x4               .\libb.a(b.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+INT_PRAM         0x1018c000         0x00002000         xr
+INT_DRAM         0x1018e000         0x00001800         rw !x
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD a.o
+START GROUP
+LOAD .\libd.a
+LOAD .\libb.a
+END GROUP
+
+.text           0x00000000       0x84 load address 0x1018c000
+ *init_xpic.o(.text)
+ *(.text)
+ .text          0x00000000       0x30 a.o
+                0x00000000                main
+ .text          0x00000030       0x34 .\libb.a(b.o)
+                0x00000030                test_a
+ .text          0x00000064       0x20 .\libd.a(d.o)
+                0x00000064                test_D
+
+.trampolines    0x1018c084        0x0 load address 0x1018e000
+ .trampolines   0x1018c084        0x0 linker stubs
+
+.data           0x00000000        0x8 load address 0x1018e000
+ *(.data)
+ .data          0x00000000        0x0 a.o
+ .data          0x00000000        0x0 .\libb.a(b.o)
+ .data          0x00000000        0x0 .\libd.a(d.o)
+ *(.constants)
+ *(.rodata*)
+ *(COMMON)
+ COMMON         0x00000000        0x4 .\libb.a(b.o)
+                0x00000000                a
+ COMMON         0x00000004        0x4 .\libd.a(d.o)
+                0x00000004                b
+ *(.bss)
+ .bss           0x00000008        0x0 a.o
+ .bss           0x00000008        0x0 .\libb.a(b.o)
+ .bss           0x00000008        0x0 .\libd.a(d.o)
+                0x00001f00                PROVIDE (__stack_top_std, 0x1f00)
+                0x00002000                PROVIDE (__stack_top_fiq, 0x2000)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.comment        0x00000000       0x2d load address 0x1018e008
+ .comment       0x00000000       0x2d a.o
+                                 0x2e (size before relaxing)
+ .comment       0x00000000       0x2e .\libb.a(b.o)
+ .comment       0x00000000       0x2e .\libd.a(d.o)
+
+.debug_aranges  0x00000000       0x70 load address 0x1018e008
+ *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x20 a.o
+ .debug_aranges
+                0x00000020       0x28 .\libb.a(b.o)
+ .debug_aranges
+                0x00000048       0x28 .\libd.a(d.o)
+
+.debug_pubnames
+                0x00000000       0x61 load address 0x1018e008
+ *(.debug_pubnames)
+ .debug_pubnames
+                0x00000000       0x1b a.o
+ .debug_pubnames
+                0x0000001b       0x23 .\libb.a(b.o)
+ .debug_pubnames
+                0x0000003e       0x23 .\libd.a(d.o)
+
+.debug_info     0x00000000       0xf5 load address 0x1018e008
+ *(.debug_info)
+ .debug_info    0x00000000       0x40 a.o
+ .debug_info    0x00000040       0x53 .\libb.a(b.o)
+ .debug_info    0x00000093       0x62 .\libd.a(d.o)
+ *(.gnu.linkonce.wi.*)
+
+.debug_abbrev   0x00000000       0xcb load address 0x1018e008
+ *(.debug_abbrev)
+ .debug_abbrev  0x00000000       0x32 a.o
+ .debug_abbrev  0x00000032       0x45 .\libb.a(b.o)
+ .debug_abbrev  0x00000077       0x54 .\libd.a(d.o)
+
+.debug_line     0x00000000       0x9d load address 0x1018e008
+ *(.debug_line)
+ .debug_line    0x00000000       0x33 a.o
+ .debug_line    0x00000033       0x36 .\libb.a(b.o)
+ .debug_line    0x00000069       0x34 .\libd.a(d.o)
+
+.debug_frame
+ *(.debug_frame)
+
+.debug_str      0x00000000       0xc0 load address 0x1018e008
+ *(.debug_str)
+ .debug_str     0x00000000       0xa5 a.o
+ .debug_str     0x000000a5        0xb .\libb.a(b.o)
+                                 0xa9 (size before relaxing)
+ .debug_str     0x000000b0       0x10 .\libd.a(d.o)
+                                 0xac (size before relaxing)
+
+.debug_loc      0x00000000        0x0 load address 0x1018e008
+ *(.debug_loc)
+ .debug_loc     0x00000000        0x0 a.o
+ .debug_loc     0x00000000        0x0 .\libb.a(b.o)
+ .debug_loc     0x00000000        0x0 .\libd.a(d.o)
+
+.debug_macinfo  0x00000000        0x0 load address 0x1018e008
+ *(.debug_macinfo)
+ .debug_macinfo
+                0x00000000        0x0 a.o
+ .debug_macinfo
+                0x00000000        0x0 .\libb.a(b.o)
+ .debug_macinfo
+                0x00000000        0x0 .\libd.a(d.o)
+OUTPUT(a_linker_automatic.out elf32-xpic)
+LOAD linker stubs
+
+.debug_pubtypes
+                0x00000000       0x4e load address 0x1018e008
+ .debug_pubtypes
+                0x00000000       0x1a a.o
+ .debug_pubtypes
+                0x0000001a       0x1a .\libb.a(b.o)
+ .debug_pubtypes
+                0x00000034       0x1a .\libd.a(d.o)
+
+.debug_ranges   0x00000000        0x0 load address 0x1018e008
+ .debug_ranges  0x00000000        0x0 a.o
+ .debug_ranges  0x00000000        0x0 .\libb.a(b.o)
+ .debug_ranges  0x00000000        0x0 .\libd.a(d.o)
