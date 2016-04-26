@@ -1,20 +1,15 @@
 @echo off
+
 cd test_sources
-%PATH_GNU_XPIC%\bin\clang -o a.out -target xpic -Wimplicit  -T linker.ld main.s caller.s
-%PATH_GNU_XPIC%\bin\xpic-objdump -S a.out > objdump.txt
+
+%PATH_GNU_XPIC%\bin\xpic-as -gdwarf4 main.s -o main.o 
+%PATH_GNU_XPIC%\bin\xpic-as -gdwarf4 caller.s -o caller.o 
+%PATH_GNU_XPIC%\bin\xpic-ld -A xpic -o a.out -T linker.ld caller.o main.o
+%PATH_GNU_XPIC%\bin\xpic-objdump -d a.out > objdump.txt
 fc objdump.org objdump.txt > null
 if %ERRORLEVEL%==0 (
 echo test was successful.
 ) else (
 echo test failed!
-)
-if exist a.out (
-del a.out
-)
-if exist objdump.txt (
-del objdump.txt
-)
-if exist null (
-del null
 )
 cd ..

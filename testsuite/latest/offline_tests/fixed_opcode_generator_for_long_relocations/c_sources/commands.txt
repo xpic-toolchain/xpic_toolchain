@@ -1,6 +1,13 @@
+// ASM code results from old LLVM 2.8 version. This ASM is kept for test purposes.
+// test case with new compiler version LLVM 3.4.2 is inside next test case fixed_opcode_generator_for_long_relocations_new
+// the reason for changing the ASM add into a ASM and command is not clear.
+
+// the size of the array "longarray2" was just one
+// the read access to the array inside the caller function was on purpose to a index bigger than 2^16 (68000dec)
+// this big index forces the compiler to use a PC indirect address load for the array index
+
 0) set PATH_GNU_XPIC=path_to_xpic_compiler
-1) compile
-xpic-llvmc -O0 -Wa,-mmcu=xpic2 -c -save-temps -temp-dir=temp main.c caller.c
+1) compile xpic-llvmc -O0 -Wa,-mmcu=xpic2 -c -save-temps -temp-dir=temp main.c caller.c
 2) edit temp/caller.s
 add r2, [pc + $Const.h00042680], r2 -> and r2, [pc + $Const.h00042680], r2
 3) copy files

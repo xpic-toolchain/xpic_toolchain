@@ -1,0 +1,4 @@
+test.s: Assembler messages:
+test.s:5: Error: wrong opcode expression! Source string: add r6, [#400 + -- r3],r0
+
+TEMPLATE until xpic-öcompiler is fixed. Than replace this templed by real error response of XPIC compiler.
