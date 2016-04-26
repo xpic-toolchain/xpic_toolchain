@@ -38,7 +38,7 @@ def build(bld):
 
   bld.program(
     target          = 'netx51_xpic_coremark_sdram',
-    name            = 'llvm-xpic/2.7.0/netx51_coremark_sdram',
+    name            = 'llvm-xpic/2.7.0/netx51_xpic_coremark_sdram',
     platform        = 'xpic',
     toolchain       = 'llvm_xpic',
     source_arm      = sources,
