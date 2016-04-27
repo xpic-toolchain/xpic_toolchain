@@ -3,7 +3,7 @@ MEMORY
 {
   INT_PRAM   (rx)   : ORIGIN = 0x10180000, LENGTH = 8K
   INT_DRAM   (rw!x) : ORIGIN = 0x10280000, LENGTH = 6K
-  INTRAM34   (rwx)  : ORIGIN = 0x08000000, LENGTH = 0x00080000
+  INTRAM34   (rwx)  : ORIGIN = 0x08050000, LENGTH = 128K    
 }
 
 /* 2k reserved at end of DRAM for stack area */

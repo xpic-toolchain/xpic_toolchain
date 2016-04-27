@@ -17,3 +17,6 @@ Siehe Bereich "configure_toolchain_xpic"
         f(x + '_compile_debugrel', ['-Os', '-g', '-gdwarf-4'])
         f(x + '_compile_release',  ['-Os'])
 
+
+		
+Alle Tests sind im Batch-File start_coremark.bat zusammengefasst.
