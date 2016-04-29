@@ -1447,26 +1447,70 @@ int analyse_code(char *str, char *op, int conditional_execution)
   uint32_t *ulOp = (uint32_t *)op;
   int iRet=0,n=0;//iRet=1 is error
 // flags:
-  int fConst=0,fAddr=0,fPC=0,fComma=0,fPlus=0,fMinus=0;
+  int fConst=0,fAddr=0,fPC=0,fComma=0,fPlus=0,fMinus=0,fInc=0,fDec=0,fConstInAddr=0,fCurrentlyInAddr=0;
   // NULL, faled:
   if(str==NULL)return 1;
   // 1 get all characteristics flags:
   while(*str != 0)
   {
     switch(*str)   {
-    case ',': fComma++; break;
+    case ',':
+      fComma++;
+      break;
     case '$':
-    case '#': if(fComma<2)fConst|=1;
-	      else        fConst|=2;
-              break;
-    case '[': fAddr  = 1; break;
-    case ']': fAddr &= 1; break;
+    case '#':
+      if(fComma<2) {
+        fConst|=1;
+      } else {
+        fConst |= 2;
+      }
+      if (fCurrentlyInAddr) {
+        fConstInAddr++;
+      }
+      break;
+    case '[':
+      fAddr = 1;
+      fCurrentlyInAddr++;
+      break;
+    case ']':
+      fAddr &= 1;
+      if (fCurrentlyInAddr <= 0) {
+        // Unbalanced Parentheses
+        return 1;
+      }
+      fCurrentlyInAddr--;
+      break;
     case 'p': if( str[-1] == '[' && str[1] == 'c'&& str[2] == '+'&& str[3] != '+' ) fPC = 1;break;
-    case '+': fPlus++; break;
-    case '-': fMinus++; break;
+    case '+':
+      if (str[1] != '+') {
+        fPlus++;
+      } else {
+        fInc++;
+        str++;
+      }
+      break;
+    case '-':
+      if (str[1] != '-') {
+        fMinus++;
+      } else {
+        fDec++;
+        str++;
+      }
+      break;
     default: break;};
   str++;
   };
+
+  if (fCurrentlyInAddr != 0) {
+    // Unbalanced Parentheses
+    return 1;
+  }
+
+  // dismiss invalid expressions in address operator []
+  if (fAddr && !fPC && fConstInAddr && ((fInc || fDec) && (fPlus || fMinus))) {
+    return 1;
+  }
+
 // 2 (flags are ready) analyse all opcodes here:
   switch(ulOp[0]){
 /// 3.2.5 Standard alu commands
@@ -1561,13 +1605,13 @@ int analyse_code(char *str, char *op, int conditional_execution)
                   if((fConst==1)&&fAddr) 	{if(conditional_execution){iRet = 1;break;}op[4]='1';break;}// load1: load reg, s[base_reg + #const]b
                   if((fPlus ==0)&&fAddr) 	{if(conditional_execution){iRet = 1;break;}op[4]='1';break;}// load1: load reg, s[base_reg]b
                   if(fConst==1)	 		{if(conditional_execution){iRet = 1;break;}op[4]='2';break;}// load2: load reg, #const
-                  if(fAddr&&((fPlus==1)||((fPlus==3)!=(fMinus==2))))  {op[4]='3';break;}// load3: {[cond]} load reg, s[base_reg + wreg++]w_bs
+                  if(fAddr&&(fPlus==1)&&!(fInc&&fDec))  {op[4]='3';break;}// load3: {[cond]} load reg, s[base_reg + wreg++]w_bs
                   iRet = 1;break;
   case 0x726f7473:///store
 		  if(fComma!=1){iRet = 1;break;} // must be 2 operand!
                   if((fConst==1)&&fAddr)	{if(conditional_execution){iRet = 1;break;}op[5]='1';break;}// store1: [base_reg + const]b, reg
                   if((fPlus ==0)&&fAddr) 	{if(conditional_execution){iRet = 1;break;}op[5]='1';break;}// store1: [base_reg]b
-                  if(fAddr&&((fPlus==1)||((fPlus==3)!=(fMinus==2))))  {op[5]='2';break;}// store2: {[cond]} store [base_reg + wreg++]w_bs, reg
+                  if(fAddr&&(fPlus==1)&&!(fInc&&fDec))  {op[5]='2';break;}// store2: {[cond]} store [base_reg + wreg++]w_bs, reg
                   iRet = 1;break;
     case 0x0069686c: /// lhi load hi 18 bit pseudo command
       if(fComma!=1){iRet = 1;break;} // must be 2 operand!
