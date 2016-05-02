@@ -9,7 +9,7 @@
 #define XPIC_RELEASE	"0"   // internal version; not for customer
 
 #ifndef XPIC_BUILD
-#define XPIC_BUILD	"0"       // 0-no bug fixes, 1, 2, 3 and so on - bug fixes
+#define XPIC_BUILD	"0 RC1"       // 0-no bug fixes, 1, 2, 3 and so on - bug fixes
 #endif
 
 #endif
