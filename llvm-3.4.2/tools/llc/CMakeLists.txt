@@ -1,6 +1,6 @@
 set(LLVM_LINK_COMPONENTS ${LLVM_TARGETS_TO_BUILD} bitreader asmparser irreader)
 
-execute_process(COMMAND git rev-parse HEAD
+execute_process(COMMAND git describe --always --long --abbrev=40 --dirty=+
                 WORKING_DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR}
                 OUTPUT_VARIABLE GIT_OUTPUT
                 ERROR_VARIABLE GIT_ERROR
