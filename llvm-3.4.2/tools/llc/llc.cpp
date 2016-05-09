@@ -164,10 +164,138 @@ static tool_output_file *GetOutputStream(const char *TargetName,
 
 static void printGitHash() {
   raw_ostream& out = outs();
+
+// parse tag received via git describe command
+// extract version number
+// extract hash value
+// extract dirty information
+
 #ifdef GIT_HASH
-  out << "\n  Xpic llvm source hash: " << GIT_XSTR(GIT_HASH) << "\n";
+
+  unsigned long major, minor, build, revision, RelCan, behind;
+
+  // convert define into string
+  std::string str_input = GIT_XSTR(GIT_HASH);
+  std::size_t found;
+
+  out << "\n";
+  // out << "  GIT_HASH String to pass:" << str_input << ":\n";
+
+  // verify start of version qualifier
+  found = str_input.find_first_of("V");
+  if (found==std::string::npos)
+  {
+    // output complete GIT string
+    out << "  Xpic llvm source hash: " << str_input << "\n";
+    out << "Warning: releasetag not found\n";
+  }
+
+  // valid start of release tag expected.
+  str_input = str_input.substr(found);
+  // out << "Version string:" << str_input << ":\n";
+  if (str_input.length() == 1)
+  {
+    // No release number found
+    out << "  Xpic llvm source hash: " << str_input << "\n";
+    out << "Warning: releasetag does not contain a valid version number\n";
+  } else
+  {
+    // remove first "V"
+    str_input = str_input.substr(1);
+  }
+
+  // extract major number
+  found = str_input.find_first_not_of("0123456789");
+  sscanf ((str_input.substr(0,found)).c_str(),"%lu", &major);
+  // out << "Major:" << major << ":\n";   
+  str_input = str_input.substr(found);
+
+  // remove delimitor ._
+  found = str_input.find_first_not_of("_.");
+  str_input = str_input.substr(found);
+  // find minor number  
+  found = str_input.find_first_not_of("0123456789");
+  sscanf ((str_input.substr(0,found)).c_str(),"%lu", &minor);
+  // out << "Minor:" << minor << ":\n";   
+  str_input = str_input.substr(found);
+
+  // remove delimitor ._
+  found = str_input.find_first_not_of("_.");
+  str_input = str_input.substr(found);
+  // find build number  
+  found = str_input.find_first_not_of("0123456789");
+  sscanf ((str_input.substr(0,found)).c_str(),"%lu", &build);
+  // out << "Build:" << build << ":\n";   
+  str_input = str_input.substr(found);
+
+
+  // remove delimitor ._
+  found = str_input.find_first_not_of("_.");
+  str_input = str_input.substr(found);
+  // find revision number  
+  found = str_input.find_first_not_of("0123456789");
+  sscanf ((str_input.substr(0,found)).c_str(),"%lu", &revision);
+  // out << "Revision:" << revision << ":\n";   
+  str_input = str_input.substr(found);
+
+  // print backend compiler version
+  out << "  Xpic compiler backend version: V" << major << "." << minor << "." << build << "." << revision;
+  // find RC number
+  if (0==str_input.compare(0,3, "_RC"))
+  {
+    // remove delimitor _
+    found = str_input.find_first_not_of("_RC");
+    str_input = str_input.substr(found);
+    // std::cout << "_RC removed string:" << str_input << ":\n";
+    // find RC number
+    found = str_input.find_first_not_of("0123456789");
+    if (found==0) 
+    {
+       out << "\nWarning: No valid RC version found." << "Tag is: " << GIT_XSTR(GIT_HASH) << "\n";
+       // remove context until next delimiter "-"
+       found = str_input.find_first_of("-");
+       str_input = str_input.substr(found);
+    
+    } else {
+      sscanf ((str_input.substr(0,found)).c_str(),"%lu", &RelCan);
+      out << " RC" << RelCan;
+      str_input = str_input.substr(found);
+    }
+  }
+  // add new line after version string
+  out << "\n";
+
+
+  // find -number- for checkin behind tag
+  // check if next content is not -g => final git hash value
+  if (0!=str_input.compare(0,2, "-g"))
+  {
+    // remove delimitor -
+    found = str_input.find_first_not_of("-");
+    str_input = str_input.substr(found);
+    found = str_input.find_first_not_of("0123456789");
+    sscanf ((str_input.substr(0,found)).c_str(),"%lu", &behind);
+    out << "Warning: Tagged version is different to acutal version\n";
+    out << "Warning: Compiled version is " << behind << " versions newer than tagged version.\n";
+    str_input = str_input.substr(found);
+  }
+
+  // remove delimitor _
+  found = str_input.find_first_not_of("-g");
+  str_input = str_input.substr(found);
+  // find git hash  
+  found = str_input.find_first_not_of("0123456789abcdefABCDEF");
+  std::string gitHash = str_input.substr(0,found);
+  out << "    Git hash value: " << gitHash << "\n";
+
+  // check if dirty (still data inside str_input)
+  if (str_input.length() != gitHash.length())
+  {
+    out << "Warning: Local modification exists at compile time\n";
+  }
+
 #else
-  out << "\n  Xpic llvm source hash: UNKNOWN\n";
+  out << "\nWarning: Xpic llvm source hash: UNKNOWN\n";
 #endif
 }
 
