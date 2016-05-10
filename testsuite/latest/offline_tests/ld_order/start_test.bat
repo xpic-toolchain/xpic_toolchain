@@ -2,12 +2,31 @@
 set i=0
 cd test_sources
 %PATH_GNU_XPIC%\bin\clang -O0 -gdwarf-2 --target=xpic -c -save-temps b.c
+del libb.a
 %PATH_GNU_XPIC%\bin\xpic-ar cr libb.a b.o 
 %PATH_GNU_XPIC%\bin\xpic-objdump -s -S -d libb.a > objdump_libb.txt
 
+REM compare lib object dump
+fc objdump_libb.txt objdump_libb.txt_ref > null
+if %ERRORLEVEL%==0 (
+  set /a i=%i% + 1
+) else (
+  echo libb.a dump failed!
+)
+
+
 %PATH_GNU_XPIC%\bin\clang -O0 -gdwarf-2 --target=xpic -c -save-temps d.c
+del libd.a
 %PATH_GNU_XPIC%\bin\xpic-ar cr libd.a d.o 
 %PATH_GNU_XPIC%\bin\xpic-objdump -s -S -d libd.a > objdump_libd.txt
+
+REM compare lib object dump
+fc objdump_libd.txt objdump_libd.txt_ref > null
+if %ERRORLEVEL%==0 (
+  set /a i=%i% + 1
+) else (
+  echo libd.a dump failed!
+)
 
 %PATH_GNU_XPIC%\bin\clang -O0 -gdwarf-2 --target=xpic -c -save-temps a.c
 
@@ -54,8 +73,8 @@ if %ERRORLEVEL%==0 (
   echo test with let linker search for correct lib order failed!
 )
 
-if %i%==5 (
-  echo test succeeded.
+if %i%==7 (
+  echo tests succeeded.
 )
 
 cd ..
