@@ -275,8 +275,11 @@ static void printGitHash() {
     str_input = str_input.substr(found);
     found = str_input.find_first_not_of("0123456789");
     sscanf ((str_input.substr(0,found)).c_str(),"%lu", &behind);
-    out << "Warning: Tagged version is different to acutal version\n";
-    out << "Warning: Compiled version is " << behind << " versions newer than tagged version.\n";
+    if (behind != 0)
+    {
+      out << "Warning: Tagged version is different to acutal version\n";
+      out << "Warning: Compiled version is " << behind << " versions newer than tagged version.\n";
+    }
     str_input = str_input.substr(found);
   }
 
