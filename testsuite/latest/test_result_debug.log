@@ -1,0 +1,1471 @@
+Starting at:
+16.05.2016 
+21:24
+using xPIC compiler from directory: C:\Daten\Projekte\XPIC_Testenvironment\xpic-llvm_201605160931\xpic-llvm
+LLVM (http://llvm.org/):
+  LLVM version 3.4.2
+  Optimized build with assertions.
+  Built May 16 2016 (10:03:51).
+  Default target: i686-w64-mingw32
+  Host CPU: core-avx2
+
+  Registered Targets:
+    xpic - processor xPIC, netX-Chip (Hilscher GmbH: www.hilscher.com)
+
+  Xpic compiler backend version: V1.0.0.0
+    Git hash value: 4b17e0fe384811a362d888c460c4dc840ac9fd60
+scons: Reading SConscript files ...
+**********************
+*** Debug build... ***
+**********************
+Using Prefix     : C:\Daten\Projekte\XPIC_Testenvironment\xpic-llvm_201605160931\xpic-llvm/bin/
+Compiler Version : unable to detect (Parsing error)
+Library Includes
+ * netX10   :  C:\Daten\Projekte\XPIC_Testenvironment\xpic-llvm_201605160931\xpic-llvm/lib,C:\Daten\Projekte\XPIC_Testenvironment\xpic-llvm_201605160931\xpic-llvm/lib/gcc/xpic-hilscher-elf/0.1.1
+
+scons: warning: No version of Visual Studio compiler found - C/C++ compilers most likely not set correctly
+File "./../../BuildScripts/runtest\xpic_test.py", line 24, in <module>
+
+scons: warning: No version of Visual Studio compiler found - C/C++ compilers most likely not set correctly
+File "C:\Daten\Projekte\XPIC_compiler_source\xpic_toolchain\testsuite\latest\SConstruct", line 48, in Files
+scons: done reading SConscript files.
+scons: Building targets ...
+[CC]  sources\20040219-1.c
+sources\20040219-1.c:13:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main ()
+^~~~
+1 warning generated.
+[AS]  sources\common_NX51\init_xpic.S
+[CC]  sources\common_NX51\NX51_Gpio.c
+[CC]  sources\common_NX51\NX51_MMIO.c
+[CC]  sources\common_NX51\NX51_Pio.c
+[CC]  sources\common_NX51\NX51_Uart.c
+sources\common_NX51\NX51_Uart.c:227:16: warning: illegal character encoding in character literal [-Winvalid-source-encoding]
+    if( cChar!='<A7>') {
+               ^
+sources\common_NX51\NX51_Uart.c:288:16: warning: illegal character encoding in character literal [-Winvalid-source-encoding]
+    if( cChar!='<A7>') {
+               ^
+2 warnings generated.
+[CC]  sources\common_NX51\NX51_XpicTimer.c
+[CC]  sources\common_NX51\NX51_XpicVic.c
+[AS]  sources\common_NX51\irq_xpic.S
+[LIB] output\debug\libcommon.a
+C:\Daten\Projekte\XPIC_Testenvironment\xpic-llvm_201605160931\xpic-llvm/bin/xpic-ar: creating output\debug\libcommon.a
+[INSTALL] output\debug\libcommon.a --> output\libcommon.a
+[ELF] output\debug\sources\20040219-1.o
+[CC]  sources\2010-08-12_const_align.c
+[ELF] output\debug\sources\2010-08-12_const_align.o
+[CC]  sources\2010-08-13_ieee754_exp.c
+[ELF] output\debug\sources\2010-08-13_ieee754_exp.o
+[CC]  sources\2010-08-13_rt_floatfix.c
+[ELF] output\debug\sources\2010-08-13_rt_floatfix.o
+[CC]  sources\2010-08-17_newlib_sim.c
+sources\2010-08-17_newlib_sim.c:52:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main()
+^~~~
+1 warning generated.
+[ELF] output\debug\sources\2010-08-17_newlib_sim.o
+[CC]  sources\2010-08-18_unknown_jmp_label.c
+[ELF] output\debug\sources\2010-08-18_unknown_jmp_label.o
+[CC]  sources\2010-09-03_struct_in_parameterlist.c
+[ELF] output\debug\sources\2010-09-03_struct_in_parameterlist.o
+[CC]  sources\2010-09-06_invalid_data_64bit.c
+[ELF] output\debug\sources\2010-09-06_invalid_data_64bit.o
+[CC]  sources\2010-09-08_large_stack_frame.c
+warning: big stack frame in function "bigStack". Code is not optimized.
+[ELF] output\debug\sources\2010-09-08_large_stack_frame.o
+[CC]  sources\2010-09-22_large_stack_frame2.c
+warning: big stack frame in function "main". Code is not optimized.
+[ELF] output\debug\sources\2010-09-22_large_stack_frame2.o
+[CC]  sources\2010-09-23_fiq.c
+[ELF] output\debug\sources\2010-09-23_fiq.o
+[CC]  sources\2010-09-23_function_ptr.c
+[ELF] output\debug\sources\2010-09-23_function_ptr.o
+[CC]  sources\2010-09-23_irq.c
+[ELF] output\debug\sources\2010-09-23_irq.o
+[CC]  sources\2010-10-01_inline_asm.c
+[ELF] output\debug\sources\2010-10-01_inline_asm.o
+[CC]  sources\2010-10-01_scratch_regs_test.c
+[ELF] output\debug\sources\2010-10-01_scratch_regs_test.o
+[CC]  sources\2011-01-24_invalid_logic.c
+[ELF] output\debug\sources\2011-01-24_invalid_logic.o
+[CC]  sources\2011-06-15_va_list.c
+[ELF] output\debug\sources\2011-06-15_va_list.o
+[CC]  sources\2014-07-03_packed_structures_test1.c
+[ELF] output\debug\sources\2014-07-03_packed_structures_test1.o
+[CC]  sources\2014-07-03_packed_structures_test2.c
+[ELF] output\debug\sources\2014-07-03_packed_structures_test2.o
+[CC]  sources\2014-07-07_packed_structures_test3.c
+[ELF] output\debug\sources\2014-07-07_packed_structures_test3.o
+[CC]  sources\2014-10-26-cmp-lt.c
+sources\2014-10-26-cmp-lt.c:5:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main ()
+^~~~
+1 warning generated.
+[ELF] output\debug\sources\2014-10-26-cmp-lt.o
+[CC]  sources\2014-10-26-cmp.c
+sources\2014-10-26-cmp.c:5:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main ()
+^~~~
+1 warning generated.
+[ELF] output\debug\sources\2014-10-26-cmp.o
+[CC]  sources\UAT_align-2.c
+[ELF] output\debug\sources\UAT_align-2.o
+[CC]  sources\align-1.c
+[ELF] output\debug\sources\align-1.o
+[CC]  sources\argument_test01.c
+[ELF] output\debug\sources\argument_test01.o
+[CC]  sources\argument_test02.c
+[ELF] output\debug\sources\argument_test02.o
+[CC]  sources\array_struct_unsigned_test_01.c
+[ELF] output\debug\sources\array_struct_unsigned_test_01.o
+[CC]  sources\ashldi-1.c
+[ELF] output\debug\sources\ashldi-1.o
+[CC]  sources\bf-layout-1.c
+sources\bf-layout-1.c:4:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main ()
+^~~~
+1 warning generated.
+[ELF] output\debug\sources\bf-layout-1.o
+[CC]  sources\big_array_test01.c
+[ELF] output\debug\sources\big_array_test01.o
+[CC]  sources\char-compare.c
+[ELF] output\debug\sources\char-compare.o
+[CC]  sources\checksum_main.c
+[ELF] output\debug\sources\checksum_main.o
+[CC]  sources\compare-eq-const.c
+[ELF] output\debug\sources\compare-eq-const.o
+[CC]  sources\const_long_long_test_01.c
+[ELF] output\debug\sources\const_long_long_test_01.o
+[CC]  sources\conversion.c
+sources\conversion.c:82:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+test_integer_to_float()
+^~~~~~~~~~~~~~~~~~~~~
+sources\conversion.c:137:1: warning: control may reach end of non-void function [-Wreturn-type]
+}
+^
+sources\conversion.c:175:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+test_float_to_integer()
+^~~~~~~~~~~~~~~~~~~~~
+sources\conversion.c:293:1: warning: control may reach end of non-void function [-Wreturn-type]
+}
+^
+sources\conversion.c:295:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main()
+^~~~
+5 warnings generated.
+[ELF] output\debug\sources\conversion.o
+[CC]  sources\cvt-1.c
+sources\cvt-1.c:23:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main ()
+^~~~
+1 warning generated.
+[ELF] output\debug\sources\cvt-1.o
+[CC]  sources\div-compare-1.c
+[ELF] output\debug\sources\div-compare-1.o
+[CC]  sources\div-double-1.c
+[ELF] output\debug\sources\div-double-1.o
+[CC]  sources\div_test01.c
+sources\div_test01.c:15:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main()
+^~~~
+1 warning generated.
+[ELF] output\debug\sources\div_test01.o
+[CC]  sources\divcmp-1.c
+[ELF] output\debug\sources\divcmp-1.o
+[CC]  sources\divcmp-2.c
+[ELF] output\debug\sources\divcmp-2.o
+[CC]  sources\divcmp-3.c
+[ELF] output\debug\sources\divcmp-3.o
+[CC]  sources\divcmp-4.c
+[ELF] output\debug\sources\divcmp-4.o
+[CC]  sources\divcmp-5.c
+[ELF] output\debug\sources\divcmp-5.o
+[CC]  sources\divconst-1.c
+sources\divconst-1.c:6:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+f (t1 *ps)
+^
+sources\divconst-1.c:12:1: warning: control reaches end of non-void function [-Wreturn-type]
+}
+^
+sources\divconst-1.c:14:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main ()
+^~~~
+3 warnings generated.
+[ELF] output\debug\sources\divconst-1.o
+[CC]  sources\divconst-2.c
+sources\divconst-2.c:28:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main ()
+^~~~
+1 warning generated.
+[ELF] output\debug\sources\divconst-2.o
+[CC]  sources\divconst-3.c
+sources\divconst-3.c:9:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main ()
+^~~~
+1 warning generated.
+[ELF] output\debug\sources\divconst-3.o
+[CC]  sources\divmod-1.c
+sources\divmod-1.c:1:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+div1 (signed char x)
+^~~~
+sources\divmod-1.c:6:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+div2 (signed short x)
+^~~~
+sources\divmod-1.c:11:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+div3 (signed char x, signed char y)
+^~~~
+sources\divmod-1.c:16:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+div4 (signed short x, signed short y)
+^~~~
+sources\divmod-1.c:21:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+mod1 (signed char x)
+^~~~
+sources\divmod-1.c:26:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+mod2 (signed short x)
+^~~~
+sources\divmod-1.c:31:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+mod3 (signed char x, signed char y)
+^~~~
+sources\divmod-1.c:36:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+mod4 (signed short x, signed short y)
+^~~~
+sources\divmod-1.c:53:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main ()
+^~~~
+9 warnings generated.
+[ELF] output\debug\sources\divmod-1.o
+[CC]  sources\divsf3_extract_mini.c
+[ELF] output\debug\sources\divsf3_extract_mini.o
+[CC]  sources\doloop-2.c
+[ELF] output\debug\sources\doloop-2.o
+[CC]  sources\double_test01.c
+[ELF] output\debug\sources\double_test01.o
+[CC]  sources\double_test02.c
+[ELF] output\debug\sources\double_test02.o
+[CC]  sources\double_test03.c
+[ELF] output\debug\sources\double_test03.o
+[CC]  sources\double_test04.c
+[ELF] output\debug\sources\double_test04.o
+[CC]  sources\double_test05.c
+[ELF] output\debug\sources\double_test05.o
+[CC]  sources\double_test06.c
+[ELF] output\debug\sources\double_test06.o
+[CC]  sources\double_test_01.c
+[ELF] output\debug\sources\double_test_01.o
+[CC]  sources\double_test_02.c
+[ELF] output\debug\sources\double_test_02.o
+[CC]  sources\double_test_03.c
+sources\double_test_03.c:23:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main ()
+^~~~
+1 warning generated.
+[ELF] output\debug\sources\double_test_03.o
+[CC]  sources\enum1.c
+[ELF] output\debug\sources\enum1.o
+[CC]  sources\flag_test01.c
+[ELF] output\debug\sources\flag_test01.o
+[CC]  sources\float_test01.c
+sources\float_test01.c:16:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main() {
+^~~~
+1 warning generated.
+[ELF] output\debug\sources\float_test01.o
+[CC]  sources\float_test02.c
+[ELF] output\debug\sources\float_test02.o
+[CC]  sources\float_test03.c
+sources\float_test03.c:19:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main ()
+^~~~
+1 warning generated.
+[ELF] output\debug\sources\float_test03.o
+[CC]  sources\float_test04.c
+[ELF] output\debug\sources\float_test04.o
+[CC]  sources\function_test01.c
+[ELF] output\debug\sources\function_test01.o
+[CC]  sources\init_array_test01.c
+[ELF] output\debug\sources\init_array_test01.o
+[CC]  sources\init_struct_test01.c
+[ELF] output\debug\sources\init_struct_test01.o
+[CC]  sources\linker_test01.c
+[ELF] output\debug\sources\linker_test01.o
+[CC]  sources\logic_test01.c
+[ELF] output\debug\sources\logic_test01.o
+[CC]  sources\logic_test_01.c
+[ELF] output\debug\sources\logic_test_01.o
+[CC]  sources\long-long-compare-1.c
+[ELF] output\debug\sources\long-long-compare-1.o
+[CC]  sources\long-long-cst1.c
+[ELF] output\debug\sources\long-long-cst1.o
+[CC]  sources\long_test01.c
+[ELF] output\debug\sources\long_test01.o
+[CC]  sources\long_test02.c
+[ELF] output\debug\sources\long_test02.o
+[CC]  sources\mask_test01.c
+[ELF] output\debug\sources\mask_test01.o
+[CC]  sources\minmax-1.c
+[ELF] output\debug\sources\minmax-1.o
+[CC]  sources\mixed_tests01.c
+[ELF] output\debug\sources\mixed_tests01.o
+[CC]  sources\mixed_tests02.c
+[ELF] output\debug\sources\mixed_tests02.o
+[CC]  sources\mixed_tests03.c
+sources\mixed_tests03.c:11:17: warning: implicit truncation from 'unsigned long long' to bitfield changes value from 78187493530 to 161946 [-Wbitfield-constant-conversion]
+  l11 = a11.c11 = 0x123456789aULL;
+                ^ ~~~~~~~~~~~~~~~
+1 warning generated.
+[ELF] output\debug\sources\mixed_tests03.o
+[CC]  sources\mixed_tests04.c
+[ELF] output\debug\sources\mixed_tests04.o
+[CC]  sources\mixed_tests05.c
+[ELF] output\debug\sources\mixed_tests05.o
+[CC]  sources\mixed_tests06.c
+[ELF] output\debug\sources\mixed_tests06.o
+[CC]  sources\mixed_tests07.c
+sources\mixed_tests07.c:76:2: warning: This disabled in debug mode [-W#warnings]
+#warning This disabled in debug mode
+ ^
+1 warning generated.
+[ELF] output\debug\sources\mixed_tests07.o
+[CC]  sources\mixed_tests08.c
+[ELF] output\debug\sources\mixed_tests08.o
+[CC]  sources\mixed_tests09.c
+[ELF] output\debug\sources\mixed_tests09.o
+[CC]  sources\mixed_tests10.c
+[ELF] output\debug\sources\mixed_tests10.o
+[CC]  sources\mixed_tests11.c
+[ELF] output\debug\sources\mixed_tests11.o
+[CC]  sources\mixed_tests12.c
+[ELF] output\debug\sources\mixed_tests12.o
+[CC]  sources\mixed_tests13.c
+[ELF] output\debug\sources\mixed_tests13.o
+[CC]  sources\mixed_tests14.c
+[ELF] output\debug\sources\mixed_tests14.o
+[CC]  sources\mixed_tests15.c
+[ELF] output\debug\sources\mixed_tests15.o
+[CC]  sources\mixed_tests16.c
+[ELF] output\debug\sources\mixed_tests16.o
+[CC]  sources\mixed_tests17.c
+[ELF] output\debug\sources\mixed_tests17.o
+[CC]  sources\mixed_tests18.c
+[ELF] output\debug\sources\mixed_tests18.o
+[CC]  sources\mixed_tests19.c
+sources\mixed_tests19.c:16:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main()
+^~~~
+1 warning generated.
+[ELF] output\debug\sources\mixed_tests19.o
+[CC]  sources\mixed_tests20.c
+[ELF] output\debug\sources\mixed_tests20.o
+[CC]  sources\mixed_tests21.c
+[ELF] output\debug\sources\mixed_tests21.o
+[CC]  sources\profile-generate-1.c
+[ELF] output\debug\sources\profile-generate-1.o
+[CC]  sources\return_test01.c
+[ELF] output\debug\sources\return_test01.o
+[CC]  sources\strct-layout.c
+sources\strct-layout.c:12:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+f (T *x)
+^
+sources\strct-layout.c:27:1: warning: control reaches end of non-void function [-Wreturn-type]
+}
+^
+sources\strct-layout.c:31:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+g (T *x)
+^
+sources\strct-layout.c:63:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main ()
+^~~~
+4 warnings generated.
+[ELF] output\debug\sources\strct-layout.o
+[CC]  sources\struct_union_test01.c
+sources\struct_union_test01.c:12:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main()
+^~~~
+1 warning generated.
+[ELF] output\debug\sources\struct_union_test01.o
+[CC]  sources\struct_union_test02.c
+[ELF] output\debug\sources\struct_union_test02.o
+[CC]  sources\struct_union_test03.c
+[ELF] output\debug\sources\struct_union_test03.o
+[CC]  sources\struct_union_test04.c
+[ELF] output\debug\sources\struct_union_test04.o
+[CC]  sources\struct_union_test05.c
+[ELF] output\debug\sources\struct_union_test05.o
+[CC]  sources\struct_union_test06.c
+[ELF] output\debug\sources\struct_union_test06.o
+[CC]  sources\struct_union_test07.c
+[ELF] output\debug\sources\struct_union_test07.o
+[CC]  sources\struct_union_test08.c
+sources\struct_union_test08.c:20:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main() {
+^~~~
+1 warning generated.
+[ELF] output\debug\sources\struct_union_test08.o
+[CC]  sources\struct_union_test09.c
+[ELF] output\debug\sources\struct_union_test09.o
+[CC]  sources\struct_union_test10.c
+[ELF] output\debug\sources\struct_union_test10.o
+[CC]  sources\struct_union_test11.c
+[ELF] output\debug\sources\struct_union_test11.o
+[CC]  sources\udivmoddi4_extract.c
+[ELF] output\debug\sources\udivmoddi4_extract.o
+[CC]  sources\udivmoddi4_extract1.c
+[ELF] output\debug\sources\udivmoddi4_extract1.o
+[CC]  sources\vector_test01.c
+[ELF] output\debug\sources\vector_test01.o
+xpic_execute_runtest(["2016-05-16_19-24-36_test.log"], ["output\debug\20040219-1.elf", "output\debug\2010-08-12_const_align.elf", "output\debug\2010-08-13_ieee754_exp.elf", "output\debug\2010-08-13_rt_floatfix.elf", "output\debug\2010-08-17_newlib_sim.elf", "output\debug\2010-08-18_unknown_jmp_label.elf", "output\debug\2010-09-03_struct_in_parameterlist.elf", "output\debug\2010-09-06_invalid_data_64bit.elf", "output\debug\2010-09-08_large_stack_frame.elf", "output\debug\2010-09-22_large_stack_frame2.elf", "output\debug\2010-09-23_fiq.elf", "output\debug\2010-09-23_function_ptr.elf", "output\debug\2010-09-23_irq.elf", "output\debug\2010-10-01_inline_asm.elf", "output\debug\2010-10-01_scratch_regs_test.elf", "output\debug\2011-01-24_invalid_logic.elf", "output\debug\2011-06-15_va_list.elf", "output\debug\2014-07-03_packed_structures_test1.elf", "output\debug\2014-07-03_packed_structures_test2.elf", "output\debug\2014-07-07_packed_structures_test3.elf", "output\debug\2014-10-26-cmp-lt.elf", "output\debug\2014-10-26-cmp.elf", "output\debug\UAT_align-2.elf", "output\debug\align-1.elf", "output\debug\argument_test01.elf", "output\debug\argument_test02.elf", "output\debug\array_struct_unsigned_test_01.elf", "output\debug\ashldi-1.elf", "output\debug\bf-layout-1.elf", "output\debug\big_array_test01.elf", "output\debug\char-compare.elf", "output\debug\checksum_main.elf", "output\debug\compare-eq-const.elf", "output\debug\const_long_long_test_01.elf", "output\debug\conversion.elf", "output\debug\cvt-1.elf", "output\debug\div-compare-1.elf", "output\debug\div-double-1.elf", "output\debug\div_test01.elf", "output\debug\divcmp-1.elf", "output\debug\divcmp-2.elf", "output\debug\divcmp-3.elf", "output\debug\divcmp-4.elf", "output\debug\divcmp-5.elf", "output\debug\divconst-1.elf", "output\debug\divconst-2.elf", "output\debug\divconst-3.elf", "output\debug\divmod-1.elf", "output\debug\divsf3_extract_mini.elf", "output\debug\doloop-2.elf", "output\debug\double_test01.elf", "output\debug\double_test02.elf", "output\debug\double_test03.elf", "output\debug\double_test04.elf", "output\debug\double_test05.elf", "output\debug\double_test06.elf", "output\debug\double_test_01.elf", "output\debug\double_test_02.elf", "output\debug\double_test_03.elf", "output\debug\enum1.elf", "output\debug\flag_test01.elf", "output\debug\float_test01.elf", "output\debug\float_test02.elf", "output\debug\float_test03.elf", "output\debug\float_test04.elf", "output\debug\function_test01.elf", "output\debug\init_array_test01.elf", "output\debug\init_struct_test01.elf", "output\debug\linker_test01.elf", "output\debug\logic_test01.elf", "output\debug\logic_test_01.elf", "output\debug\long-long-compare-1.elf", "output\debug\long-long-cst1.elf", "output\debug\long_test01.elf", "output\debug\long_test02.elf", "output\debug\mask_test01.elf", "output\debug\minmax-1.elf", "output\debug\mixed_tests01.elf", "output\debug\mixed_tests02.elf", "output\debug\mixed_tests03.elf", "output\debug\mixed_tests04.elf", "output\debug\mixed_tests05.elf", "output\debug\mixed_tests06.elf", "output\debug\mixed_tests07.elf", "output\debug\mixed_tests08.elf", "output\debug\mixed_tests09.elf", "output\debug\mixed_tests10.elf", "output\debug\mixed_tests11.elf", "output\debug\mixed_tests12.elf", "output\debug\mixed_tests13.elf", "output\debug\mixed_tests14.elf", "output\debug\mixed_tests15.elf", "output\debug\mixed_tests16.elf", "output\debug\mixed_tests17.elf", "output\debug\mixed_tests18.elf", "output\debug\mixed_tests19.elf", "output\debug\mixed_tests20.elf", "output\debug\mixed_tests21.elf", "output\debug\profile-generate-1.elf", "output\debug\return_test01.elf", "output\debug\strct-layout.elf", "output\debug\struct_union_test01.elf", "output\debug\struct_union_test02.elf", "output\debug\struct_union_test03.elf", "output\debug\struct_union_test04.elf", "output\debug\struct_union_test05.elf", "output\debug\struct_union_test06.elf", "output\debug\struct_union_test07.elf", "output\debug\struct_union_test08.elf", "output\debug\struct_union_test09.elf", "output\debug\struct_union_test10.elf", "output\debug\struct_union_test11.elf", "output\debug\udivmoddi4_extract.elf", "output\debug\udivmoddi4_extract1.elf", "output\debug\vector_test01.elf"])
+
+-------- runtest.main --------
+runtest configuration: {'prefix': 'C:\\Daten\\Projekte\\XPIC_Testenvironment\\xpic-llvm_201605160931\\xpic-llvm\\bin\\', 'exit_timeout': 5, 'run_cmd': '"C:\\Daten\\Projekte\\XPIC_Testenvironment\\xpic-llvm_201605160931\\xpic-llvm\\bin\\xpic-gdb"', 'exit_code': 0}
+Launching run command: "C:\Daten\Projekte\XPIC_Testenvironment\xpic-llvm_201605160931\xpic-llvm\bin\..\..\openocd\openocd.exe" -s "C:\Daten\Projekte\XPIC_Testenvironment\xpic-llvm_201605160931\xpic-llvm\bin\..\..\netx_openocd_scripts" -f "C:\Daten\Projekte\XPIC_Testenvironment\xpic-llvm_201605160931\xpic-llvm\bin\..\..\netx_openocd_scripts\interface\hilscher_nxhx51_etm.cfg" -f "C:\Daten\Projekte\XPIC_Testenvironment\xpic-llvm_201605160931\xpic-llvm\bin\..\..\netx_openocd_scripts\board\hilscher_nxhx51.cfg" "-c puts oocd-started"
+Launching run command: "C:\Daten\Projekte\XPIC_Testenvironment\xpic-llvm_201605160931\xpic-llvm\bin\..\..\gdb_switch\gdb_switch_v2.exe" -c netX51
+Launching run command: "C:\Daten\Projekte\XPIC_Testenvironment\xpic-llvm_201605160931\xpic-llvm\bin\xpic-gdb" -q -nw --xpic-int-dram-addr 0x10280000
+Connecting with hardware
+
+<Test 1/115>
+File: output\debug\20040219-1.elf
+Loading file: output/debug/20040219-1.elf
+Loading program
+Setting breakpoint
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 2/115>
+File: output\debug\2010-08-12_const_align.elf
+Loading file: output/debug/2010-08-12_const_align.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 3/115>
+File: output\debug\2010-08-13_ieee754_exp.elf
+Loading file: output/debug/2010-08-13_ieee754_exp.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 4/115>
+File: output\debug\2010-08-13_rt_floatfix.elf
+Loading file: output/debug/2010-08-13_rt_floatfix.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 5/115>
+File: output\debug\2010-08-17_newlib_sim.elf
+Loading file: output/debug/2010-08-17_newlib_sim.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 6/115>
+File: output\debug\2010-08-18_unknown_jmp_label.elf
+Loading file: output/debug/2010-08-18_unknown_jmp_label.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 7/115>
+File: output\debug\2010-09-03_struct_in_parameterlist.elf
+Loading file: output/debug/2010-09-03_struct_in_parameterlist.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 8/115>
+File: output\debug\2010-09-06_invalid_data_64bit.elf
+Loading file: output/debug/2010-09-06_invalid_data_64bit.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 9/115>
+File: output\debug\2010-09-08_large_stack_frame.elf
+Loading file: output/debug/2010-09-08_large_stack_frame.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 10/115>
+File: output\debug\2010-09-22_large_stack_frame2.elf
+Loading file: output/debug/2010-09-22_large_stack_frame2.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 11/115>
+File: output\debug\2010-09-23_fiq.elf
+Loading file: output/debug/2010-09-23_fiq.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 12/115>
+File: output\debug\2010-09-23_function_ptr.elf
+Loading file: output/debug/2010-09-23_function_ptr.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 13/115>
+File: output\debug\2010-09-23_irq.elf
+Loading file: output/debug/2010-09-23_irq.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 14/115>
+File: output\debug\2010-10-01_inline_asm.elf
+Loading file: output/debug/2010-10-01_inline_asm.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 15/115>
+File: output\debug\2010-10-01_scratch_regs_test.elf
+Loading file: output/debug/2010-10-01_scratch_regs_test.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 16/115>
+File: output\debug\2011-01-24_invalid_logic.elf
+Loading file: output/debug/2011-01-24_invalid_logic.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 17/115>
+File: output\debug\2011-06-15_va_list.elf
+Loading file: output/debug/2011-06-15_va_list.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 18/115>
+File: output\debug\2014-07-03_packed_structures_test1.elf
+Loading file: output/debug/2014-07-03_packed_structures_test1.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 19/115>
+File: output\debug\2014-07-03_packed_structures_test2.elf
+Loading file: output/debug/2014-07-03_packed_structures_test2.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 20/115>
+File: output\debug\2014-07-07_packed_structures_test3.elf
+Loading file: output/debug/2014-07-07_packed_structures_test3.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 21/115>
+File: output\debug\2014-10-26-cmp-lt.elf
+Loading file: output/debug/2014-10-26-cmp-lt.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 22/115>
+File: output\debug\2014-10-26-cmp.elf
+Loading file: output/debug/2014-10-26-cmp.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 23/115>
+File: output\debug\UAT_align-2.elf
+Loading file: output/debug/UAT_align-2.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 24/115>
+File: output\debug\align-1.elf
+Loading file: output/debug/align-1.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 25/115>
+File: output\debug\argument_test01.elf
+Loading file: output/debug/argument_test01.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 26/115>
+File: output\debug\argument_test02.elf
+Loading file: output/debug/argument_test02.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 27/115>
+File: output\debug\array_struct_unsigned_test_01.elf
+Loading file: output/debug/array_struct_unsigned_test_01.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 28/115>
+File: output\debug\ashldi-1.elf
+Loading file: output/debug/ashldi-1.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 29/115>
+File: output\debug\bf-layout-1.elf
+Loading file: output/debug/bf-layout-1.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 30/115>
+File: output\debug\big_array_test01.elf
+Loading file: output/debug/big_array_test01.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 31/115>
+File: output\debug\char-compare.elf
+Loading file: output/debug/char-compare.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 32/115>
+File: output\debug\checksum_main.elf
+Loading file: output/debug/checksum_main.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 33/115>
+File: output\debug\compare-eq-const.elf
+Loading file: output/debug/compare-eq-const.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 34/115>
+File: output\debug\const_long_long_test_01.elf
+Loading file: output/debug/const_long_long_test_01.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 35/115>
+File: output\debug\conversion.elf
+Loading file: output/debug/conversion.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 36/115>
+File: output\debug\cvt-1.elf
+Loading file: output/debug/cvt-1.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 37/115>
+File: output\debug\div-compare-1.elf
+Loading file: output/debug/div-compare-1.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 38/115>
+File: output\debug\div-double-1.elf
+Loading file: output/debug/div-double-1.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 39/115>
+File: output\debug\div_test01.elf
+Loading file: output/debug/div_test01.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 40/115>
+File: output\debug\divcmp-1.elf
+Loading file: output/debug/divcmp-1.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 41/115>
+File: output\debug\divcmp-2.elf
+Loading file: output/debug/divcmp-2.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 42/115>
+File: output\debug\divcmp-3.elf
+Loading file: output/debug/divcmp-3.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 43/115>
+File: output\debug\divcmp-4.elf
+Loading file: output/debug/divcmp-4.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 44/115>
+File: output\debug\divcmp-5.elf
+Loading file: output/debug/divcmp-5.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 45/115>
+File: output\debug\divconst-1.elf
+Loading file: output/debug/divconst-1.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 46/115>
+File: output\debug\divconst-2.elf
+Loading file: output/debug/divconst-2.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 47/115>
+File: output\debug\divconst-3.elf
+Loading file: output/debug/divconst-3.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 48/115>
+File: output\debug\divmod-1.elf
+Loading file: output/debug/divmod-1.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 49/115>
+File: output\debug\divsf3_extract_mini.elf
+Loading file: output/debug/divsf3_extract_mini.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 50/115>
+File: output\debug\doloop-2.elf
+Loading file: output/debug/doloop-2.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 51/115>
+File: output\debug\double_test01.elf
+Loading file: output/debug/double_test01.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 52/115>
+File: output\debug\double_test02.elf
+Loading file: output/debug/double_test02.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 53/115>
+File: output\debug\double_test03.elf
+Loading file: output/debug/double_test03.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 54/115>
+File: output\debug\double_test04.elf
+Loading file: output/debug/double_test04.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 55/115>
+File: output\debug\double_test05.elf
+Loading file: output/debug/double_test05.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 56/115>
+File: output\debug\double_test06.elf
+Loading file: output/debug/double_test06.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 57/115>
+File: output\debug\double_test_01.elf
+Loading file: output/debug/double_test_01.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 58/115>
+File: output\debug\double_test_02.elf
+Loading file: output/debug/double_test_02.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 59/115>
+File: output\debug\double_test_03.elf
+Loading file: output/debug/double_test_03.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 60/115>
+File: output\debug\enum1.elf
+Loading file: output/debug/enum1.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 61/115>
+File: output\debug\flag_test01.elf
+Loading file: output/debug/flag_test01.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 62/115>
+File: output\debug\float_test01.elf
+Loading file: output/debug/float_test01.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 63/115>
+File: output\debug\float_test02.elf
+Loading file: output/debug/float_test02.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 64/115>
+File: output\debug\float_test03.elf
+Loading file: output/debug/float_test03.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 65/115>
+File: output\debug\float_test04.elf
+Loading file: output/debug/float_test04.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 66/115>
+File: output\debug\function_test01.elf
+Loading file: output/debug/function_test01.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 67/115>
+File: output\debug\init_array_test01.elf
+Loading file: output/debug/init_array_test01.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 68/115>
+File: output\debug\init_struct_test01.elf
+Loading file: output/debug/init_struct_test01.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 69/115>
+File: output\debug\linker_test01.elf
+Loading file: output/debug/linker_test01.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 70/115>
+File: output\debug\logic_test01.elf
+Loading file: output/debug/logic_test01.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 71/115>
+File: output\debug\logic_test_01.elf
+Loading file: output/debug/logic_test_01.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 72/115>
+File: output\debug\long-long-compare-1.elf
+Loading file: output/debug/long-long-compare-1.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 73/115>
+File: output\debug\long-long-cst1.elf
+Loading file: output/debug/long-long-cst1.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 74/115>
+File: output\debug\long_test01.elf
+Loading file: output/debug/long_test01.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 75/115>
+File: output\debug\long_test02.elf
+Loading file: output/debug/long_test02.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 76/115>
+File: output\debug\mask_test01.elf
+Loading file: output/debug/mask_test01.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 77/115>
+File: output\debug\minmax-1.elf
+Loading file: output/debug/minmax-1.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 78/115>
+File: output\debug\mixed_tests01.elf
+Loading file: output/debug/mixed_tests01.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 79/115>
+File: output\debug\mixed_tests02.elf
+Loading file: output/debug/mixed_tests02.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 80/115>
+File: output\debug\mixed_tests03.elf
+Loading file: output/debug/mixed_tests03.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 81/115>
+File: output\debug\mixed_tests04.elf
+Loading file: output/debug/mixed_tests04.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 82/115>
+File: output\debug\mixed_tests05.elf
+Loading file: output/debug/mixed_tests05.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 83/115>
+File: output\debug\mixed_tests06.elf
+Loading file: output/debug/mixed_tests06.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 84/115>
+File: output\debug\mixed_tests07.elf
+Loading file: output/debug/mixed_tests07.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 85/115>
+File: output\debug\mixed_tests08.elf
+Loading file: output/debug/mixed_tests08.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 86/115>
+File: output\debug\mixed_tests09.elf
+Loading file: output/debug/mixed_tests09.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 87/115>
+File: output\debug\mixed_tests10.elf
+Loading file: output/debug/mixed_tests10.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 88/115>
+File: output\debug\mixed_tests11.elf
+Loading file: output/debug/mixed_tests11.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 89/115>
+File: output\debug\mixed_tests12.elf
+Loading file: output/debug/mixed_tests12.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 90/115>
+File: output\debug\mixed_tests13.elf
+Loading file: output/debug/mixed_tests13.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 91/115>
+File: output\debug\mixed_tests14.elf
+Loading file: output/debug/mixed_tests14.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 92/115>
+File: output\debug\mixed_tests15.elf
+Loading file: output/debug/mixed_tests15.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 93/115>
+File: output\debug\mixed_tests16.elf
+Loading file: output/debug/mixed_tests16.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 94/115>
+File: output\debug\mixed_tests17.elf
+Loading file: output/debug/mixed_tests17.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 95/115>
+File: output\debug\mixed_tests18.elf
+Loading file: output/debug/mixed_tests18.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 96/115>
+File: output\debug\mixed_tests19.elf
+Loading file: output/debug/mixed_tests19.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 97/115>
+File: output\debug\mixed_tests20.elf
+Loading file: output/debug/mixed_tests20.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 98/115>
+File: output\debug\mixed_tests21.elf
+Loading file: output/debug/mixed_tests21.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 99/115>
+File: output\debug\profile-generate-1.elf
+Loading file: output/debug/profile-generate-1.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 100/115>
+File: output\debug\return_test01.elf
+Loading file: output/debug/return_test01.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 101/115>
+File: output\debug\strct-layout.elf
+Loading file: output/debug/strct-layout.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 102/115>
+File: output\debug\struct_union_test01.elf
+Loading file: output/debug/struct_union_test01.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 103/115>
+File: output\debug\struct_union_test02.elf
+Loading file: output/debug/struct_union_test02.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 104/115>
+File: output\debug\struct_union_test03.elf
+Loading file: output/debug/struct_union_test03.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 105/115>
+File: output\debug\struct_union_test04.elf
+Loading file: output/debug/struct_union_test04.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 106/115>
+File: output\debug\struct_union_test05.elf
+Loading file: output/debug/struct_union_test05.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 107/115>
+File: output\debug\struct_union_test06.elf
+Loading file: output/debug/struct_union_test06.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 108/115>
+File: output\debug\struct_union_test07.elf
+Loading file: output/debug/struct_union_test07.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 109/115>
+File: output\debug\struct_union_test08.elf
+Loading file: output/debug/struct_union_test08.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 110/115>
+File: output\debug\struct_union_test09.elf
+Loading file: output/debug/struct_union_test09.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 111/115>
+File: output\debug\struct_union_test10.elf
+Loading file: output/debug/struct_union_test10.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 112/115>
+File: output\debug\struct_union_test11.elf
+Loading file: output/debug/struct_union_test11.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 113/115>
+File: output\debug\udivmoddi4_extract.elf
+Loading file: output/debug/udivmoddi4_extract.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 114/115>
+File: output\debug\udivmoddi4_extract1.elf
+Loading file: output/debug/udivmoddi4_extract1.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Test 115/115>
+File: output\debug\vector_test01.elf
+Loading file: output/debug/vector_test01.elf
+Loading program
+Starting program
+Check: exit_code 0
+Exit code: 0x0
+Test result: SUCCESS
+
+<Summary>
+Executed tests: 115
+Passed tests:   115
+Failed tests:   0
+Overall result: PASSED
+scons: done building targets.
+finishing at
+16.05.2016 
+21:29
