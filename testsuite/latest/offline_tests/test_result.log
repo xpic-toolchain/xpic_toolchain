@@ -1,0 +1,129 @@
+Starting offline tests at:
+16.05.2016 
+18:30
+using xPIC compiler from directory: C:\Daten\Projekte\XPIC_Testenvironment\xpic-llvm_201605160931\xpic-llvm
+LLVM (http://llvm.org/):
+  LLVM version 3.4.2
+  Optimized build with assertions.
+  Built May 16 2016 (10:03:51).
+  Default target: i686-w64-mingw32
+  Host CPU: core-avx2
+
+  Registered Targets:
+    xpic - processor xPIC, netX-Chip (Hilscher GmbH: www.hilscher.com)
+
+  Xpic compiler backend version: V1.0.0.0
+    Git hash value: 4b17e0fe384811a362d888c460c4dc840ac9fd60
+--------------------------------------------------------------------------------
+start test: asm_minusminusr0plusplus
+test with option -gdwarf2 was succeesful.
+test with option -gdwarf4 was succeesful.
+--------------------------------------------------------------------------------
+start test: asm_no_cond_exec_opcode_available
+test was succeesful.
+--------------------------------------------------------------------------------
+start test: asm_sign_extension
+test was succeesful.
+--------------------------------------------------------------------------------
+start test: asm_sign_extension2
+test was succeesful.
+--------------------------------------------------------------------------------
+start test: asm_wrong_expression_not_rejected
+test was succeesful.
+--------------------------------------------------------------------------------
+start test: dwarf2_test
+test was successful.
+--------------------------------------------------------------------------------
+start test: dwarf4_test
+BFD: Dwarf Error: found dwarf version '4', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '0', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '0', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '0', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '0', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '0', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '17924', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '0', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '15365', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '261', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '171', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '1537', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '0', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '0', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '0', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '4', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '0', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '67', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '260', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '0', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '176', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '0', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '54', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '46850', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '13056', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '256', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found address size '63', this reader can not handle sizes greater than '4'.
+BFD: Dwarf Error: found dwarf version '896', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '0', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '0', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '1280', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '0', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '53254', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '1024', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '212', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '51', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '1281', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '272', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '57090', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '13056', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '256', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '8195', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '1920', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '0', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '147', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '816', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '996', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '22273', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '0', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '16140', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '512', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '1280', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '0', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '0', this reader only handles version 2 and 3 information.
+BFD: Dwarf Error: found dwarf version '16190', this reader only handles version 2 and 3 information.
+test failed!
+--------------------------------------------------------------------------------
+start test: fixed_opcode_generator_for_long_relocations
+test was successful.
+--------------------------------------------------------------------------------
+start test: fixed_opcode_generator_for_long_relocations_new
+test was successful.
+--------------------------------------------------------------------------------
+start test: ld_order
+deleting libb.a
+deleting libd.a
+tests succeeded.
+--------------------------------------------------------------------------------
+start test: long_relocation_linkererror_1
+test was successful.
+--------------------------------------------------------------------------------
+start test: long_relocation_linkererror_1_with_workaround
+test was successful.
+--------------------------------------------------------------------------------
+start test: nested_structures
+local test not part of test suite
+--------------------------------------------------------------------------------
+start test: toolxpic-5
+test was successful.
+--------------------------------------------------------------------------------
+start test: toolxpic-8
+C:\Users\guido\AppData\Local\Temp\main-d31a52.s: Assembler messages:
+C:\Users\guido\AppData\Local\Temp\main-d31a52.s:8: Error: Illegal opcode gie1 for mcu xpic!  Source string: gie r0
+C:\Users\guido\AppData\Local\Temp\main-d31a52.s:11: Error: Illegal opcode gsie1 for mcu xpic!  Source string: gsie r0,#3,#0
+C:\Users\guido\AppData\Local\Temp\main-d31a52.s:14: Error: Illegal opcode bcd2hex4 for mcu xpic!  Source string: bcd2hex r4,r0,z0
+C:\Users\guido\AppData\Local\Temp\main-d31a52.s:17: Error: Illegal opcode hex2bcd4 for mcu xpic!  Source string: hex2bcd r4,r0,z0
+C:\Users\guido\AppData\Local\Temp\main-d31a52.s:20: Error: Illegal opcode sie1 for mcu xpic!  Source string: sie r0
+clang.exe: error: assembler command failed with exit code 1 (use -v to see invocation)
+test failed!
+finishing offline tests at
+16.05.2016 
+18:30
