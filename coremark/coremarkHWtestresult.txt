@@ -1,0 +1,183 @@
+Compile option: release
+=======================
+
+Starting coremark
+2K performance run parameters for coremark.
+CoreMark Size    : 666
+Total ticks      : 1512629491
+Total time (secs): 15.126295
+Iterations/Sec   : 132.220085
+Iterations       : 2000
+Compiler version : GCC4.2.1 Compatible Clang 3.4.2 (tags/RELEASE_342/final)
+Compiler flags   : -Os
+Memory location  : Static
+seedcrc          : 0xe9f5
+[0]crclist       : 0xe714
+[0]crcmatrix     : 0x1fd7
+[0]crcstate      : 0x8e3a
+[0]crcfinal      : 0x4983
+Correct operation validated. See readme.txt for run and reporting rules.
+CoreMark 1.0 : 132.220085 / GCC4.2.1 Compatible Clang 3.4.2 (tags/RELEASE_342/final) -Os / Static
+Test description: netX51 (xPIC) - Running from INTRAM
+
+
+Starting coremark
+2K performance run parameters for coremark.
+CoreMark Size    : 666
+Total ticks      : 1483891707
+Total time (secs): 14.838917
+Iterations/Sec   : 134.780725
+Iterations       : 2000
+Compiler version : GCC4.2.1 Compatible Clang 3.4.2 (tags/RELEASE_342/final)
+Compiler flags   : -Os
+Memory location  : Static
+seedcrc          : 0xe9f5
+[0]crclist       : 0xe714
+[0]crcmatrix     : 0x1fd7
+[0]crcstate      : 0x8e3a
+[0]crcfinal      : 0x4983
+Correct operation validated. See readme.txt for run and reporting rules.
+CoreMark 1.0 : 134.780725 / GCC4.2.1 Compatible Clang 3.4.2 (tags/RELEASE_342/final) -Os / Static
+Test description: netX51 (xPIC) - Running from xPIC PRAM
+
+Starting coremark
+2K performance run parameters for coremark.
+CoreMark Size    : 666
+Total ticks      : 151412379
+Total time (secs): 44.463797
+Iterations/Sec   : 44.980414
+Iterations       : 2000
+Compiler version : GCC4.2.1 Compatible Clang 3.4.2 (tags/RELEASE_342/final)
+Compiler flags   : -Os
+Memory location  : Static
+seedcrc          : 0xe9f5
+[0]crclist       : 0xe714
+[0]crcmatrix     : 0x1fd7
+[0]crcstate      : 0x8e3a
+[0]crcfinal      : 0x4983
+Correct operation validated. See readme.txt for run and reporting rules.
+CoreMark 1.0 : 44.980414 / GCC4.2.1 Compatible Clang 3.4.2 (tags/RELEASE_342/final) -Os / Static
+Test description: netX51 (xPIC) - Running from SDRAM
+
+											
+Compile option: debugrel
+========================
+
+Starting coremark
+2K performance run parameters for coremark.
+CoreMark Size    : 666
+Total ticks      : 1512629491
+Total time (secs): 15.126295
+Iterations/Sec   : 132.220085
+Iterations       : 2000
+Compiler version : GCC4.2.1 Compatible Clang 3.4.2 (tags/RELEASE_342/final)
+Compiler flags   : -Os
+Memory location  : Static
+seedcrc          : 0xe9f5
+[0]crclist       : 0xe714
+[0]crcmatrix     : 0x1fd7
+[0]crcstate      : 0x8e3a
+[0]crcfinal      : 0x4983
+Correct operation validated. See readme.txt for run and reporting rules.
+CoreMark 1.0 : 132.220085 / GCC4.2.1 Compatible Clang 3.4.2 (tags/RELEASE_342/final) -Os / Static
+Test description: netX51 (xPIC) - Running from INTRAM
+
+
+Starting coremark
+2K performance run parameters for coremark.
+CoreMark Size    : 666
+Total ticks      : 1483891707
+Total time (secs): 14.838917
+Iterations/Sec   : 134.780725
+Iterations       : 2000
+Compiler version : GCC4.2.1 Compatible Clang 3.4.2 (tags/RELEASE_342/final)
+Compiler flags   : -Os
+Memory location  : Static
+seedcrc          : 0xe9f5
+[0]crclist       : 0xe714
+[0]crcmatrix     : 0x1fd7
+[0]crcstate      : 0x8e3a
+[0]crcfinal      : 0x4983
+Correct operation validated. See readme.txt for run and reporting rules.
+CoreMark 1.0 : 134.780725 / GCC4.2.1 Compatible Clang 3.4.2 (tags/RELEASE_342/final) -Os / Static
+Test description: netX51 (xPIC) - Running from xPIC PRAM
+
+Starting coremark
+2K performance run parameters for coremark.
+CoreMark Size    : 666
+Total ticks      : 151411429
+Total time (secs): 44.463787
+Iterations/Sec   : 44.980424
+Iterations       : 2000
+Compiler version : GCC4.2.1 Compatible Clang 3.4.2 (tags/RELEASE_342/final)
+Compiler flags   : -Os
+Memory location  : Static
+seedcrc          : 0xe9f5
+[0]crclist       : 0xe714
+[0]crcmatrix     : 0x1fd7
+[0]crcstate      : 0x8e3a
+[0]crcfinal      : 0x4983
+Correct operation validated. See readme.txt for run and reporting rules.
+CoreMark 1.0 : 44.980424 / GCC4.2.1 Compatible Clang 3.4.2 (tags/RELEASE_342/final) -Os / Static
+Test description: netX51 (xPIC) - Running from SDRAM
+
+
+Compile option: debug
+=====================
+
+Starting coremark
+2K performance run parameters for coremark.
+CoreMark Size    : 666
+Total ticks      : 3496727577
+Total time (secs): 34.967276
+Iterations/Sec   : 57.196334
+Iterations       : 2000
+Compiler version : GCC4.2.1 Compatible Clang 3.4.2 (tags/RELEASE_342/final)
+Compiler flags   : -Os
+Memory location  : Static
+seedcrc          : 0xe9f5
+[0]crclist       : 0xe714
+[0]crcmatrix     : 0x1fd7
+[0]crcstate      : 0x8e3a
+[0]crcfinal      : 0x4983
+Correct operation validated. See readme.txt for run and reporting rules.
+CoreMark 1.0 : 57.196334 / GCC4.2.1 Compatible Clang 3.4.2 (tags/RELEASE_342/final) -Os / Static
+Test description: netX51 (xPIC) - Running from INTRAM
+
+Starting coremark
+2K performance run parameters for coremark.
+CoreMark Size    : 666
+Total ticks      : 3392315144
+Total time (secs): 33.923151
+Iterations/Sec   : 58.956787
+Iterations       : 2000
+Compiler version : GCC4.2.1 Compatible Clang 3.4.2 (tags/RELEASE_342/final)
+Compiler flags   : -Os
+Memory location  : Static
+seedcrc          : 0xe9f5
+[0]crclist       : 0xe714
+[0]crcmatrix     : 0x1fd7
+[0]crcstate      : 0x8e3a
+[0]crcfinal      : 0x4983
+Correct operation validated. See readme.txt for run and reporting rules.
+CoreMark 1.0 : 58.956787 / GCC4.2.1 Compatible Clang 3.4.2 (tags/RELEASE_342/final) -Os / Static
+Test description: netX51 (xPIC) - Running from xPIC PRAM
+
+Starting coremark
+2K performance run parameters for coremark.
+CoreMark Size    : 666
+Total ticks      : 1730958211
+Total time (secs): 146.158601
+Iterations/Sec   : 13.683765
+Iterations       : 2000
+Compiler version : GCC4.2.1 Compatible Clang 3.4.2 (tags/RELEASE_342/final)
+Compiler flags   : -Os
+Memory location  : Static
+seedcrc          : 0xe9f5
+[0]crclist       : 0xe714
+[0]crcmatrix     : 0x1fd7
+[0]crcstate      : 0x8e3a
+[0]crcfinal      : 0x4983
+Correct operation validated. See readme.txt for run and reporting rules.
+CoreMark 1.0 : 13.683765 / GCC4.2.1 Compatible Clang 3.4.2 (tags/RELEASE_342/final) -Os / Static
+Test description: netX51 (xPIC) - Running from SDRAM
