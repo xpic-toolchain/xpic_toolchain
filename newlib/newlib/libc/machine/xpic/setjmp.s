@@ -26,6 +26,7 @@ longjmp:
 	load u1, [z0 + r2++]
 	load u2, [z0 + r2++]
 	load u3, [z0 + r2++]
+	load u4, [z0 + r2++]
 	load r7, [z0 + r2++]
 	load r6, [z0 + r2++]
 
