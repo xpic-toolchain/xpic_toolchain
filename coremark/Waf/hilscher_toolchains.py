@@ -400,23 +400,6 @@ def configure_toolchain_codesourcery(conf):
          aReg = winreg.ConnectRegistry(None, winreg.HKEY_LOCAL_MACHINE)
          aKey = None
 
-         try:
-           aKey = winreg.OpenKey(aReg, r"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Sourcery G++ Lite for ARM EABI")
-         except:
-           # Try Wow6432-Node, as Python x64 looks in native 64bit keys
-           aKey = winreg.OpenKey(aReg, r"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Sourcery G++ Lite for ARM EABI", 0, winreg.KEY_READ | winreg.KEY_WOW64_32KEY)
-         finally:
-           if aKey is not None:
-               try:
-                   install_loc, type = winreg.QueryValueEx(aKey, "InstallLocation")
-                   assert type is winreg.REG_SZ
-                   if sys.version_info[0] == 2:
-                     install_loc = install_loc.encode('ascii', 'ignore')
-                   path = [os.path.join(install_loc, 'bin')]
-               except EnvironmentError:
-                   pass
-
-               winreg.CloseKey(aKey)
 
          winreg.CloseKey(aReg)
 
